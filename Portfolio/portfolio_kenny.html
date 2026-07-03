@@ -1931,6 +1931,56 @@
       transform: translate(-50%, -50%) scale(1);
       pointer-events: auto;
     }
+    .bubble-media {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .bubble-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+    }
+    .hover-bubble.result-layout {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      text-align: left;
+    }
+    .hover-bubble.result-layout .bubble-media {
+      order: 2;
+      flex: 0 1 55%;
+      min-width: 0;
+    }
+    .hover-bubble.result-layout .bubble-text {
+      order: 1;
+      flex: 0 1 40%;
+      align-items: flex-start;
+      text-align: left;
+      width: auto;
+    }
+    .hover-bubble.result-layout .bubble-hero-image,
+    .hover-bubble.result-layout .bubble-hero-video {
+      max-width: 100%;
+      max-height: 260px;
+      margin: 0;
+    }
+    .hover-bubble.result-layout .bubble-desc {
+      max-width: 100%;
+    }
+    @media (max-width: 760px) {
+      .hover-bubble.result-layout {
+        flex-direction: column;
+        text-align: center;
+      }
+      .hover-bubble.result-layout .bubble-text {
+        align-items: center;
+        text-align: center;
+      }
+    }
     .bubble-eyebrow {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -2667,12 +2717,16 @@
 
 <!-- ══════ HOVER BUBBLE CONTAINER (confiné dans la carte projet survolée) ══════ -->
 <div class="hover-bubble" id="hover-bubble">
-  <img class="bubble-hero-image" id="hb-hero-image" src="" alt="">
-  <video class="bubble-hero-video" id="hb-hero-video" src="" controls preload="metadata"></video>
-  <img class="bubble-image" id="hb-image" src="" alt="">
-  <div class="bubble-title" id="hb-title"></div>
-  <div class="bubble-eyebrow">Comment j&rsquo;ai concr&egrave;tement fait</div>
-  <div class="bubble-desc" id="hb-desc"></div>
+  <div class="bubble-media">
+    <img class="bubble-hero-image" id="hb-hero-image" src="" alt="">
+    <video class="bubble-hero-video" id="hb-hero-video" src="" controls preload="metadata"></video>
+    <img class="bubble-image" id="hb-image" src="" alt="">
+  </div>
+  <div class="bubble-text">
+    <div class="bubble-title" id="hb-title"></div>
+    <div class="bubble-eyebrow" id="hb-eyebrow">Comment j&rsquo;ai concr&egrave;tement fait</div>
+    <div class="bubble-desc" id="hb-desc"></div>
+  </div>
   <div class="bubble-hint">D&eacute;placez la souris pour fermer</div>
 </div>
 
@@ -2682,7 +2736,7 @@
     // Projet AFI — Vidéo publicitaire générée par IA
     'p-afi-story': {
       title: 'Storytelling & storyboard',
-      desc: 'Concept publicitaire posé en équipe, script court écrit puis découpé plan par plan dans un storyboard, servant de feuille de route pendant les 24h du hackathon.',
+      desc: 'On a posé le concept publicitaire en équipe, puis j\'ai écrit un script court et je l\'ai découpé plan par plan dans un storyboard, qui nous a servi de feuille de route pendant les 24h du hackathon.',
       highlight: '🎬 Script + storyboard bouclés avant même de toucher aux outils d\'IA.'
     },
     'p-afi-img': {
@@ -2692,120 +2746,123 @@
     },
     'p-afi-video': {
       title: 'Génération vidéo IA',
-      desc: 'Assemblage des séquences vidéo générées, avec ajustement du rythme et des transitions pour que le spot reste cohérent malgré des visuels issus d\'outils différents.',
+      desc: 'J\'ai assemblé les séquences vidéo générées, en ajustant le rythme et les transitions pour que le spot reste cohérent malgré des visuels issus d\'outils différents.',
       highlight: '🎥 Spot final livré dans les temps du hackathon.'
     },
     'p-afi-team': {
       title: 'Travail d\'équipe (3 personnes)',
-      desc: 'Rôles répartis selon les forces de chacun, avec des points courts et réguliers pour tenir le planning serré des 24h, sans perdre la bonne entente malgré la fatigue.',
+      desc: 'On a réparti les rôles selon les forces de chacun, avec des points courts et réguliers pour tenir le planning serré des 24h, sans perdre la bonne entente malgré la fatigue.',
       highlight: '🤝 Une équipe soudée malgré la pression des 24h.'
     },
     'p-afi-attestation': {
       title: 'Résultat',
-      desc: 'Attestation de réussite remise par l\'AFI et ESPRIT à l\'issue du hackathon AI AD AWARD.',
+      desc: 'Voici ce que j\'ai obtenu avec mon équipe à l\'issue du hackathon.',
       highlight: '🏆 Attestation officielle obtenue.',
-      heroImage: 'Images/Attestation%20de%20r%C3%A9ussite%20hackathon.png'
+      heroImage: 'Images/Attestation%20de%20r%C3%A9ussite%20hackathon.png',
+      resultOnly: true
     },
     'p-afi-finalvideo': {
       title: 'Résultat',
-      desc: 'Le spot publicitaire final, assemblé à partir des visuels et séquences vidéo générés par IA pendant les 24h du hackathon.',
+      desc: 'Voici la vidéo promotionnelle que nous avons réalisée pour l\'Agence Foncière Industrielle (AFI), avec des visuels et séquences générés par IA.',
       highlight: '🎬 Spot final livré.',
-      heroVideo: 'Images/VIDEO%20VELOCITY.mp4'
+      heroVideo: 'Images/VIDEO%20VELOCITY.mp4',
+      resultOnly: true
     },
     // Projet Capteur d'humidité (hsware)
     'p-hs-method': {
       title: 'Méthodologie de travail',
-      desc: 'Travail en cycles courts : on prototypait, on testait sur le terrain, puis on ajustait le capteur avant de repartir sur un cycle suivant, plutôt que de tout figer dès le départ.',
+      desc: 'J\'ai travaillé en cycles courts : je prototypais, je testais sur le terrain, puis j\'ajustais le capteur avant de repartir sur un cycle suivant, plutôt que de tout figer dès le départ.',
       highlight: '🔁 Prototypage itératif sur toute la durée du projet.'
     },
     'p-hs-cadrage': {
       title: 'Cadrage & planification',
-      desc: 'Définition des objectifs et du périmètre du projet, puis suivi du planning via un diagramme de Gantt pour garder une vision claire des jalons jusqu\'au déploiement.',
+      desc: 'J\'ai défini les objectifs et le périmètre du projet, puis j\'ai suivi le planning via un diagramme de Gantt pour garder une vision claire des jalons jusqu\'au déploiement.',
       highlight: '🗓️ Jalons suivis via diagramme de Gantt.',
       heroImage: 'Images/Diagramme%20de%20GANT.png'
     },
     'p-hs-tech': {
       title: 'Choix techniques responsables',
-      desc: 'Comparaison de plusieurs technologies avant de retenir LoRa et des capteurs passifs, pour limiter la consommation énergétique et permettre une autonomie longue sur le terrain.',
+      desc: 'J\'ai comparé plusieurs technologies avant de retenir LoRa et des capteurs passifs, pour limiter la consommation énergétique et permettre une autonomie longue sur le terrain.',
       highlight: '🔋 Solution basse consommation retenue après comparatif.'
     },
     'p-hs-data': {
       title: 'Suivi de données',
-      desc: 'Mise en place d\'un reporting quotidien des données d\'humidité captées sur chaque point du terrain, consolidées dans un tableau de bord pour suivre la fiabilité des mesures et ajuster le pilotage au fil de l\'eau.',
+      desc: 'J\'ai mis en place un reporting quotidien des données d\'humidité captées sur chaque point du terrain, consolidées dans un tableau de bord pour suivre la fiabilité des mesures et ajuster le pilotage au fil de l\'eau.',
       highlight: '📊 Données consolidées et vérifiées en continu.'
     },
     'p-hs-doc': {
       title: 'Documentation projet',
-      desc: 'Rédaction de la documentation technique et des livrables au fil du projet, pour que l\'installation et l\'étalonnage soient reproductibles par quelqu\'un d\'autre.',
+      desc: 'J\'ai rédigé la documentation technique et les livrables au fil du projet, pour que l\'installation et l\'étalonnage soient reproductibles par quelqu\'un d\'autre.',
       highlight: '📄 Projet transmissible, pas juste un prototype isolé.'
     },
     'p-hs-video': {
       title: 'Résultat',
-      desc: 'Vidéo de démonstration du système en fonctionnement sur le terrain, du capteur jusqu\'au tableau de bord.',
+      desc: 'On y voit le capteur d\'humidité en action sur le terrain, puis les données qui remontent sur le tableau de bord pour être visualisées.',
       highlight: '🎥 Vidéo de démonstration.',
-      heroVideo: 'Images/projet%20PFE.mp4'
+      heroVideo: 'Images/projet%20PFE.mp4',
+      resultOnly: true
     },
     // Projet Optimisation énergétique (smartfarm)
     'p-sf-audit': {
       title: 'Audit de performance',
-      desc: 'Analyse de la consommation en veille et en émission, qui a identifié le module SIM800L comme principal poste de consommation lors de l\'envoi des données.',
+      desc: 'J\'ai analysé la consommation en veille et en émission, ce qui m\'a permis d\'identifier le module SIM800L comme principal poste de consommation lors de l\'envoi des données.',
       highlight: '⚡ Le module SIM800L identifié comme point faible énergétique.'
     },
     'p-sf-optim': {
       title: 'Optimisation ressources',
-      desc: 'Remplacement/ajustement du module de communication et réécriture du firmware pour réduire les cycles actifs, en limitant le temps où le capteur reste éveillé.',
+      desc: 'J\'ai remplacé/ajusté le module de communication et réécrit le firmware pour réduire les cycles actifs, en limitant le temps où le capteur reste éveillé.',
       highlight: '💾 Cycles actifs raccourcis au strict nécessaire.'
     },
     'p-sf-energy': {
       title: 'Efficacité énergétique',
-      desc: 'Résultat de l\'audit et de l\'optimisation : consommation en veille réduite de 40%, ce qui prolonge la durée de vie des batteries d\'environ 6 mois.',
+      desc: 'Au final, j\'ai réduit la consommation en veille de 40%, ce qui prolonge la durée de vie des batteries d\'environ 6 mois.',
       highlight: '🔋 +6 mois d\'autonomie estimée sur les batteries.'
     },
     // Projet Club Interculturel
     'p-club-budget': {
       title: 'Gestion budgétaire & suivi financier',
-      desc: 'Suivi du budget et des dépenses sur Google Sheets tout au long de l\'année, avec un point régulier pour garder une vision claire des entrées et sorties avant chaque événement.',
+      desc: 'J\'ai suivi le budget et les dépenses sur Google Sheets tout au long de l\'année, avec un point régulier pour garder une vision claire des entrées et sorties avant chaque événement.',
       highlight: '📑 Budget suivi en continu sur Google Sheets.'
     },
     'p-club-event': {
       title: 'Organisation d\'événements',
-      desc: 'Organisation logistique d\'événements pour plus de 200 participants, avec des tâches réparties entre membres du bureau (matériel, accueil, communication).',
+      desc: 'J\'ai organisé la logistique d\'événements pour plus de 200 participants, avec des tâches réparties entre membres du bureau (matériel, accueil, communication).',
       highlight: '🎉 Plus de 200 participants accueillis, sans improviser le jour J.'
     },
     'p-club-admin': {
       title: 'Gestion administrative',
-      desc: 'Rédaction des comptes-rendus et archivage des documents officiels du club, pour garder une trace claire des décisions prises en bureau.',
+      desc: 'J\'ai rédigé les comptes-rendus et archivé les documents officiels du club, pour garder une trace claire des décisions prises en bureau.',
       highlight: '🗂️ Suivi administratif tenu à jour toute l\'année.'
     },
     // Projet Bracelet connecté glycémique
     'p-br-user': {
       title: 'Étude utilisateur',
-      desc: 'Entretiens avec des personnes concernées pour comprendre leurs besoins réels et les irritants du suivi glycémique au quotidien, avant de se lancer dans la conception.',
+      desc: 'J\'ai mené des entretiens avec des personnes concernées pour comprendre leurs besoins réels et les irritants du suivi glycémique au quotidien, avant de se lancer dans la conception.',
       highlight: '🎧 Besoins réels récoltés avant de concevoir quoi que ce soit.'
     },
     'p-br-conception': {
       title: 'Conception IoT durable',
-      desc: 'Conception d\'un bracelet autonome basé sur des matériaux durables et recyclés, pensé pour rester accessible économiquement dans les pays en développement.',
+      desc: 'J\'ai conçu un bracelet autonome basé sur des matériaux durables et recyclés, pensé pour rester accessible économiquement dans les pays en développement.',
       highlight: '♻️ Matériaux durables et coût pensé pour l\'accessibilité.'
     },
     'p-br-team': {
       title: 'Travail d\'équipe (6 personnes)',
-      desc: 'Rôles répartis clairement dans une équipe de 6, avec avancement par cycles courts plutôt qu\'un plan figé — un peu comme une méthodologie agile étudiante.',
+      desc: 'On a réparti clairement les rôles dans une équipe de 6, avec un avancement par cycles courts plutôt qu\'un plan figé — un peu comme une méthodologie agile étudiante.',
       highlight: '👥 6 personnes, rôles clairs, avancement par cycles courts.'
     },
     'p-br-doc': {
       title: 'Documentation',
-      desc: 'Documentation du prototype et des choix de conception au fur et à mesure, pour garder une trace claire du raisonnement derrière chaque décision technique.',
+      desc: 'J\'ai documenté le prototype et les choix de conception au fur et à mesure, pour garder une trace claire du raisonnement derrière chaque décision technique.',
       highlight: '📝 Choix de conception documentés au fil de l\'eau.'
     },
     'p-br-method': {
       title: 'Méthodologie de travail',
-      desc: 'Avancement par itérations courtes : prototype, retour d\'équipe, ajustement, plutôt qu\'une seule version finale tentée d\'un coup.',
+      desc: 'On a avancé par itérations courtes : prototype, retour d\'équipe, ajustement, plutôt qu\'une seule version finale tentée d\'un coup.',
       highlight: '🔁 Prototypage itératif en équipe.'
     },
     'p-br-impact': {
       title: 'Impact ODD 3 & ODD 9',
-      desc: 'Conception orientée vers l\'accessibilité économique, pour viser des marchés à fort impact social dans le cadre des ODD 3 (Santé) et ODD 9 (Innovation durable).',
+      desc: 'J\'ai orienté la conception vers l\'accessibilité économique, pour viser des marchés à fort impact social dans le cadre des ODD 3 (Santé) et ODD 9 (Innovation durable).',
       highlight: '🌍 Un projet pensé pour un impact social réel.'
     }
   };
@@ -2856,7 +2913,16 @@
     }
 
     document.getElementById('hb-title').textContent = data.title;
-    document.getElementById('hb-desc').textContent = data.desc;
+    const eyebrowEl = document.getElementById('hb-eyebrow');
+    const descEl = document.getElementById('hb-desc');
+    descEl.textContent = data.desc;
+    if (data.resultOnly) {
+      eyebrowEl.style.display = 'none';
+      bubble.classList.add('result-layout');
+    } else {
+      eyebrowEl.style.display = '';
+      bubble.classList.remove('result-layout');
+    }
 
     const img = document.getElementById('hb-image');
     if (data.image) {
