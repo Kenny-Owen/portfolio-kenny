@@ -1,0 +1,2998 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kenny Ngan Bell — Consultant Numérique Responsable</title>
+  <meta name="description" content="Découvrez mon portfolio : comment je cadre, pilote et documente mes projets avec une démarche numérique responsable.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0E1614;
+      --forest: #12241F;
+      --sand: #FAF5EF; /* Fond de page sable chaud */
+      --paper: #FFFFFF;
+      --copper: #C97A3D;
+      --signal: #5B7B43; /* Vert de la maquette */
+      --signal-bright: #4ADE80; /* Vert vif Apple/SaaS */
+      --purple: #6366F1;
+      --line: rgba(14,22,20,0.06);
+      --maxw: 1040px;
+      --radius: 32px;
+      --radius-sm: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: linear-gradient(160deg, #E8EFF8 0%, #F4F7FA 40%, #EDF2F0 100%);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif; font-weight: 700; letter-spacing: -0.03em; margin: 0; }
+    p { margin: 0; font-size: 0.9rem; color: rgba(14,22,20,0.68); line-height: 1.65; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: relative;
+      z-index: 100;
+      padding: 10px 0 0 0;
+    }
+    nav .wrap { max-width: 100%; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; padding-top: 14px; padding-bottom: 14px; }
+    .logo { font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; }
+    .logo span { color: var(--signal); }
+    .logo-mark { height: 32px; width: auto; object-fit: contain; display: block; }
+    .navlinks { display: flex; gap: 24px; font-size: 0.8rem; list-style: none; margin: 0; padding: 0; font-weight: 500; }
+    .navlinks a { opacity: 0.6; transition: opacity .2s; }
+    .navlinks a:hover, .navlinks a.active { opacity: 1; color: var(--signal); }
+
+        /* ═══════════════════════════════════════════════════════
+       HERO — Gauche/Droite orbit (Core HR style)
+       Images gauche tournent CW, images droite tournent CCW
+       Texte centré entre les deux groupes
+       ═══════════════════════════════════════════════════════ */
+    .hero-wrapper { padding: 40px 24px 40px; }
+
+    header.hero {
+      background-color: #FFFFFF;
+      background-image: radial-gradient(rgba(14,22,20,0.12) 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(14,22,20,0.05);
+      box-shadow: 0 2px 40px rgba(14,22,20,0.07);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Zone 3 colonnes : [orbite gauche] [texte] [orbite droite] */
+    .hero-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 70px 0 48px;
+      gap: 20px;
+      min-height: 520px;
+    }
+
+    /* Conteneur d'une orbite */
+    .hero-orbit-wrap {
+      position: relative;
+      width: 320px;
+      height: 460px;
+      flex-shrink: 0;
+    }
+    .hero-orbit-wrap:first-child {
+      margin-left: -60px;
+    }
+    .hero-orbit-wrap:last-child {
+      margin-right: -60px;
+    }
+
+    /* L'anneau rotatif */
+    .hero-orbit-ring {
+      position: absolute;
+      inset: 0;
+    }
+    .hero-orbit-ring.cw  { animation: orbit-cw  22s linear infinite; }
+    .hero-orbit-ring.ccw { animation: orbit-ccw 26s linear infinite; }
+
+    @keyframes orbit-cw  { to { transform: rotate( 360deg); } }
+    @keyframes orbit-ccw { to { transform: rotate(-360deg); } }
+
+    /* Image : positionnée par JS, contre-rotation pour rester droite */
+    .hero-node {
+      position: absolute;
+      width: 138px;
+      height: 126px;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #F5F5F5;
+      border: 2.5px solid #FFFFFF;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.05);
+      will-change: transform;
+      cursor: default;
+    }
+    .hero-node img { width:100%; height:100%; object-fit:cover; }
+    .hero-node:hover {
+      box-shadow: 0 18px 44px rgba(0,0,0,0.16);
+      z-index: 10;
+    }
+
+    /* Contre-rotation de chaque image dans son anneau */
+    .cw  .hero-node { animation: orbit-ccw 22s linear infinite; }
+    .ccw .hero-node { animation: orbit-cw  26s linear infinite; }
+
+    /* Colonne texte centrale */
+    .hero-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+        .hero h1 {
+      font-family: 'Playfair Display', serif; /* Élégant comme demandé par la ref */
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: 1.1;
+      color: var(--ink);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin: 0 0 16px;
+    }
+    .hero h1 span.gradient-text {
+      background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 600;
+    }
+    .hero h1 span.small-text {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: rgba(14,22,20,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .hero-subtitle {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1.05rem;
+      color: rgba(14,22,20,0.55);
+      margin: 0 0 36px;
+      line-height: 1.6;
+      max-width: 50ch;
+      font-weight: 400;
+    }
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0, 122, 255, 0.08); /* Effet Glass Apple */
+      color: #007AFF; /* Couleur bleue pour le texte */
+      padding: 16px 36px;
+      border-radius: 100px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 122, 255, 0.2);
+    }
+    .hero-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(0, 122, 255, 1);
+      color: #FFF;
+      box-shadow: 0 12px 28px rgba(0, 122, 255, 0.3);
+    }
+    
+    /* Auras pour donner de la vie au fond blanc */
+    .hero-auras {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .hero-aura {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+    }
+    .hero-aura.a1 { width: 400px; height: 400px; background: #007AFF; top: -100px; left: -100px; }
+    .hero-aura.a2 { width: 300px; height: 300px; background: #5856D6; bottom: -50px; right: -50px; }
+    .hero-aura.a3 { width: 500px; height: 500px; background: #34C759; top: 30%; left: 50%; transform: translateX(-50%); opacity: 0.15; }
+    
+    /* On assure que le contenu reste au dessus des auras */
+    .hero-main { z-index: 2; position: relative; }
+    nav { z-index: 100; position: relative; }
+
+    /* ─── ABOUT/* ─── ABOUT / JE M'APPELLE (TESTIMONIAL TROY STYLE) ─── */
+    .about-section {
+      padding: 100px 0;
+      text-align: center;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F2F2F7 100%);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .about-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5vw, 4.2rem);
+      color: var(--ink);
+      font-weight: 500;
+      margin-bottom: 40px;
+      letter-spacing: -0.01em;
+      font-style: normal;
+    }
+    .about-card {
+      background: linear-gradient(135deg, rgba(0, 122, 255, 0.25) 0%, rgba(88, 86, 214, 0.2) 50%, rgba(52, 199, 89, 0.15) 100%), rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 122, 255, 0.15);
+      border-radius: var(--radius);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 44px;
+      align-items: center;
+      text-align: left;
+      box-shadow: 0 2px 40px rgba(14,22,20,0.07);
+      max-width: var(--maxw);
+      margin: 0 auto;
+    }
+    .about-photo-wrapper {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 28px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #E8EFF8 0%, #E6EEFF 50%, #E8F5EE 100%);
+      border: 1px solid rgba(0, 122, 255, 0.12);
+      box-shadow: 0 8px 24px rgba(0, 122, 255, 0.08);
+    }
+    .about-photo-wrapper img {
+      object-fit: cover;
+      object-position: center 18%;
+    }
+    .about-content blockquote {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--ink);
+      font-weight: 500;
+      margin: 0 0 24px 0;
+    }
+    .about-content blockquote span {
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .about-author {
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+    .about-author span {
+      display: block;
+      font-weight: 500;
+      color: rgba(14,22,20,0.5);
+      margin-top: 2px;
+    }
+
+    /* ─── CASE STUDIES — MEGA CARDS EMPILÉES ─── */
+    .cases-section-wrap {
+      background-color: #FFFFFF;
+      background-image: radial-gradient(rgba(14,22,20,0.12) 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+      padding: 60px 24px 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    .cases-section-title {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .cases-section-title h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .cases-section-title p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+      color: var(--ink);
+      opacity: 0.7;
+      margin-top: 12px;
+      letter-spacing: -0.01em;
+    }
+    .cases-stack {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 16px;
+    }
+    .mega-card {
+      position: sticky;
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      height: 520px;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.22);
+      margin-bottom: 24px;
+    }
+    .mega-card:nth-child(1) { top: 80px; }
+    .mega-card:nth-child(2) { top: 104px; }
+    .mega-card:nth-child(3) { top: 128px; }
+    .mega-card:nth-child(4) { top: 152px; }
+    .mega-card:nth-child(5) { top: 176px; }
+
+    /* Overlay plus clair pour les cartes avec un visuel déjà lumineux (ex. bannière AFI) */
+    .mega-card-overlay.light {
+      background: linear-gradient(
+        120deg,
+        rgba(0,0,0,0.62) 0%,
+        rgba(0,0,0,0.34) 45%,
+        rgba(0,0,0,0.03) 100%
+      );
+    }
+
+    /* Alternance de disposition (gauche/droite) pour les projets */
+    .mega-card:nth-child(even) .mega-card-body {
+      align-self: flex-end;
+      text-align: right;
+      margin-left: auto;
+    }
+    .mega-card:nth-child(even) .mega-card-tags {
+      justify-content: flex-end;
+    }
+    .mega-card:nth-child(even) .mega-card-top {
+      flex-direction: row-reverse;
+    }
+    .mega-card:nth-child(even) .mega-card-bottom {
+      flex-direction: row-reverse;
+    }
+    .mega-card:nth-child(even) .mega-card-overlay {
+      background: linear-gradient(
+        -120deg,
+        rgba(0,0,0,0.85) 0%,
+        rgba(0,0,0,0.6) 55%,
+        rgba(0,0,0,0.15) 100%
+      );
+    }
+    .mega-card:nth-child(even) .mega-card-overlay.light {
+      background: linear-gradient(
+        -120deg,
+        rgba(0,0,0,0.62) 0%,
+        rgba(0,0,0,0.34) 45%,
+        rgba(0,0,0,0.03) 100%
+      );
+    }
+    /* Fond image plein format */
+    .mega-card-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+    }
+    /* Dégradé sombre sur l'image */
+    .mega-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        120deg,
+        rgba(0,0,0,0.82) 0%,
+        rgba(0,0,0,0.55) 55%,
+        rgba(0,0,0,0.2) 100%
+      );
+      z-index: 1;
+    }
+    /* Contenu de la carte */
+    .mega-card-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      padding: 40px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #FFFFFF;
+    }
+    /* Haut de la carte */
+    .mega-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .mega-card-badge {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(8px);
+      color: rgba(255,255,255,0.9);
+    }
+    /* Couleur d'accent propre à chaque projet, inspirée de son visuel */
+    .mega-card.accent-copper .mega-card-badge,
+    .mega-card.accent-copper .mega-card-tag { border-color: rgba(30,110,70,0.55); background: rgba(20,90,58,0.32); color: #DFFFE9; }
+    .mega-card.accent-copper .mega-card-tag:hover { background: rgba(30,110,70,0.48); }
+    .mega-card.accent-copper .mega-card-bar.active { background: #2E8B57; }
+    .mega-card.accent-blue .mega-card-badge,
+    .mega-card.accent-blue .mega-card-tag { border-color: rgba(90,160,255,0.55); background: rgba(60,130,240,0.22); color: #E7F0FF; }
+    .mega-card.accent-blue .mega-card-tag:hover { background: rgba(90,160,255,0.4); }
+    .mega-card.accent-blue .mega-card-bar.active { background: #7BAAFF; }
+    .mega-card.accent-green .mega-card-badge,
+    .mega-card.accent-green .mega-card-tag { border-color: rgba(74,222,128,0.5); background: rgba(60,180,110,0.22); color: #E7FFF1; }
+    .mega-card.accent-green .mega-card-tag:hover { background: rgba(74,222,128,0.38); }
+    .mega-card.accent-green .mega-card-bar.active { background: #4ADE80; }
+    .mega-card.accent-orange .mega-card-badge,
+    .mega-card.accent-orange .mega-card-tag { border-color: rgba(30,58,95,0.6); background: rgba(24,48,80,0.34); color: #DCE8FF; }
+    .mega-card.accent-orange .mega-card-tag:hover { background: rgba(30,58,95,0.5); }
+    .mega-card.accent-orange .mega-card-bar.active { background: #2C4C7C; }
+    .mega-card.accent-red .mega-card-badge,
+    .mega-card.accent-red .mega-card-tag { border-color: rgba(225,60,50,0.5); background: rgba(200,50,45,0.22); color: #FFEBEA; }
+    .mega-card.accent-red .mega-card-tag:hover { background: rgba(225,60,50,0.38); }
+    .mega-card.accent-red .mega-card-bar.active { background: #F0776D; }
+    /* Pastilles résultat : fond plat doré, pas d'effet verre */
+    .mega-card-tag.result-pill {
+      background: #E8B84B;
+      border: 1px solid #C9962E;
+      color: #2A1D06;
+      backdrop-filter: none;
+      font-weight: 600;
+    }
+    .mega-card-tag.result-pill:hover {
+      background: #F0C665;
+    }
+    .mega-card-num {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.45);
+      font-weight: 500;
+    }
+    /* Corps principal */
+    .mega-card-body {
+      max-width: 520px;
+    }
+    .mega-card-meta {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: #FFFFFF;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.28);
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 14px;
+      backdrop-filter: blur(6px);
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+    }
+    .mega-card-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin: 0 0 16px;
+      color: #FFFFFF;
+    }
+    .mega-card-desc {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .mega-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    /* Tags avec tooltip au survol */
+    .mega-card-tag {
+      font-size: 0.78rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.24);
+      color: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      transition: background 0.2s, transform 0.2s;
+      cursor: help;
+      position: relative;
+    }
+    .mega-card-tag:hover {
+      background: rgba(255,255,255,0.24);
+      transform: translateY(-2px);
+    }
+    /* Tooltip Glassmorphism haut de gamme */
+    .mega-card-tag[data-tip]::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      background: rgba(15, 15, 22, 0.88);
+      backdrop-filter: blur(20px) saturate(160%);
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 0.74rem;
+      font-weight: 400;
+      line-height: 1.5;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      width: 220px;
+      white-space: normal;
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 100;
+    }
+    .mega-card-tag[data-tip]::before {
+      content: "";
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      border-width: 6px 6px 0;
+      border-style: solid;
+      border-color: rgba(15, 15, 22, 0.88) transparent transparent;
+      display: block;
+      width: 0;
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    .mega-card-tag[data-tip]:not([data-pill]):hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .mega-card-tag[data-tip]:not([data-pill]):hover::before {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    /* Bas de la carte */
+    .mega-card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    /* Barre de progression */
+    .mega-card-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mega-card-progress-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.5);
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+    }
+    .mega-card-bars {
+      display: flex;
+      gap: 4px;
+    }
+    .mega-card-bar {
+      width: 28px;
+      height: 2.5px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.25);
+    }
+    .mega-card-bar.active {
+      background: #FFFFFF;
+      width: 40px;
+    }
+    /* Bloc Résultat Clé — Glassmorphism */
+    .mega-card-result {
+      background: rgba(15, 15, 20, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 16px 20px;
+      max-width: 260px;
+    }
+    .mega-card-result-label {
+      font-size: 0.6rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 6px;
+    }
+    .mega-card-result p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ─── TOOLS ARBORESCENCE — CORE HR STYLE ─── */
+    /* ─── TOOLS — APPLE DARK PREMIUM ─── */
+    .tools-section {
+      padding: 120px 24px;
+      text-align: center;
+      background: linear-gradient(135deg,
+        #F0F5FF 0%,
+        #E6EEFF 35%,
+        #EDE8FF 70%,
+        #F5F7FF 100%
+      );
+      position: relative;
+      overflow: hidden;
+    }
+    /* Auras lumineuses pastel en arrière-plan */
+    .tools-section::before {
+      content: "";
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,122,255,0.18) 0%, transparent 70%);
+      top: -100px; left: -100px;
+      pointer-events: none;
+    }
+    .tools-section::after {
+      content: "";
+      position: absolute;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(88,86,214,0.18) 0%, transparent 70%);
+      bottom: -50px; right: -50px;
+      pointer-events: none;
+    }
+    .tools-section-inner {
+      position: relative;
+      z-index: 2;
+    }
+    .tools-section p.tools-subtitle-badge {
+      display: inline-block;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #007AFF;
+      border: 1px solid rgba(0,122,255,0.25);
+      padding: 6px 16px;
+      border-radius: 100px;
+      background: rgba(0,122,255,0.06);
+      backdrop-filter: blur(8px);
+      margin-bottom: 20px;
+    }
+    .tools-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 4.5vw, 4.2rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin: 0 0 12px;
+      line-height: 1.1;
+    }
+    .tools-section h2 span {
+      background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-style: italic;
+    }
+    .tools-section-subtitle {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1rem;
+      color: rgba(14,22,20,0.6);
+      margin-bottom: 64px;
+    }
+    /* Arborescence */
+    .tools-tree-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .tools-root-icon {
+      width: 72px; height: 72px;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(20px);
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.9);
+      box-shadow: 0 0 0 8px rgba(0,122,255,0.04), 0 15px 35px rgba(0,0,0,0.05);
+      position: relative;
+      z-index: 5;
+    }
+    .tools-root-icon svg { width: 28px; height: 28px; fill: #007AFF; }
+    /* Tronc vertical */
+    .tools-root-icon::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px; height: 36px;
+      background: linear-gradient(180deg, rgba(0,122,255,0.4), rgba(88,86,214,0.25));
+    }
+    /* Ligne horizontale de connexion */
+    .tools-branches {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      position: relative;
+      margin-top: 0;
+      gap: 12px;
+    }
+    .tools-branches::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0,122,255,0.3) 20%,
+        rgba(88,86,214,0.45) 50%,
+        rgba(0,122,255,0.3) 80%,
+        transparent 100%
+      );
+    }
+    .tools-branch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      position: relative;
+    }
+    .tools-branch::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 2px; height: 28px;
+      background: linear-gradient(180deg, rgba(0,122,255,0.3), rgba(88,86,214,0.2));
+    }
+    /* En-tête de branche Glassmorphism clair */
+    .tool-branch-header {
+      margin-top: 28px;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 14px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      margin-bottom: 20px;
+      width: 100%;
+      white-space: nowrap;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.02), inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+    .tool-branch-header svg { width: 14px; height: 14px; fill: #007AFF; flex-shrink: 0; }
+    /* Connecteur branche-carte */
+    .tool-branch-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+    /* Carte outil — Glassmorphism clair Apple */
+    .tool-card-ios {
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(20px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 18px;
+      padding: 18px 10px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 
+        0 4px 30px rgba(0, 0, 0, 0.02), 
+        inset 0 1px 1px rgba(255, 255, 255, 0.8),
+        0 1px 3px rgba(0, 0, 0, 0.01);
+    }
+    .tool-card-ios::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    .tool-card-ios:hover {
+      transform: translateY(-6px) scale(1.02);
+      background: rgba(255, 255, 255, 0.8);
+      border-color: rgba(0, 122, 255, 0.35);
+      box-shadow: 
+        0 20px 40px rgba(0, 122, 255, 0.08), 
+        0 0 20px rgba(0, 122, 255, 0.04);
+    }
+    .tool-card-ios-icon {
+      width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .tool-card-ios-icon img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+    }
+    .tool-card-ios span {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--ink);
+      display: block;
+    }
+
+
+    /* Ralentit le reveal des contenus de Case Studies */
+    .mega-card-content[data-reveal] { transition-duration: 2s; }
+
+    .tool-node-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+    .tool-node-icon svg { width: 22px; height: 22px; }
+    .tool-node span { font-size: 0.78rem; font-weight: 600; }
+
+
+    /* ─── PARCOURS ACADÉMIQUE ─── */
+    .edu-section {
+      padding: 100px 24px;
+      text-align: center;
+      background: #FFFFFF;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Aura subtile top-left */
+    .edu-section::before {
+      content: "";
+      position: absolute;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(0,86,145,0.06) 0%, transparent 70%);
+      top: -100px; left: -100px;
+      pointer-events: none;
+    }
+    .edu-section::after {
+      content: "";
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(225,37,27,0.05) 0%, transparent 70%);
+      bottom: -80px; right: -80px;
+      pointer-events: none;
+    }
+    .edu-section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #007AFF;
+      background: rgba(0,122,255,0.07);
+      border: 1px solid rgba(0,122,255,0.15);
+      padding: 8px 22px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .edu-section-badge svg { width: 14px; height: 14px; fill: #007AFF; }
+    .edu-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(2.6rem, 4.5vw, 4.2rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0 0 16px;
+    }
+    .edu-section p.edu-subtitle {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1.15rem;
+      color: rgba(14,22,20,0.85);
+      font-weight: 600;
+      margin: 0 auto 56px;
+      max-width: 60ch;
+      line-height: 1.6;
+    }
+    .edu-flow {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    /* Nœud ESPRIT — dégradé rouge subtil */
+    .edu-node {
+      flex: 1;
+      border-radius: 28px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .edu-node.esprit {
+      background: linear-gradient(145deg, rgba(225,37,27,0.06) 0%, rgba(255,255,255,0.95) 60%);
+      border: 1px solid rgba(225,37,27,0.12);
+      border-top: 3px solid #E1251B;
+      box-shadow: 0 12px 40px rgba(225,37,27,0.05), 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .edu-node.efrei {
+      background: linear-gradient(145deg, rgba(0,86,145,0.07) 0%, rgba(255,255,255,0.95) 60%);
+      border: 1px solid rgba(0,86,145,0.12);
+      border-top: 3px solid #005691;
+      box-shadow: 0 12px 40px rgba(0,86,145,0.05), 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .edu-node:hover {
+      transform: translateY(-6px);
+    }
+    .edu-node.esprit:hover { box-shadow: 0 24px 60px rgba(225,37,27,0.1); }
+    .edu-node.efrei:hover  { box-shadow: 0 24px 60px rgba(0,86,145,0.1); }
+    /* Logo placeholder */
+    .edu-logo-wrapper {
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding-bottom: 20px;
+    }
+    .edu-logo-wrapper img {
+      max-height: 96px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+    .edu-node.esprit .edu-logo-wrapper img {
+      max-height: 118px;
+    }
+    /* Fallback logo texte si image absente */
+    .edu-logo-text {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-weight: 900;
+      font-size: 2.5rem;
+      letter-spacing: -0.04em;
+    }
+    .edu-logo-text.red { color: #E1251B; }
+    .edu-logo-text.blue { color: #005691; }
+    .edu-logo-text sup {
+      font-size: 0.5em;
+      font-weight: 700;
+      letter-spacing: 0;
+      vertical-align: super;
+    }
+    .edu-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .edu-date-badge {
+      display: inline-block;
+      align-self: flex-start;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 6px;
+    }
+    .edu-node.esprit .edu-date-badge {
+      color: #E1251B;
+      background: rgba(225,37,27,0.06);
+    }
+    .edu-node.efrei .edu-date-badge {
+      color: #005691;
+      background: rgba(0,86,145,0.06);
+    }
+    .edu-node h3 {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+      line-height: 1.25;
+    }
+    .edu-node h3 .edu-admitted {
+      display: inline;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #10B981;
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.2);
+      padding: 2px 10px;
+      border-radius: 100px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .edu-node h3 span.edu-sub {
+      display: block;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .edu-node.esprit h3 span.edu-sub { color: #E1251B; }
+    .edu-node.efrei  h3 span.edu-sub { color: #005691; }
+    .edu-node p {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.88rem;
+      color: rgba(14,22,20,0.6);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+
+    /* ─── CREATIVE SECTION — TITRE + VRAIE IMAGE PREMIERE ─── */
+    .creative-section {
+      padding: 100px 24px;
+      text-align: center;
+      background: linear-gradient(135deg,
+        #F0F5FF 0%,
+        #E6EEFF 35%,
+        #EDE8FF 70%,
+        #F5F7FF 100%
+      );
+      position: relative;
+    }
+    /* Textes section header en mode clair */
+    .creative-section .creative-section-badge {
+      color: #8E54E9;
+      background: rgba(142,84,233,0.07);
+      border-color: rgba(142,84,233,0.2);
+    }
+    .creative-section .creative-section-header h2 {
+      color: var(--ink);
+    }
+    .creative-section .creative-section-header h2 span {
+      color: #8E54E9;
+      font-style: italic;
+    }
+    .creative-section .creative-section-header p {
+      color: rgba(14,22,20,0.6);
+    }
+    /* Titre de section */
+    .creative-section-header {
+      margin: 0 auto 56px;
+      max-width: 700px;
+    }
+    .creative-section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #8E54E9;
+      background: rgba(142,84,233,0.07);
+      border: 1px solid rgba(142,84,233,0.15);
+      padding: 8px 22px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .creative-section-badge::before { content: "◆"; font-size: 0.5em; }
+    .creative-section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0 0 12px;
+      line-height: 1.15;
+    }
+    @media (min-width: 860px) {
+      .creative-section-header h2 {
+        white-space: nowrap;
+      }
+    }
+    .creative-section-header h2 span {
+      color: #8E54E9;
+      font-style: italic;
+    }
+    .creative-section-header p {
+      font-size: 1.1rem;
+      color: rgba(14,22,20,0.6);
+      font-weight: 500;
+      line-height: 1.6;
+      margin: 0;
+    }
+    /* Card principale */
+    .creative-card {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: 520px;
+      border-radius: 32px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      text-align: left;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.18);
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    /* Arrière-plan = vraie image timeline Premiere Pro */
+    .creative-card-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('Images/images_projets/Fond%20Premiere%20Pro.png');
+      background-size: cover;
+      background-position: center top;
+      z-index: 1;
+      filter: brightness(0.65) saturate(1.1);
+    }
+    .creative-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(10,10,20,0.55) 0%, rgba(10,10,20,0.45) 45%, rgba(10,10,20,0.3) 65%, rgba(10,10,20,0) 100%);
+      z-index: 2;
+    }
+    @media (max-width: 860px) {
+      .creative-card-overlay {
+        background: rgba(10,10,20,0.55);
+      }
+    }
+    .creative-card-content {
+      position: relative;
+      z-index: 3;
+      padding: 56px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 40px;
+      min-height: 520px;
+    }
+    .creative-text-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 600px;
+    }
+    .creative-badge {
+      display: inline-flex;
+      align-self: flex-start;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      padding: 6px 16px;
+      border-radius: 100px;
+    }
+    .creative-text-col h2 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 500;
+      line-height: 1.1;
+      color: #FFFFFF;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    .creative-text-col h2 span {
+      background: linear-gradient(135deg, #A78BFA 0%, #8E54E9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-style: italic;
+    }
+    .creative-text-col p {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.85);
+      margin: 0;
+    }
+    .creative-pills {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .creative-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 14px 28px;
+      border-radius: 100px;
+      backdrop-filter: blur(15px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .creative-pill:hover {
+      background: rgba(255, 255, 255, 0.24);
+      transform: translateY(-3px) scale(1.03);
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .creative-pill img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+    /* Timeline Adobe stylisée dans la carte */
+    .timeline-wrapper-col {
+      display: flex;
+      flex-direction: column;
+      z-index: 3;
+    }
+    .timeline-visual {
+      background: rgba(15, 15, 20, 0.65);
+      backdrop-filter: blur(25px);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      padding: 24px;
+      font-family: monospace;
+      font-size: 0.68rem;
+      color: #A0A0A0;
+    }
+    .tl-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 10px;
+    }
+    .tl-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .tl-dot.red { background: #FF5F56; }
+    .tl-dot.yellow { background: #FFBD2E; }
+    .tl-dot.green { background: #27C93F; }
+    .tl-title { margin-left: 10px; font-weight: bold; color: rgba(255,255,255,0.9); }
+    .tl-tracks {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+    }
+    .tl-track {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .tl-track-label {
+      width: 24px;
+      font-weight: bold;
+      color: rgba(255,255,255,0.3);
+    }
+    .tl-clip {
+      border-radius: 6px;
+      padding: 10px 14px;
+      color: #FFFFFF;
+      font-weight: bold;
+      font-size: 0.7rem;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+    .tl-clip.purple { background: #7C3AED; }
+    .tl-clip.blue { background: #2563EB; }
+    .tl-clip.green { background: #059669; }
+    .tl-clip.pink { background: #DB2777; }
+    .tl-playhead {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 55%;
+      width: 2px;
+      background: #EF4444;
+      z-index: 5;
+    }
+    .tl-playhead::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      width: 10px;
+      height: 10px;
+      background: #EF4444;
+      border-radius: 50%;
+    }
+
+
+    /* Badge compétences */
+    .comp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #8E54E9;
+      background: rgba(142,84,233,0.07);
+      border: 1px solid rgba(142,84,233,0.15);
+      padding: 8px 22px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .comp-badge::before {
+      content: "•";
+      margin-right: 2px;
+      color: #8E54E9;
+    }
+    /* En-tête compétences */
+    .comp-section-header {
+      margin: 0 auto 56px;
+      max-width: 800px;
+      text-align: center;
+    }
+    .comp-section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(2.6rem, 4.5vw, 4.2rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0 0 12px;
+      line-height: 1.15;
+    }
+    .comp-section-header h2 span {
+      color: #8E54E9;
+      font-style: normal;
+    }
+    .comp-section-header p {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1.1rem;
+      color: rgba(14,22,20,0.6);
+      font-weight: 500;
+      line-height: 1.6;
+      margin: 0;
+    }
+    /* ─── COMPETENCES — LISTE SCROLLANTE VERTICALE (style Ctrl Wallet) ─── */
+    .competences-section {
+      padding: 100px 24px;
+      background-color: #FFFFFF;
+      background-image: radial-gradient(rgba(14,22,20,0.12) 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+      overflow: hidden;
+    }
+    .comp-layout {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 60px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .comp-text-col {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-align: left;
+    }
+    .comp-text-col h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+      font-weight: 500;
+      line-height: 1.15;
+      color: var(--ink);
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    .comp-text-col h2 span {
+      background: linear-gradient(135deg, #007AFF 0%, #8E54E9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-style: italic;
+    }
+    .comp-text-col p {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: rgba(14,22,20,0.6);
+      margin: 0;
+    }
+    /* Barre de recherche premium style Apple */
+    .comp-search-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      margin-top: 12px;
+    }
+    .comp-search-input {
+      width: 100%;
+      padding: 16px 20px 16px 48px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--ink);
+      background: rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 100px;
+      outline: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .comp-search-input:focus {
+      background: #FFFFFF;
+      border-color: rgba(0, 122, 255, 0.4);
+      box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.08), 0 10px 25px rgba(0, 0, 0, 0.03);
+    }
+    .comp-search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      fill: rgba(0, 0, 0, 0.3);
+      pointer-events: none;
+      transition: fill 0.3s;
+    }
+    .comp-search-input:focus + .comp-search-icon {
+      fill: #007AFF;
+    }
+    .comp-search-shortcut {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 4px 8px;
+      border-radius: 6px;
+      pointer-events: none;
+    }
+    /* ─── GRAPHIQUE COMPÉTENCES : LISTE SCROLLANTE VERTICALE ─── */
+    .comp-graphic {
+      position: relative;
+      height: 540px;
+      overflow: hidden;
+    }
+    /* Masques de fondu haut et bas */
+    .comp-graphic::before,
+    .comp-graphic::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0;
+      height: 120px;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .comp-graphic::before {
+      top: 0;
+      background: linear-gradient(to bottom, #F7F8FA 0%, transparent 100%);
+    }
+    .comp-graphic::after {
+      bottom: 0;
+      background: linear-gradient(to top, #F7F8FA 0%, transparent 100%);
+    }
+    /* Le ruban qui monte en boucle */
+    .comp-scroll-track {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: scrollUp 22s linear infinite;
+      padding: 20px 0;
+    }
+    .comp-scroll-track:hover { animation-play-state: paused; }
+    @keyframes scrollUp {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
+    }
+    .comp-scroll-track.paused {
+      animation-play-state: paused !important;
+    }
+    /* Ligne de compétence */
+    .comp-skill-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 20px;
+      border-radius: 18px;
+      background: #F6F5FC; /* Un violet-gris très clair et doux */
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(142, 84, 233, 0.09); /* Bordure lavande subtile */
+      box-shadow: 0 2px 10px rgba(142, 84, 233, 0.02);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease;
+      cursor: default;
+      white-space: nowrap;
+    }
+    .comp-skill-row:hover {
+      transform: translateX(4px);
+      box-shadow: 0 8px 24px rgba(142,84,233,0.08);
+      background: #FFFFFF;
+      border-color: rgba(142, 84, 233, 0.2);
+    }
+    .comp-skill-row.fade {
+      opacity: 0.12 !important;
+      transform: scale(0.95);
+      filter: grayscale(80%);
+    }
+    .comp-skill-row.match {
+      opacity: 1 !important;
+      transform: scale(1.04) translateX(4px);
+      border-color: #8E54E9;
+      background: #FFFFFF;
+      box-shadow: 0 10px 30px rgba(142, 84, 233, 0.15);
+    }
+    /* Icône ronde colorée */
+    .comp-skill-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .comp-skill-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+    /* Texte */
+    .comp-skill-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    /* Pastilles de compétences (legacy — cachées) */
+    .comp-orbit-ring,
+    .comp-orbit-container,
+    .comp-center,
+    .comp-more-btn,
+    .comp-node-item {
+      display: none !important;
+    }
+    /* Ajout du fond de pastilles ancien code — neutralisé */
+    .comp-node-item {
+      display: none !important;
+      position: absolute;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03), inset 0 1px 0 #FFFFFF;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: default;
+      white-space: nowrap;
+    }
+    .comp-orbit-ring.inner .comp-node-item {
+      animation: counterSpin 45s linear infinite;
+    }
+    .comp-orbit-ring.outer .comp-node-item {
+      animation: counterSpin 70s linear reverse infinite;
+    }
+    .comp-node-item .node-icon-bg {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .comp-node-item .node-icon-bg svg {
+      width: 10px;
+      height: 10px;
+    }
+    /* Hover state */
+    .comp-node-item:hover {
+      background: #FFFFFF;
+      border-color: rgba(0, 122, 255, 0.3);
+      box-shadow: 0 10px 25px rgba(0, 122, 255, 0.08);
+      transform: scale(1.05);
+      z-index: 50;
+    }
+    /* Classes de filtrage pour recherche */
+    .comp-node-item.fade {
+      opacity: 0.12 !important;
+      transform: scale(0.85);
+      pointer-events: none;
+    }
+    .comp-node-item.match {
+      background: #FFFFFF !important;
+      border-color: #8E54E9 !important;
+      box-shadow: 0 0 25px rgba(142, 84, 233, 0.28) !important;
+      transform: scale(1.15) !important;
+      z-index: 99 !important;
+      opacity: 1 !important;
+    }
+    /* Arrêt de l'animation lors de la recherche active */
+    .comp-orbit-ring.paused {
+      animation-play-state: paused !important;
+    }
+    .comp-orbit-ring.paused .comp-node-item {
+      animation-play-state: paused !important;
+    }
+    /* Plus d'autres compétences pastille bas */
+    .comp-more-btn {
+      position: absolute;
+      bottom: -40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgba(142, 84, 233, 0.8);
+      background: rgba(142, 84, 233, 0.05);
+      border: 1px solid rgba(142, 84, 233, 0.12);
+      padding: 8px 18px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .comp-more-btn:hover {
+      background: rgba(142, 84, 233, 0.1);
+      transform: translateY(2px);
+    }
+    .comp-more-btn svg {
+      width: 10px; height: 10px;
+      fill: rgba(142, 84, 233, 0.8);
+    }
+
+    @keyframes spinOrbit {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    /* rec-layout pour aligner la largeur du recrutement avec les autres sections */
+    .rec-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+
+    /* ─── RECRUTEMENT SECTION ─── */
+    .recruitment-section {
+      padding: 100px 24px;
+      text-align: center;
+      background: linear-gradient(135deg,
+        #F0F5FF 0%,
+        #E6EEFF 35%,
+        #EDE8FF 70%,
+        #F5F7FF 100%
+      );
+      border-top: 1px solid var(--line);
+    }
+    .rec-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #8E54E9;
+      background: rgba(142,84,233,0.07);
+      border: 1px solid rgba(142,84,233,0.15);
+      padding: 8px 22px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .rec-eyebrow::before {
+      content: "•";
+      margin-right: 2px;
+      color: #8E54E9;
+    }
+    .recruitment-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0 0 12px;
+      line-height: 1.15;
+    }
+    .recruitment-section h2 span {
+      color: #8E54E9;
+      font-style: italic;
+    }
+    .rec-intro {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1.1rem;
+      color: rgba(14,22,20,0.6);
+      font-weight: 500;
+      margin: 0 0 48px;
+    }
+    .rec-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 680px;
+      margin: 0 auto 48px;
+      text-align: center;
+    }
+    .rec-card {
+      background: #FAFAFC;
+      border: 1.5px solid rgba(0,0,0,0.06);
+      border-radius: 24px;
+      padding: 32px 24px;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .rec-card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 4px;
+    }
+    .rec-card h3 {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+    }
+    .rec-card-desc {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: rgba(14,22,20,0.5);
+      margin: 0;
+      line-height: 1.4;
+    }
+    .rec-card.active-card {
+      border-color: #8E54E9;
+      background: #FFFFFF;
+      box-shadow: 0 12px 30px rgba(142,84,233,0.1);
+    }
+    .rec-card.active-card h3 {
+      color: #8E54E9;
+    }
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #8E54E9;
+      color: #FFFFFF;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 16px 36px;
+      border-radius: 100px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 15px rgba(142,84,233,0.25);
+      text-decoration: none;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(142,84,233,0.38);
+      background: #7C3AED;
+    }
+
+    /* ─── FOOTER PRO ─── */
+    .footer-pro {
+      background: #FFFFFF;
+      border-top: 1px solid var(--line);
+      padding: 80px 24px 40px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+    }
+    .footer-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+    .footer-left {
+      flex: 1;
+      min-width: 280px;
+      text-align: left;
+    }
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .footer-tagline {
+      font-size: 0.9rem;
+      color: rgba(14,22,20,0.5);
+      max-width: 400px;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .footer-right {
+      display: flex;
+      gap: 80px;
+      flex-wrap: wrap;
+      text-align: left;
+    }
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-col h4 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      margin: 0 0 4px 0;
+    }
+    .footer-col a {
+      font-size: 0.88rem;
+      color: rgba(14,22,20,0.6);
+      transition: color 0.2s;
+    }
+    .footer-col a:hover {
+      color: #8E54E9;
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--line);
+      margin-top: 60px;
+      padding-top: 24px;
+      width: 100%;
+    }
+    .footer-bottom .footer-wrap {
+      font-size: 0.78rem;
+      color: rgba(14,22,20,0.4);
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    /* ─── HOVER BUBBLE → CONFINÉ DANS LE RECTANGLE DE LA CARTE PROJET ─── */
+    .hover-bubble {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 72%;
+      height: 72%;
+      transform: translate(-50%, -50%) scale(0.96);
+      z-index: 50;
+      background: rgba(9,14,13,0.97);
+      backdrop-filter: blur(20px) saturate(140%);
+      color: var(--paper);
+      border-radius: 20px;
+      padding: 28px 36px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s cubic-bezier(0.16,1,0.3,1), transform 0.3s cubic-bezier(0.16,1,0.3,1);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .hover-bubble.visible {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      pointer-events: auto;
+    }
+    .bubble-eyebrow {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+      font-weight: 700;
+      letter-spacing: 0;
+      color: #FFFFFF;
+      margin-bottom: 14px;
+      max-width: 90%;
+    }
+    .bubble-image {
+      max-width: 120px;
+      max-height: 36px;
+      object-fit: contain;
+      margin: 0 0 14px;
+      display: none;
+    }
+    .bubble-image.visible-img {
+      display: block;
+    }
+    .bubble-hero-image {
+      max-width: 92%;
+      max-height: 58%;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+      margin: 0 0 14px;
+      display: none;
+    }
+    .bubble-hero-image.visible-img {
+      display: block;
+    }
+    .bubble-hero-video {
+      max-width: 92%;
+      max-height: 58%;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+      margin: 0 0 14px;
+      display: none;
+    }
+    .bubble-hero-video.visible-img {
+      display: block;
+    }
+    .bubble-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      margin-bottom: 12px;
+      color: var(--signal-bright);
+      max-width: 90%;
+    }
+    .bubble-title:not(:empty)::after {
+      content: ':';
+    }
+    .bubble-desc {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-style: normal;
+      font-size: 0.92rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.65);
+      max-width: 88%;
+    }
+    .bubble-hint {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.28);
+      white-space: nowrap;
+    }
+    @media (max-width: 760px) {
+      .hover-bubble { padding: 20px 18px; border-radius: 16px; }
+      .bubble-eyebrow { font-size: 1.15rem; }
+      .bubble-desc { font-size: 0.85rem; }
+    }
+    /* Teinte glassmorphism du panneau selon l'accent de la carte active */
+    .mega-card.accent-copper .hover-bubble { background: rgba(10,28,20,0.9); border-color: rgba(46,139,87,0.3); }
+    .mega-card.accent-blue .hover-bubble { background: rgba(8,16,30,0.9); border-color: rgba(90,160,255,0.3); }
+    .mega-card.accent-green .hover-bubble { background: rgba(8,22,16,0.9); border-color: rgba(74,222,128,0.3); }
+    .mega-card.accent-orange .hover-bubble { background: rgba(9,15,26,0.9); border-color: rgba(44,76,124,0.35); }
+    .mega-card.accent-red .hover-bubble { background: rgba(26,10,10,0.9); border-color: rgba(225,60,50,0.3); }
+
+    /* ─── SCROLL REVEAL — smooth staggered ─── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    [data-reveal].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Délais de stagger via attribut — courts pour éviter le lag */
+    [data-reveal][data-delay="1"] { transition-delay: 0.05s; }
+    [data-reveal][data-delay="2"] { transition-delay: 0.10s; }
+    [data-reveal][data-delay="3"] { transition-delay: 0.15s; }
+    [data-reveal][data-delay="4"] { transition-delay: 0.20s; }
+    [data-reveal][data-delay="5"] { transition-delay: 0.25s; }
+    [data-reveal][data-delay="6"] { transition-delay: 0.30s; }
+    [data-reveal][data-delay="7"] { transition-delay: 0.35s; }
+    [data-reveal][data-delay="8"] { transition-delay: 0.40s; }
+    [data-reveal][data-delay="9"] { transition-delay: 0.45s; }
+    [data-reveal][data-delay="10"] { transition-delay: 0.50s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 860px) {
+      .case-card, .about-card, .creative-grid, .comp-layout, .tools-arborescence { grid-template-columns: 1fr; }
+      .edu-flow { grid-template-columns: 1fr; gap: 15px; }
+      .edu-arrow { transform: rotate(90deg); margin: 10px 0; }
+      .rec-options { grid-template-columns: 1fr; }
+      .navlinks { display: none; }
+      .hero-main { flex-direction: column; padding: 40px 20px 30px; min-height: auto; }
+      .hero-orbit-wrap { width: 100%; height: 260px; }
+      .hero-pillars { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════ HERO ══════ -->
+<div class="hero-wrapper">
+  <header class="hero" id="hero">
+    <!-- Auras Glassmorphism -->
+    <div class="hero-auras">
+      <div class="hero-aura a1"></div>
+      <div class="hero-aura a2"></div>
+      <div class="hero-aura a3"></div>
+    </div>
+    
+    <!-- ══════ NAV (Intégrée au Hero) ══════ -->
+    <nav>
+      <div class="wrap">
+        <a class="logo" href="#"><img src="Images/logo%20K.png" alt="Kenny Ngan Bell" class="logo-mark"></a>
+        <ul class="navlinks">
+          <li><a href="#projets">Projets</a></li>
+          <li><a href="#outils">Outils</a></li>
+          <li><a href="#formation">Formation</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a class="nav-cv" href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <div class="hero-main">
+
+      <!-- GROUPE GAUCHE : tourne dans le sens des aiguilles -->
+      <div class="hero-orbit-wrap">
+        <div class="hero-orbit-ring cw" id="ring-left">
+          <div class="hero-node"><img src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=280&q=85" alt="Nature"></div>
+          <div class="hero-node"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=280&q=85" alt="Capteurs"></div>
+          <div class="hero-node"><img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=280&q=85" alt="Planification"></div>
+          <div class="hero-node"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=280&q=85" alt="Data"></div>
+          <div class="hero-node"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=280&q=85" alt="Montagne"></div>
+        </div>
+      </div>
+
+      <!-- TEXTE CENTRAL -->
+      <div class="hero-center">
+        <h1>
+          <span class="small-text">Alternant pour le poste de</span>
+          Consultant en<br>
+          <span class="gradient-text">Numérique Responsable</span>
+        </h1>
+        <p class="hero-subtitle">Je recherche une alternance pour accompagner les entreprises dans leur transformation numérique responsable.</p>
+        <a class="hero-btn" href="#projets">Démarrer un entretien</a>
+      </div>
+
+      <!-- GROUPE DROITE : tourne dans le sens inverse -->
+      <div class="hero-orbit-wrap">
+        <div class="hero-orbit-ring ccw" id="ring-right">
+          <div class="hero-node"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=280&q=85" alt="Équipes"></div>
+          <div class="hero-node"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=280&q=85" alt="Événement"></div>
+          <div class="hero-node"><img src="https://images.unsplash.com/photo-1456324463128-7ff6903988d8?w=280&q=85" alt="Bureau"></div>
+          <div class="hero-node"><img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=280&q=85" alt="Médical"></div>
+          <div class="hero-node"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&q=85" alt="Dashboard"></div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+</div>
+
+<!-- ══════ ABOUT ══════ -->
+<section class="about-section">
+  <div class="wrap">
+    <div data-reveal data-delay="1" class="about-section-title">Qui suis-je ?</div>
+    <div class="about-card" data-reveal data-delay="2">
+      <div class="about-photo-wrapper" data-reveal data-delay="3">
+        <img src="Images/photo%20temoignage/owen.png" alt="Kenny Ngan Bell">
+      </div>
+      <div class="about-content">
+        <blockquote data-reveal data-delay="4">
+          « J’ai développé des compétences en <span>gestion de projet, coordination et communication</span> . Intéressé par les enjeux du numérique responsable, de l’<span>éco-conception</span> et de la <span>transformation durable des systèmes d’information</span>, je souhaite contribuer à des missions de conseil et accompagner les organisations dans leur transition vers un numérique plus responsable. »
+        </blockquote>
+            <div class="about-author" data-reveal data-delay="6">
+          Kenny Ngan Bell
+          <span>Candidat pour une alternance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ STACKING CASE STUDIES ══════ -->
+<section id="projets" class="cases-section-wrap">
+  <div class="cases-section-title" data-reveal data-delay="1">
+    <h2>Mes projets</h2>
+    <p>Comment j&rsquo;ai travaill&eacute; sur mes diff&eacute;rents projets</p>
+  </div>
+  <div class="cases-stack">
+
+    <!-- PROJET AFI (nouveau) -->
+    <article class="mega-card accent-copper">
+      <div class="mega-card-bg" style="background-image: url('Images/images_projets/hackathon.png')"></div>
+      <div class="mega-card-overlay light"></div>
+      <div class="mega-card-content" data-reveal>
+        <div class="mega-card-top">
+          <span class="mega-card-badge">Hackathon IA &amp; Publicit&eacute;</span>
+          <span class="mega-card-num">01 / 05</span>
+        </div>
+        <div class="mega-card-body">
+          <p class="mega-card-meta">11&ndash;12 avril 2026 &bull; AI AD AWARD, Tunisie</p>
+          <h3 class="mega-card-title">Vid&eacute;o publicitaire<br>g&eacute;n&eacute;r&eacute;e par IA</h3>
+          <p class="mega-card-desc">Participation en &eacute;quipe de 3 &agrave; un hackathon national de cr&eacute;ation publicitaire par intelligence artificielle : storytelling, storyboard, puis g&eacute;n&eacute;ration des visuels et de la vid&eacute;o avec plusieurs outils d&rsquo;IA pour produire un spot promotionnel complet.</p>
+          <div class="mega-card-tags">
+            <span class="mega-card-tag" data-pill="p-afi-story" data-tip="Construction du fil narratif et du storyboard du spot publicitaire en équipe.">Storytelling &amp; storyboard</span>
+            <span class="mega-card-tag" data-pill="p-afi-img" data-tip="J’ai généré les visuels du spot avec plusieurs outils d’IA, en ajustant mes prompts à chaque essai.">G&eacute;n&eacute;ration d&rsquo;images IA</span>
+            <span class="mega-card-tag" data-pill="p-afi-video" data-tip="Génération et assemblage des séquences vidéo du spot avec des outils d’IA.">G&eacute;n&eacute;ration vid&eacute;o IA</span>
+            <span class="mega-card-tag" data-pill="p-afi-team" data-tip="Répartition des rôles et coordination avec les 2 autres membres de l’équipe.">Travail d&rsquo;&eacute;quipe (3 pers.)</span>
+          </div>
+        </div>
+        <div class="mega-card-bottom">
+          <div class="mega-card-progress">
+            <span class="mega-card-progress-label">01 / 05</span>
+            <div class="mega-card-bars">
+              <div class="mega-card-bar active"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+            </div>
+          </div>
+          <div class="mega-card-tags" style="margin-top:2px;">
+            <span class="mega-card-tag result-pill" data-pill="p-afi-attestation" data-tip="Attestation de réussite remise à l’issue du hackathon AI AD AWARD.">Attestation de r&eacute;ussite</span>
+            <span class="mega-card-tag result-pill" data-pill="p-afi-finalvideo" data-tip="Spot publicitaire final assemblé à partir des visuels et séquences générés par IA.">Vid&eacute;o r&eacute;alis&eacute;e</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJET 1 -->
+    <article class="mega-card accent-blue">
+      <div class="mega-card-bg" style="background-image: url('Images/images_projets/hsware.png')"></div>
+      <div class="mega-card-overlay light" style="background: linear-gradient(120deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.03) 100%);"></div>
+      <div class="mega-card-content" data-reveal>
+        <div class="mega-card-top" style="flex-direction: row;">
+          <span class="mega-card-badge">Stage PFE</span>
+          <span class="mega-card-num">02 / 05</span>
+        </div>
+        <div class="mega-card-body" style="align-self: flex-start; text-align: left; margin-left: 0; margin-right: auto;">
+          <p class="mega-card-meta">Avr 2025 &ndash; Oct 2025 &bull; HSWARE Coadis, Tunis</p>
+          <h3 class="mega-card-title">Capteur d&rsquo;humidit&eacute;<br>du sol &mdash; LoRa</h3>
+          <p class="mega-card-desc">Conception et pilotage d&rsquo;un syst&egrave;me de capteurs IoT agricoles pour optimiser l&rsquo;irrigation locale en temps r&eacute;el.</p>
+          <div class="mega-card-tags" style="justify-content: flex-start;">
+            <span class="mega-card-tag" data-pill="p-hs-method" data-tip="Cycles courts de prototypage, test terrain puis ajustement du capteur.">M&eacute;thodologie de travail</span>
+            <span class="mega-card-tag" data-pill="p-hs-cadrage" data-tip="Définition des objectifs, du périmètre et du calendrier du projet IoT.">Cadrage &amp; planification</span>
+            <span class="mega-card-tag" data-pill="p-hs-tech" data-tip="Sélection de technologies à faible consommation : LoRa, capteurs passifs, protocoles sobres.">Choix techniques responsables</span>
+            <span class="mega-card-tag" data-pill="p-hs-data" data-tip="Collecte et visualisation des données d’humidité en temps réel via tableau de bord.">Suivi de donn&eacute;es</span>
+            <span class="mega-card-tag" data-pill="p-hs-doc" data-tip="Rédaction de la documentation technique et des livrables en fin de projet.">Documentation projet</span>
+          </div>
+        </div>
+        <div class="mega-card-bottom" style="flex-direction: row;">
+          <div class="mega-card-progress">
+            <span class="mega-card-progress-label">02 / 05</span>
+            <div class="mega-card-bars">
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar active"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+            </div>
+          </div>
+          <div class="mega-card-tags" style="justify-content: flex-start; margin-top:2px;">
+            <span class="mega-card-tag result-pill" data-pill="p-hs-video" data-tip="Vidéo de démonstration du système en fonctionnement.">Vid&eacute;o de d&eacute;monstration</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJET 2 -->
+    <article class="mega-card accent-green">
+      <div class="mega-card-bg" style="background-image: url('Images/images_projets/smartfarm.png')"></div>
+      <div class="mega-card-overlay light" style="background: linear-gradient(-120deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.03) 100%);"></div>
+      <div class="mega-card-content" data-reveal>
+        <div class="mega-card-top" style="flex-direction: row-reverse;">
+          <span class="mega-card-badge">Stage</span>
+          <span class="mega-card-num">03 / 05</span>
+        </div>
+        <div class="mega-card-body" style="align-self: flex-end; text-align: right; margin-left: auto; margin-right: 0;">
+          <p class="mega-card-meta">Sept 2024 &ndash; Oct 2024 &bull; Smart Farm, Tunis</p>
+          <h3 class="mega-card-title">Optimisation &eacute;nerg&eacute;tique<br>capteur S.sensor</h3>
+          <p class="mega-card-desc">Audit et optimisation &eacute;nerg&eacute;tique de la consommation en veille de capteurs connect&eacute;s bas&eacute;s sur LoRaWAN.</p>
+          <div class="mega-card-tags" style="justify-content: flex-end;">
+            <span class="mega-card-tag" data-pill="p-sf-audit" data-tip="Analyse des performances du capteur : consommation, latence et cycles de veille.">Audit de performance</span>
+            <span class="mega-card-tag" data-pill="p-sf-optim" data-tip="Réécriture du firmware pour réduire les cycles actifs et allonger la durée de vie.">Optimisation ressources</span>
+            <span class="mega-card-tag" data-pill="p-sf-energy" data-tip="Réduction de 40% de la consommation en veille : éco-conception matérielle et logicielle.">Efficacit&eacute; &eacute;nerg&eacute;tique</span>
+          </div>
+        </div>
+        <div class="mega-card-bottom" style="flex-direction: row-reverse;">
+          <div class="mega-card-progress">
+            <span class="mega-card-progress-label">03 / 05</span>
+            <div class="mega-card-bars">
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar active"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJET 3 -->
+    <article class="mega-card accent-orange">
+      <div class="mega-card-bg" style="background-image: url('Images/images_projets/clubinterculturel.png')"></div>
+      <div class="mega-card-overlay light" style="background: linear-gradient(120deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.03) 100%);"></div>
+      <div class="mega-card-content" data-reveal>
+        <div class="mega-card-top" style="flex-direction: row;">
+          <span class="mega-card-badge">Engagement associatif</span>
+          <span class="mega-card-num">04 / 05</span>
+        </div>
+        <div class="mega-card-body" style="align-self: flex-start; text-align: left; margin-left: 0; margin-right: auto;">
+          <p class="mega-card-meta">Jan 2025 &ndash; Juin 2025 &bull; Club Interculturel, ESPRIT Tunis</p>
+          <h3 class="mega-card-title">Charg&eacute; de la Tr&eacute;sorerie<br>&amp; de la Communication</h3>
+          <p class="mega-card-desc">Gestion de la tr&eacute;sorerie du club, suivi des d&eacute;penses et des recettes, et organisation d&rsquo;&eacute;v&eacute;nements interculturels pour plus de 200 participants.</p>
+          <div class="mega-card-tags" style="justify-content: flex-start;">
+            <span class="mega-card-tag" data-pill="p-club-budget" data-tip="Suivi des dépenses, recettes et budget annuel du Club Interculturel, sur Google Sheets.">Gestion budg&eacute;taire &amp; suivi financier</span>
+            <span class="mega-card-tag" data-pill="p-club-event" data-tip="Coordination logistique d’événements pour plus de 200 participants.">Organisation d&rsquo;&eacute;v&eacute;nements</span>
+            <span class="mega-card-tag" data-pill="p-club-admin" data-tip="Rédaction de PV, archivage des documents officiels du club.">Gestion administrative</span>
+          </div>
+        </div>
+        <div class="mega-card-bottom" style="flex-direction: row;">
+          <div class="mega-card-progress">
+            <span class="mega-card-progress-label">04 / 05</span>
+            <div class="mega-card-bars">
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar active"></div>
+              <div class="mega-card-bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJET 4 -->
+    <article class="mega-card accent-red">
+      <div class="mega-card-bg" style="background-image: url('Images/images_projets/bracelet.png'); background-size: cover; background-repeat: no-repeat; background-position: center; background-color: #E4E4E4;"></div>
+      <div class="mega-card-overlay light"></div>
+      <div class="mega-card-content" data-reveal>
+        <div class="mega-card-top">
+          <span class="mega-card-badge">Sant&eacute; &amp; Innovation</span>
+          <span class="mega-card-num">05 / 05</span>
+        </div>
+        <div class="mega-card-body">
+          <p class="mega-card-meta">Jan 2024 &ndash; Mai 2024 &bull; Sant&eacute; connect&eacute;e, ESPRIT Tunis</p>
+          <h3 class="mega-card-title">Bracelet connect&eacute;<br>glyc&eacute;mique</h3>
+          <p class="mega-card-desc">Recherche et conception d&rsquo;un bracelet m&eacute;dical &eacute;co-con&ccedil;u ax&eacute; sur l&rsquo;accessibilit&eacute; &eacute;conomique pour les pays en d&eacute;veloppement (ODD 3 et ODD 9).</p>
+          <div class="mega-card-tags">
+            <span class="mega-card-tag" data-pill="p-br-user" data-tip="Entretiens utilisateurs et benchmark pour identifier les besoins en matière de suivi glucémique.">Etude utilisateur</span>
+            <span class="mega-card-tag" data-pill="p-br-conception" data-tip="Conception d’un bracelet IoT autonome basé sur des matériaux durables et recyclés.">Conception IoT durable</span>
+            <span class="mega-card-tag" data-pill="p-br-team" data-tip="Répartition des rôles dans une équipe de 6 personnes, avancement par cycles courts.">Travail d&rsquo;&eacute;quipe (6 pers.)</span>
+            <span class="mega-card-tag" data-pill="p-br-doc" data-tip="Documentation du prototype et des choix de conception au fil du projet.">Documentation</span>
+            <span class="mega-card-tag" data-pill="p-br-method" data-tip="Avancement par itérations courtes : prototype, retour d’équipe, ajustement.">M&eacute;thodologie de travail</span>
+            <span class="mega-card-tag" data-pill="p-br-impact" data-tip="Contribution aux ODD 3 (Santé) et ODD 9 (Innovation durable) pour les pays en développement.">Impact ODD 3 &amp; ODD 9</span>
+          </div>
+        </div>
+        <div class="mega-card-bottom">
+          <div class="mega-card-progress">
+            <span class="mega-card-progress-label">05 / 05</span>
+            <div class="mega-card-bars">
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar active"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════ OUTILS ARBORESCENCE ══════ -->
+<section id="outils" class="tools-section">
+  <div class="tools-section-inner">
+    <p class="tools-subtitle-badge" data-reveal data-delay="1">Mon stack</p>
+    <h2 data-reveal data-delay="2">Les outils que j'utilise <span>au quotidien</span></h2>
+    <p class="tools-section-subtitle" data-reveal data-delay="3">De la planification à la création — les outils qui structurent ma méthode de travail.</p>
+
+    <div class="tools-tree-container">
+      <!-- Nœud racine -->
+      <div class="tools-root-icon" data-reveal data-delay="4">
+        <svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="2.5"/><circle cx="16" cy="8" r="2.5"/><circle cx="8" cy="16" r="2.5"/><circle cx="16" cy="16" r="2.5"/></svg>
+      </div>
+
+      <div class="tools-branches">
+
+        <!-- BRANCHE 1 : Gestion & Organisation -->
+        <div class="tools-branch">
+          <div class="tool-branch-header" data-reveal data-delay="5">
+            <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+            Gestion &amp; Org.
+          </div>
+          <div class="tool-branch-cards">
+            <div class="tool-card-ios" data-reveal data-delay="6">
+              <div class="tool-card-ios-icon" style="background:#0E1614; border-radius:12px;"><img src="https://cdn.simpleicons.org/notion/ffffff" alt="Notion"></div>
+              <span>Notion</span>
+            </div>
+            <div class="tool-card-ios" data-reveal data-delay="7">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Google_Drive_logo.png" alt="Google Drive"></div>
+              <span>Google Drive</span>
+            </div>
+            <div class="tool-card-ios" data-reveal data-delay="8">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20Outlook.png" alt="Outlook"></div>
+              <span>Outlook</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BRANCHE 2 : Collaboration & Com -->
+        <div class="tools-branch">
+          <div class="tool-branch-header" data-reveal data-delay="5">
+            <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+            Collaboration
+          </div>
+          <div class="tool-branch-cards">
+            <div class="tool-card-ios" data-reveal data-delay="6">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20Teams.png" alt="Teams" style="transform: scale(1.35);"></div>
+              <span>MS Teams</span>
+            </div>
+            <div class="tool-card-ios" data-reveal data-delay="7">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Google%20meet.png" alt="Google Meet"></div>
+              <span>Google Meet</span>
+            </div>
+            <div class="tool-card-ios" data-reveal data-delay="8">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20Gmail.png" alt="Gmail"></div>
+              <span>Gmail</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BRANCHE 3 : Data & Analyse -->
+        <div class="tools-branch">
+          <div class="tool-branch-header" data-reveal data-delay="6">
+            <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+            Data &amp; Analyse
+          </div>
+          <div class="tool-branch-cards">
+            <div class="tool-card-ios" data-reveal data-delay="7">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20Sheet.png" alt="Google Sheets"></div>
+              <span>Sheets</span>
+            </div>
+            <div class="tool-card-ios" data-reveal data-delay="8">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20Excel.png" alt="Excel"></div>
+              <span>Excel</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BRANCHE 4 : Design & Création -->
+        <div class="tools-branch">
+          <div class="tool-branch-header" data-reveal data-delay="7">
+            <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.75-.39-1.04-.23-.29-.38-.68-.38-1.1 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            Design &amp; Créa.
+          </div>
+          <div class="tool-branch-cards">
+            <div class="tool-card-ios" data-reveal data-delay="8">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20Figma.png" alt="Figma"></div>
+              <span>Figma</span>
+            </div>
+            <div class="tool-card-ios" data-reveal data-delay="9">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20canva.png" alt="Canva"></div>
+              <span>Canva</span>
+            </div>
+            <div class="tool-card-ios" data-reveal data-delay="10">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20Premiere%20Pro.png" alt="Premiere Pro"></div>
+              <span>Premiere Pro</span>
+            </div>
+            <div class="tool-card-ios" data-reveal data-delay="11">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20After%20Effect.png" alt="After Effect"></div>
+              <span>After Effect</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BRANCHE 5 : Tech & I.A. -->
+        <div class="tools-branch">
+          <div class="tool-branch-header" data-reveal data-delay="8">
+            <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+            Tech &amp; I.A.
+          </div>
+          <div class="tool-branch-cards">
+            <div class="tool-card-ios" data-reveal data-delay="9">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20VS%20Code.png" alt="VS Code"></div>
+              <span>VS Code</span>
+            </div>
+            <div class="tool-card-ios" data-reveal data-delay="9">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20Github.png" alt="GitHub"></div>
+              <span>GitHub</span>
+            </div>
+            <div class="tool-card-ios" data-reveal data-delay="10">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20ChatGPT.png" alt="ChatGPT"></div>
+              <span>ChatGPT</span>
+            </div>
+            <div class="tool-card-ios" data-reveal data-delay="10">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20Gemini.png" alt="Gemini"></div>
+              <span>Gemini</span>
+            </div>
+            <div class="tool-card-ios" data-reveal data-delay="11">
+              <div class="tool-card-ios-icon"><img src="Images/Logo/Logo%20Claude.png" alt="Claude"></div>
+              <span>Claude</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end tools-branches -->
+    </div><!-- end tools-tree-container -->
+  </div><!-- end tools-section-inner -->
+</section>
+
+
+<!-- ══════ PARCOURS ACADÉMIQUE ══════ -->
+<section id="formation" class="edu-section" data-reveal>
+  <div class="edu-section-badge">
+    <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+    Formation
+  </div>
+  <h2>Parcours académique</h2>
+  <p class="edu-subtitle">De la technologie à la gestion responsable de l’impact du numérique sur l’environnement.</p>
+  
+  <div class="edu-flow">
+    
+    <!-- ESPRIT -->
+    <div class="edu-node esprit" data-reveal>
+      <div class="edu-logo-wrapper">
+        <img src="Images/Logo%20%C3%A9cole/Logo%20Esprit).png" alt="ESPRIT Tunis">
+      </div>
+      <div class="edu-info">
+        <div class="edu-date-badge">2019 – 2025</div>
+        <h3>Diplôme National d’Ingénieur<span class="edu-sub">Télécoms &amp; IoT</span></h3>
+        <p>ESPRIT, Tunis. Apprentissage des systèmes communicants, réseaux IoT et gestion de projet technique sur 5 ans.</p>
+      </div>
+    </div>
+
+    <!-- EFREI -->
+    <div class="edu-node efrei" data-reveal>
+      <div class="edu-logo-wrapper">
+        <img src="Images/Logo%20%C3%A9cole/Logo_Efrei.png" alt="EFREI Paris">
+      </div>
+      <div class="edu-info">
+        <div class="edu-date-badge">2026 – 2027</div>
+        <h3>Mastère Spécialisé<span class="edu-sub">Management du Numérique Responsable</span></h3>
+        <p>Efrei Paris — Format alternance idéal (1&nbsp;sem.&nbsp;école&nbsp;/ 2&nbsp;sem.&nbsp;entreprise) pour pilotage des chantiers Green&nbsp;IT réels.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- ══════ MONTAGE VIDÉO ══════ -->
+<section class="creative-section" data-reveal>
+
+  <!-- Grand titre de section -->
+  <div class="creative-section-header">
+    <div class="creative-section-badge">Ce que le CV ne montre pas</div>
+    <h2>Freelance en <span>montage vidéo</span></h2>
+    <p>Je conçois et monte des projets vidéo et des supports graphiques pour clarifier la communication d’idées RSE ou techniques.</p>
+  </div>
+
+  <div class="creative-card">
+    <!-- Vraie image Premiere Pro -->
+    <div class="creative-card-bg"></div>
+    <div class="creative-card-overlay"></div>
+    
+    <div class="creative-card-content" style="display:block;">
+      <div class="creative-text-col">
+        <div class="creative-badge">Freelance — Montage</div>
+        <h2>Montage vidéo<br><span>&amp; création visuelle</span></h2>
+        <p>Je conçois et monte des projets vidéo et des supports graphiques pour clarifier la communication d’idées RSE ou techniques.</p>
+        <div class="creative-pills">
+          <div class="creative-pill">
+            <img src="Images/Logo/Logo%20Premiere%20Pro.png" alt="Premiere Pro logo">
+            Premiere Pro
+          </div>
+          <div class="creative-pill">
+            <img src="Images/Logo/Logo%20After%20Effect.png" alt="After Effects logo">
+            After Effects
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════ COMPÉTENCES ══════ -->
+<section class="competences-section" data-reveal>
+
+  <!-- Grand titre de section centré rétabli -->
+  <div class="comp-section-header">
+    <div class="comp-badge">Compétences</div>
+    <h2>Mes <span>compétences</span></h2>
+  </div>
+
+  <div class="comp-layout">
+    
+    <!-- Colonne gauche : Titre & Barre de recherche -->
+    <div class="comp-text-col">
+      <h2>Plus de <span>20 compétences</span><br>pour accompagner <span>vos projets.</span></h2>
+      <p>Un ensemble de compétences mobilisables au service de projets à impact, de la stratégie à la mise en œuvre.<br>Toujours avec rigueur, écoute et engagement.</p>
+      
+      <!-- Barre de recherche Apple -->
+      <div class="comp-search-wrapper">
+        <input type="text" id="comp-search-input" class="comp-search-input" placeholder="Rechercher une compétence..." autocomplete="off">
+        <svg class="comp-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <span class="comp-search-shortcut">⌘ K</span>
+      </div>
+    </div>
+    
+    <!-- Colonne droite : Liste scrollante verticale (style Ctrl Wallet) -->
+    <div class="comp-graphic" id="comp-graphic">
+      <div class="comp-scroll-track" id="comp-scroll-track">
+        <!-- Lot 1 (original) -->
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(124,58,237,0.1)"><svg viewBox="0 0 24 24" fill="#7C3AED"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg></div><span class="comp-skill-label">Gestion de projet</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(37,99,235,0.1)"><svg viewBox="0 0 24 24" fill="#2563EB"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.83 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div><span class="comp-skill-label">Analyse des besoins</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(139,92,246,0.1)"><svg viewBox="0 0 24 24" fill="#8B5CF6"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.4z"/></svg></div><span class="comp-skill-label">RSE &amp; impact environnemental</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(6,182,212,0.1)"><svg viewBox="0 0 24 24" fill="#06B6D4"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg></div><span class="comp-skill-label">Écoconception de services numériques</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(16,185,129,0.1)"><svg viewBox="0 0 24 24" fill="#10B981"><path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7l-2 3v1h8v-1l-2-3h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 12H3V4h18v10z"/></svg></div><span class="comp-skill-label">Green IT &amp; sobriété numérique</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(245,158,11,0.1)"><svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z"/></svg></div><span class="comp-skill-label">Conduite du changement</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(20,184,166,0.1)"><svg viewBox="0 0 24 24" fill="#14B8A6"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div><span class="comp-skill-label">Analyse &amp; diagnostic</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(239,68,68,0.1)"><svg viewBox="0 0 24 24" fill="#EF4444"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H7v-7h3v7zm4 0h-3V7h3v10zm4 0h-3v-4h3v4z"/></svg></div><span class="comp-skill-label">Pilotage des actions</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(236,72,153,0.1)"><svg viewBox="0 0 24 24" fill="#EC4899"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div><span class="comp-skill-label">Reporting &amp; KPI</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(59,130,246,0.1)"><svg viewBox="0 0 24 24" fill="#3B82F6"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg></div><span class="comp-skill-label">Communication professionnelle</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(234,179,8,0.1)"><svg viewBox="0 0 24 24" fill="#EAB308"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg></div><span class="comp-skill-label">Prise de parole &amp; présentation</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(99,102,241,0.1)"><svg viewBox="0 0 24 24" fill="#6366F1"><path d="M12 8a3 3 0 100-6 3 3 0 000 6zm-9 3a2 2 0 114 0 2 2 0 01-4 0zm19-2a2 2 0 100 4 2 2 0 000-4zM12 12c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/></svg></div><span class="comp-skill-label">Travail d&rsquo;&eacute;quipe &amp; coordination</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(217,119,6,0.1)"><svg viewBox="0 0 24 24" fill="#D97706"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div><span class="comp-skill-label">Gestion du temps &amp; des priorit&eacute;s</span></div>
+        <!-- Lot 2 (dupliqué pour boucle infinie) -->
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(124,58,237,0.1)"><svg viewBox="0 0 24 24" fill="#7C3AED"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg></div><span class="comp-skill-label">Gestion de projet</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(37,99,235,0.1)"><svg viewBox="0 0 24 24" fill="#2563EB"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.83 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div><span class="comp-skill-label">Analyse des besoins</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(139,92,246,0.1)"><svg viewBox="0 0 24 24" fill="#8B5CF6"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.4z"/></svg></div><span class="comp-skill-label">RSE &amp; impact environnemental</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(6,182,212,0.1)"><svg viewBox="0 0 24 24" fill="#06B6D4"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg></div><span class="comp-skill-label">Écoconception de services numériques</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(16,185,129,0.1)"><svg viewBox="0 0 24 24" fill="#10B981"><path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7l-2 3v1h8v-1l-2-3h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 12H3V4h18v10z"/></svg></div><span class="comp-skill-label">Green IT &amp; sobriété numérique</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(245,158,11,0.1)"><svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z"/></svg></div><span class="comp-skill-label">Conduite du changement</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(20,184,166,0.1)"><svg viewBox="0 0 24 24" fill="#14B8A6"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div><span class="comp-skill-label">Analyse &amp; diagnostic</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(239,68,68,0.1)"><svg viewBox="0 0 24 24" fill="#EF4444"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H7v-7h3v7zm4 0h-3V7h3v10zm4 0h-3v-4h3v4z"/></svg></div><span class="comp-skill-label">Pilotage des actions</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(236,72,153,0.1)"><svg viewBox="0 0 24 24" fill="#EC4899"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div><span class="comp-skill-label">Reporting &amp; KPI</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(59,130,246,0.1)"><svg viewBox="0 0 24 24" fill="#3B82F6"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg></div><span class="comp-skill-label">Communication professionnelle</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(234,179,8,0.1)"><svg viewBox="0 0 24 24" fill="#EAB308"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg></div><span class="comp-skill-label">Prise de parole &amp; présentation</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(99,102,241,0.1)"><svg viewBox="0 0 24 24" fill="#6366F1"><path d="M12 8a3 3 0 100-6 3 3 0 000 6zm-9 3a2 2 0 114 0 2 2 0 01-4 0zm19-2a2 2 0 100 4 2 2 0 000-4zM12 12c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/></svg></div><span class="comp-skill-label">Travail d&rsquo;&eacute;quipe &amp; coordination</span></div>
+        <div class="comp-skill-row"><div class="comp-skill-icon" style="background:rgba(217,119,6,0.1)"><svg viewBox="0 0 24 24" fill="#D97706"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div><span class="comp-skill-label">Gestion du temps &amp; des priorit&eacute;s</span></div>
+      </div><!-- /.comp-scroll-track -->
+    </div><!-- /.comp-graphic -->
+    
+  </div>
+</section>
+
+
+<!-- ══════ RECRUTEMENT SECTION ══════ -->
+<section id="contact" class="recruitment-section" data-reveal>
+  <div class="rec-layout">
+
+    <div class="rec-eyebrow">Recrutement</div>
+    <h2>Disponible pour une alternance<br><span>de 12 mois</span></h2>
+
+    <div class="rec-options">
+      <div class="rec-card">
+        <div class="rec-card-icon">📅</div>
+        <h3>Rentrée Septembre 2026</h3>
+        <p class="rec-card-desc">Début du contrat d'alternance à la rentrée de septembre.</p>
+      </div>
+      <div class="rec-card active-card">
+        <div class="rec-card-icon">📆</div>
+        <h3>Rentrée Octobre 2026</h3>
+        <p class="rec-card-desc">Début du contrat d'alternance à la rentrée d'octobre.</p>
+      </div>
+    </div>
+
+    <a class="btn-submit" href="mailto:nganbellk@gmail.com">Me proposer un entretien</a>
+  </div>
+</section>
+
+<!-- ══════ FOOTER PRO ══════ -->
+<footer class="footer-pro">
+  <div class="footer-wrap">
+    <div class="footer-left">
+      <div class="footer-brand">Kenny Ngan Bell</div>
+      <p class="footer-tagline">Merci d&rsquo;avoir pris le temps de parcourir mon travail.</p>
+    </div>
+    <div class="footer-right">
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:nganbellk@gmail.com">nganbellk@gmail.com</a>
+        <a href="tel:+33659223612">+33 (0)6 59 22 36 12</a>
+      </div>
+      <div class="footer-col">
+        <h4>Réseaux</h4>
+        <a href="https://linkedin.com/in/kenny-bell" target="_blank">LinkedIn</a>
+        <a href="https://github.com/Kenny-Owen" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-wrap">
+      <span>© 2026 Kenny Ngan Bell. Tous droits réservés. Conçu selon les standards Green IT.</span>
+      <span>Paris, France</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════ HOVER BUBBLE CONTAINER (confiné dans la carte projet survolée) ══════ -->
+<div class="hover-bubble" id="hover-bubble">
+  <img class="bubble-hero-image" id="hb-hero-image" src="" alt="">
+  <video class="bubble-hero-video" id="hb-hero-video" src="" controls preload="metadata"></video>
+  <img class="bubble-image" id="hb-image" src="" alt="">
+  <div class="bubble-title" id="hb-title"></div>
+  <div class="bubble-eyebrow">Comment j&rsquo;ai concr&egrave;tement fait</div>
+  <div class="bubble-desc" id="hb-desc"></div>
+  <div class="bubble-hint">D&eacute;placez la souris pour fermer</div>
+</div>
+
+<script>
+  /* ════════════ DONNÉES DES COMPÉTENCES AU SURVOL (panneau plein écran) ════════════ */
+  const BUBBLE_DATA = {
+    // Projet AFI — Vidéo publicitaire générée par IA
+    'p-afi-story': {
+      title: 'Storytelling & storyboard',
+      desc: 'Concept publicitaire posé en équipe, script court écrit puis découpé plan par plan dans un storyboard, servant de feuille de route pendant les 24h du hackathon.',
+      highlight: '🎬 Script + storyboard bouclés avant même de toucher aux outils d\'IA.'
+    },
+    'p-afi-img': {
+      title: 'Génération d\'images IA',
+      desc: 'J\'ai généré les visuels du spot avec plusieurs outils d\'IA en parallèle. J\'ai retravaillé mes prompts à chaque essai pour corriger les incohérences typiques (mains, textes, proportions), jusqu\'à obtenir des images exploitables.',
+      highlight: '🖼️ Plusieurs dizaines d\'itérations pour arriver à des visuels exploitables.'
+    },
+    'p-afi-video': {
+      title: 'Génération vidéo IA',
+      desc: 'Assemblage des séquences vidéo générées, avec ajustement du rythme et des transitions pour que le spot reste cohérent malgré des visuels issus d\'outils différents.',
+      highlight: '🎥 Spot final livré dans les temps du hackathon.'
+    },
+    'p-afi-team': {
+      title: 'Travail d\'équipe (3 personnes)',
+      desc: 'Rôles répartis selon les forces de chacun, avec des points courts et réguliers pour tenir le planning serré des 24h, sans perdre la bonne entente malgré la fatigue.',
+      highlight: '🤝 Une équipe soudée malgré la pression des 24h.'
+    },
+    'p-afi-attestation': {
+      title: 'Résultat',
+      desc: 'Attestation de réussite remise par l\'AFI et ESPRIT à l\'issue du hackathon AI AD AWARD.',
+      highlight: '🏆 Attestation officielle obtenue.',
+      heroImage: 'Images/Attestation%20de%20r%C3%A9ussite%20hackathon.png'
+    },
+    'p-afi-finalvideo': {
+      title: 'Résultat',
+      desc: 'Le spot publicitaire final, assemblé à partir des visuels et séquences vidéo générés par IA pendant les 24h du hackathon.',
+      highlight: '🎬 Spot final livré.',
+      heroVideo: 'Images/VIDEO%20VELOCITY.mp4'
+    },
+    // Projet Capteur d'humidité (hsware)
+    'p-hs-method': {
+      title: 'Méthodologie de travail',
+      desc: 'Travail en cycles courts : on prototypait, on testait sur le terrain, puis on ajustait le capteur avant de repartir sur un cycle suivant, plutôt que de tout figer dès le départ.',
+      highlight: '🔁 Prototypage itératif sur toute la durée du projet.'
+    },
+    'p-hs-cadrage': {
+      title: 'Cadrage & planification',
+      desc: 'Définition des objectifs et du périmètre du projet, puis suivi du planning via un diagramme de Gantt pour garder une vision claire des jalons jusqu\'au déploiement.',
+      highlight: '🗓️ Jalons suivis via diagramme de Gantt.',
+      heroImage: 'Images/Diagramme%20de%20GANT.png'
+    },
+    'p-hs-tech': {
+      title: 'Choix techniques responsables',
+      desc: 'Comparaison de plusieurs technologies avant de retenir LoRa et des capteurs passifs, pour limiter la consommation énergétique et permettre une autonomie longue sur le terrain.',
+      highlight: '🔋 Solution basse consommation retenue après comparatif.'
+    },
+    'p-hs-data': {
+      title: 'Suivi de données',
+      desc: 'Mise en place d\'un reporting quotidien des données d\'humidité captées sur chaque point du terrain, consolidées dans un tableau de bord pour suivre la fiabilité des mesures et ajuster le pilotage au fil de l\'eau.',
+      highlight: '📊 Données consolidées et vérifiées en continu.'
+    },
+    'p-hs-doc': {
+      title: 'Documentation projet',
+      desc: 'Rédaction de la documentation technique et des livrables au fil du projet, pour que l\'installation et l\'étalonnage soient reproductibles par quelqu\'un d\'autre.',
+      highlight: '📄 Projet transmissible, pas juste un prototype isolé.'
+    },
+    'p-hs-video': {
+      title: 'Résultat',
+      desc: 'Vidéo de démonstration du système en fonctionnement sur le terrain, du capteur jusqu\'au tableau de bord.',
+      highlight: '🎥 Vidéo de démonstration.',
+      heroVideo: 'Images/projet%20PFE.mp4'
+    },
+    // Projet Optimisation énergétique (smartfarm)
+    'p-sf-audit': {
+      title: 'Audit de performance',
+      desc: 'Analyse de la consommation en veille et en émission, qui a identifié le module SIM800L comme principal poste de consommation lors de l\'envoi des données.',
+      highlight: '⚡ Le module SIM800L identifié comme point faible énergétique.'
+    },
+    'p-sf-optim': {
+      title: 'Optimisation ressources',
+      desc: 'Remplacement/ajustement du module de communication et réécriture du firmware pour réduire les cycles actifs, en limitant le temps où le capteur reste éveillé.',
+      highlight: '💾 Cycles actifs raccourcis au strict nécessaire.'
+    },
+    'p-sf-energy': {
+      title: 'Efficacité énergétique',
+      desc: 'Résultat de l\'audit et de l\'optimisation : consommation en veille réduite de 40%, ce qui prolonge la durée de vie des batteries d\'environ 6 mois.',
+      highlight: '🔋 +6 mois d\'autonomie estimée sur les batteries.'
+    },
+    // Projet Club Interculturel
+    'p-club-budget': {
+      title: 'Gestion budgétaire & suivi financier',
+      desc: 'Suivi du budget et des dépenses sur Google Sheets tout au long de l\'année, avec un point régulier pour garder une vision claire des entrées et sorties avant chaque événement.',
+      highlight: '📑 Budget suivi en continu sur Google Sheets.'
+    },
+    'p-club-event': {
+      title: 'Organisation d\'événements',
+      desc: 'Organisation logistique d\'événements pour plus de 200 participants, avec des tâches réparties entre membres du bureau (matériel, accueil, communication).',
+      highlight: '🎉 Plus de 200 participants accueillis, sans improviser le jour J.'
+    },
+    'p-club-admin': {
+      title: 'Gestion administrative',
+      desc: 'Rédaction des comptes-rendus et archivage des documents officiels du club, pour garder une trace claire des décisions prises en bureau.',
+      highlight: '🗂️ Suivi administratif tenu à jour toute l\'année.'
+    },
+    // Projet Bracelet connecté glycémique
+    'p-br-user': {
+      title: 'Étude utilisateur',
+      desc: 'Entretiens avec des personnes concernées pour comprendre leurs besoins réels et les irritants du suivi glycémique au quotidien, avant de se lancer dans la conception.',
+      highlight: '🎧 Besoins réels récoltés avant de concevoir quoi que ce soit.'
+    },
+    'p-br-conception': {
+      title: 'Conception IoT durable',
+      desc: 'Conception d\'un bracelet autonome basé sur des matériaux durables et recyclés, pensé pour rester accessible économiquement dans les pays en développement.',
+      highlight: '♻️ Matériaux durables et coût pensé pour l\'accessibilité.'
+    },
+    'p-br-team': {
+      title: 'Travail d\'équipe (6 personnes)',
+      desc: 'Rôles répartis clairement dans une équipe de 6, avec avancement par cycles courts plutôt qu\'un plan figé — un peu comme une méthodologie agile étudiante.',
+      highlight: '👥 6 personnes, rôles clairs, avancement par cycles courts.'
+    },
+    'p-br-doc': {
+      title: 'Documentation',
+      desc: 'Documentation du prototype et des choix de conception au fur et à mesure, pour garder une trace claire du raisonnement derrière chaque décision technique.',
+      highlight: '📝 Choix de conception documentés au fil de l\'eau.'
+    },
+    'p-br-method': {
+      title: 'Méthodologie de travail',
+      desc: 'Avancement par itérations courtes : prototype, retour d\'équipe, ajustement, plutôt qu\'une seule version finale tentée d\'un coup.',
+      highlight: '🔁 Prototypage itératif en équipe.'
+    },
+    'p-br-impact': {
+      title: 'Impact ODD 3 & ODD 9',
+      desc: 'Conception orientée vers l\'accessibilité économique, pour viser des marchés à fort impact social dans le cadre des ODD 3 (Santé) et ODD 9 (Innovation durable).',
+      highlight: '🌍 Un projet pensé pour un impact social réel.'
+    }
+  };
+
+  /* ══════════ HERO ORBITS — positionne les images sur ellipse ══════════
+   * Chaque anneau (ring-left / ring-right) contient N images.
+   * JS place chaque image sur une ellipse (rx, ry) autour du centre.
+   * CSS anime la rotation de l'anneau + contre-rotation de chaque image.
+   * ═════════════════════════════════════════════════════════════════ */
+  function positionOrbit(ringId, rx, ry) {
+    const ring = document.getElementById(ringId);
+    if (!ring) return;
+    const nodes = ring.querySelectorAll('.hero-node');
+    const n = nodes.length;
+    nodes.forEach((node, i) => {
+      // Répartition uniforme, départ depuis le haut (-90°)
+      const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+      const x = Math.cos(angle) * rx;
+      const y = Math.sin(angle) * ry;
+      // On soustrait la moitié des dimensions de l'image (138/2=69, 126/2=63)
+      node.style.left = `calc(50% + ${x}px - 69px)`;
+      node.style.top  = `calc(50% + ${y}px - 63px)`;
+    });
+  }
+
+  positionOrbit('ring-left',  130, 180);
+  positionOrbit('ring-right', 130, 180);
+  window.addEventListener('resize', () => {
+    positionOrbit('ring-left',  130, 180);
+    positionOrbit('ring-right', 130, 180);
+  });
+
+  /* ════════════ PANNEAU PLEIN ÉCRAN AU SURVOL DES COMPÉTENCES ════════════ */
+  const bubble = document.getElementById('hover-bubble');
+  const pills = document.querySelectorAll('.mega-card-tag[data-pill]');
+  let showTimer = null;
+  let hideTimer = null;
+  let bubbleOpen = false;
+
+  function openBubble(pill) {
+    const data = BUBBLE_DATA[pill.dataset.pill];
+    if (!data) return;
+
+    // Confiner le panneau dans le rectangle de la carte projet survolée
+    const card = pill.closest('.mega-card');
+    if (card && bubble.parentElement !== card) {
+      card.appendChild(bubble);
+    }
+
+    document.getElementById('hb-title').textContent = data.title;
+    document.getElementById('hb-desc').textContent = data.desc;
+
+    const img = document.getElementById('hb-image');
+    if (data.image) {
+      img.src = data.image;
+      img.alt = data.title;
+      img.classList.add('visible-img');
+    } else {
+      img.classList.remove('visible-img');
+      img.src = '';
+    }
+
+    const heroImg = document.getElementById('hb-hero-image');
+    if (data.heroImage) {
+      heroImg.src = data.heroImage;
+      heroImg.alt = data.title;
+      heroImg.classList.add('visible-img');
+    } else {
+      heroImg.classList.remove('visible-img');
+      heroImg.src = '';
+    }
+
+    const heroVideo = document.getElementById('hb-hero-video');
+    if (data.heroVideo) {
+      if (heroVideo.getAttribute('src') !== data.heroVideo) {
+        heroVideo.pause();
+        heroVideo.src = data.heroVideo;
+      }
+      heroVideo.classList.add('visible-img');
+    } else {
+      heroVideo.pause();
+      heroVideo.classList.remove('visible-img');
+      heroVideo.src = '';
+    }
+
+    bubble.classList.add('visible');
+    bubbleOpen = true;
+  }
+
+  function closeBubble() {
+    bubble.classList.remove('visible');
+    bubbleOpen = false;
+    const v = document.getElementById('hb-hero-video');
+    if (v) v.pause();
+  }
+
+  pills.forEach(pill => {
+    pill.addEventListener('mouseenter', () => {
+      clearTimeout(hideTimer);
+      clearTimeout(showTimer);
+      showTimer = setTimeout(() => openBubble(pill), 220);
+    });
+    pill.addEventListener('mouseleave', () => {
+      clearTimeout(showTimer);
+    });
+  });
+
+  // La souris qui s'éloigne du panneau (une fois ouvert) le referme, avec un léger délai
+  document.addEventListener('mousemove', (e) => {
+    if (!bubbleOpen) return;
+    const r = bubble.getBoundingClientRect();
+    const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+    if (inside) {
+      clearTimeout(hideTimer);
+    } else {
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(closeBubble, 180);
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && bubbleOpen) closeBubble();
+  });
+
+  /* ══════════ SCROLL REVEAL ══════════ */
+  // Support both [data-reveal] (new) and .reveal (legacy)
+  const revealEls = document.querySelectorAll('[data-reveal], .reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        e.target.classList.add('in'); // compat
+      } else {
+        e.target.classList.remove('visible');
+        e.target.classList.remove('in');
+      }
+    });
+  }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+  revealEls.forEach(el => io.observe(el));
+
+  /* ══════════ INTERACTION RECHERCHE COMPETENCES ══════════ */
+  const compSearchInput = document.getElementById('comp-search-input');
+  const compSkills = document.querySelectorAll('.comp-skill-row');
+  const scrollTrack = document.getElementById('comp-scroll-track');
+
+  if (compSearchInput) {
+    compSearchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Retire les accents
+
+      if (query.length > 0) {
+        // Met en pause le défilement vertical pour faciliter la lecture
+        if (scrollTrack) scrollTrack.classList.add('paused');
+
+        compSkills.forEach(skill => {
+          const text = skill.textContent.toLowerCase().trim()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Retire les accents
+          
+          if (text.includes(query)) {
+            skill.classList.add('match');
+            skill.classList.remove('fade');
+          } else {
+            skill.classList.add('fade');
+            skill.classList.remove('match');
+          }
+        });
+      } else {
+        // Relance le défilement et réinitialise les styles
+        if (scrollTrack) scrollTrack.classList.remove('paused');
+        compSkills.forEach(skill => {
+          skill.classList.remove('match');
+          skill.classList.remove('fade');
+        });
+      }
+    });
+
+    // Raccourci clavier global Ctrl+K / Cmd+K
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        compSearchInput.focus();
+        compSearchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  }
+
+</script>
+
+</body>
+</html>
