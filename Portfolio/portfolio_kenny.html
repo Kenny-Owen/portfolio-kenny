@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kenny Ngan Bell — Consultant Numérique Responsable</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="alternate icon" href="Images/logo%20K.png">
+  <link rel="icon" type="image/png" href="Images/logo%20K.png?v=2">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
   <meta name="description" content="Découvrez mon portfolio : comment je cadre, pilote et documente mes projets avec une démarche numérique responsable.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1914,6 +1914,45 @@
       width: 100%;
     }
 
+    /* ─── LIGHTBOX PREUVES (vidéo/image de résultat) — overlay global, toutes tailles d'écran ─── */
+    .proof-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 700;
+      background: rgba(6,6,10,0.94);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease;
+      padding: 20px;
+    }
+    .proof-lightbox.visible { opacity: 1; visibility: visible; }
+    .proof-lightbox-inner { max-width: 100%; max-height: 100%; display: flex; align-items: center; justify-content: center; }
+    .proof-lightbox-inner img, .proof-lightbox-inner video {
+      display: none;
+      max-width: 100%;
+      max-height: 80vh;
+      max-height: 80dvh;
+      border-radius: 14px;
+      object-fit: contain;
+    }
+    .proof-lightbox-close {
+      position: absolute;
+      top: calc(16px + env(safe-area-inset-top, 0px));
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.15);
+      color: #FFFFFF;
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
     /* ─── HOVER BUBBLE → CONFINÉ DANS LE RECTANGLE DE LA CARTE PROJET ─── */
     .hover-bubble {
       position: absolute;
@@ -2142,7 +2181,9 @@
         position: absolute;
         inset: 0;
         background-size: cover;
-        background-position: center;
+        background-position: top center;
+        background-repeat: no-repeat;
+        background-color: #0A0A14;
         z-index: 0;
       }
       .mega-card-content {
@@ -2162,6 +2203,19 @@
         margin-bottom: 14px;
       }
       .mega-card-badge { font-size: 0.66rem; padding: 6px 14px; }
+      /* Couleur du badge principal (carte mobile) : fond glass sombre pour garantir le contraste sur toute image, teinte + bordure cohérentes avec le projet */
+      .mega-card-badge {
+        background: rgba(8,8,12,0.55);
+        border-color: rgba(255,255,255,0.28);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      }
+      #mc-afi .mega-card-badge { border-color: rgba(232,196,74,0.9); color: #FFE9A8; }
+      #mc-hsware .mega-card-badge { border-color: rgba(237,230,214,0.9); color: #F5EFE0; }
+      #mc-smartfarm .mega-card-badge { border-color: rgba(168,221,238,0.9); color: #CDEFFB; }
+      #mc-club .mega-card-badge { border-color: rgba(141,164,186,0.9); color: #D7E1E9; }
+      #mc-bracelet .mega-card-badge { border-color: rgba(255,111,89,0.9); color: #FFD3C9; }
       .mega-card-num { font-size: 0.7rem; }
       .mega-card-body {
         max-width: 100% !important;
@@ -2312,12 +2366,36 @@
         border: 1px solid rgba(255,255,255,0.2);
         color: rgba(255,255,255,0.85);
       }
+      .ps-proofs {
+        display: none;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .ps-proof-btn {
+        font-family: inherit;
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 9px 16px;
+        border-radius: 100px;
+        background: #8E54E9;
+        color: #FFFFFF;
+        border: none;
+        cursor: pointer;
+      }
+      .ps-proof-btn:active { transform: translateY(1px); }
       /* Teinte glassmorphism selon l'accent du projet ouvert */
       .project-sheet.accent-copper .project-sheet-inner { background: rgba(10,28,20,0.98); }
       .project-sheet.accent-blue .project-sheet-inner { background: rgba(8,16,30,0.98); }
       .project-sheet.accent-green .project-sheet-inner { background: rgba(8,22,16,0.98); }
       .project-sheet.accent-orange .project-sheet-inner { background: rgba(9,15,26,0.98); }
       .project-sheet.accent-red .project-sheet-inner { background: rgba(26,10,10,0.98); }
+      /* Le badge de la fiche reprend la même couleur d'accent que le badge de la carte mobile */
+      .project-sheet.accent-copper .project-sheet-badge { background: rgba(232,196,74,0.38); border-color: rgba(232,196,74,0.8); color: #FFF6DE; }
+      .project-sheet.accent-blue .project-sheet-badge { background: rgba(237,230,214,0.38); border-color: rgba(237,230,214,0.8); color: #FBF6EA; }
+      .project-sheet.accent-green .project-sheet-badge { background: rgba(168,221,238,0.35); border-color: rgba(168,221,238,0.7); color: #EFFBFF; }
+      .project-sheet.accent-orange .project-sheet-badge { background: rgba(141,164,186,0.45); border-color: rgba(141,164,186,0.8); color: #EEF3F7; }
+      .project-sheet.accent-red .project-sheet-badge { background: rgba(255,111,89,0.35); border-color: rgba(255,111,89,0.7); color: #FFEEEA; }
 
       /* ── NAV : compacte, transparente au-dessus du hero photo ── */
       .hero-wrapper { padding: 14px 12px; }
@@ -2346,8 +2424,9 @@
       }
       .hero-mobile-bg {
         position: absolute; inset: 0;
-        background-size: cover;
-        background-position: center 30%;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        object-position: center 30%;
       }
       .hero-mobile-overlay {
         position: absolute; inset: 0;
@@ -2388,18 +2467,7 @@
         font-size: 0.9rem;
         line-height: 1.5;
         color: rgba(255,255,255,0.72);
-        margin: 0 0 18px;
-      }
-      .hero-mobile-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
-      .hero-mobile-tags span {
-        font-size: 0.68rem;
-        font-weight: 600;
-        padding: 6px 14px;
-        border-radius: 100px;
-        background: rgba(255,255,255,0.12);
-        border: 1px solid rgba(255,255,255,0.22);
-        color: rgba(255,255,255,0.9);
-        backdrop-filter: blur(8px);
+        margin: 0 0 26px;
       }
       .hero-mobile-btn {
         display: inline-flex;
@@ -2435,20 +2503,17 @@
       .about-content blockquote { font-size: 1rem; line-height: 1.6; margin-bottom: 18px; }
       .about-author { text-align: center; }
 
-      /* ── PARCOURS ACADÉMIQUE : timeline verticale, avec le même effet d'empilement sticky
-         que "Mes projets" pour garder une cohérence d'interaction dans tout le portfolio. ── */
-      .edu-section { padding: 64px 20px; overflow: visible; }
+      /* ── PARCOURS ACADÉMIQUE : deux cartes simples, empilées naturellement dans le flux
+         normal de la page — pas de sticky, pas d'opacité, pas d'effet. ── */
+      .edu-section { padding: 64px 20px; }
       .edu-section h2 { font-size: 2rem; }
       .edu-section p.edu-subtitle { font-size: 0.95rem; margin-bottom: 36px; }
       .edu-flow { flex-direction: column; gap: 0; align-items: stretch; }
       .edu-node {
-        position: sticky;
         padding: 28px 24px;
         margin-bottom: 20px;
-        box-shadow: 0 24px 50px rgba(0,0,0,0.14);
+        box-shadow: 0 20px 44px rgba(0,0,0,0.08);
       }
-      .edu-node.esprit { top: 90px; z-index: 1; }
-      .edu-node.efrei { top: 116px; z-index: 2; }
       .edu-connector {
         display: flex;
         align-items: center;
@@ -2497,7 +2562,7 @@
       .comp-ticker {
         display: flex;
         flex-direction: column;
-        gap: 14px;
+        gap: 18px;
         margin-top: 32px;
         overflow: hidden;
       }
@@ -2509,7 +2574,7 @@
       .comp-ticker-track {
         display: flex;
         width: max-content;
-        gap: 10px;
+        gap: 14px;
         animation: ticker-ltr 32s linear infinite;
       }
       .comp-ticker-track.reverse { animation: ticker-rtl 36s linear infinite; }
@@ -2528,6 +2593,13 @@
         color: rgba(14,22,20,0.75);
         box-shadow: 0 6px 16px rgba(14,22,20,0.06);
       }
+      /* Chaque chip a sa propre couleur, en cycle (bleu, violet, vert, orange, jaune, rouge) */
+      .comp-ticker-chip:nth-child(6n+1) { background: rgba(37,99,235,0.1);  border-color: rgba(37,99,235,0.25);  color: #2563EB; }
+      .comp-ticker-chip:nth-child(6n+2) { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.25); color: #7C3AED; }
+      .comp-ticker-chip:nth-child(6n+3) { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.25); color: #0E9F6E; }
+      .comp-ticker-chip:nth-child(6n+4) { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.3); color: #B45309; }
+      .comp-ticker-chip:nth-child(6n+5) { background: rgba(234,179,8,0.14);  border-color: rgba(234,179,8,0.32); color: #A16207; }
+      .comp-ticker-chip:nth-child(6n)   { background: rgba(239,68,68,0.1);  border-color: rgba(239,68,68,0.25);  color: #EF4444; }
       /* Même style que le CTA principal (Disponibilité) : même couleur, même pulsation */
       .comp-all-skills-btn {
         display: inline-flex;
@@ -2640,16 +2712,7 @@
 
       /* ── QUI SUIS-JE : un peu plus premium/élégant ── */
       .about-card { box-shadow: 0 30px 70px rgba(14,22,20,0.1); }
-      .about-photo-wrapper { box-shadow: 0 16px 36px rgba(0,122,255,0.14); transform: rotate(-1.5deg); }
-
-      /* ── DÉSORDRE MAÎTRISÉ : très légères rotations pour casser la rigidité parfaite,
-         posées comme des polaroids plutôt qu'alignées au pixel près. ── */
-      .mega-card:nth-child(odd)  { transform: rotate(-0.6deg); }
-      .mega-card:nth-child(even) { transform: rotate(0.6deg); }
-      .hero-mobile-tags span:nth-child(odd)  { transform: rotate(-2deg); }
-      .hero-mobile-tags span:nth-child(even) { transform: rotate(1.5deg); }
-      .comp-ticker-chip:nth-child(3n)  { transform: translateY(-3px); }
-      .comp-ticker-chip:nth-child(5n)  { transform: translateY(2px); }
+      .about-photo-wrapper { box-shadow: 0 16px 36px rgba(0,122,255,0.14); }
     }
   </style>
 </head>
@@ -2718,17 +2781,14 @@
 
     <!-- ══════ HERO MOBILE (application premium, image plein format) ══════ -->
     <div class="hero-mobile">
-      <div class="hero-mobile-bg" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&q=85')"></div>
+      <video class="hero-mobile-bg" autoplay muted loop playsinline poster="Images/images_projets/Images%20mobile/hero%20consultant.png">
+        <source src="Images/images_projets/Images%20mobile/hero%20BG.mp4" type="video/mp4">
+      </video>
       <div class="hero-mobile-overlay"></div>
       <div class="hero-mobile-content">
         <span class="hero-mobile-eyebrow">Alternant pour le poste de</span>
         <h1 class="hero-mobile-title">Consultant en <span>Numérique Responsable</span></h1>
         <p class="hero-mobile-subtitle">J&rsquo;accompagne les organisations dans leur démarche de transformation vers un numérique plus responsable.</p>
-        <div class="hero-mobile-tags">
-          <span>Green IT</span>
-          <span>Gestion de projet</span>
-          <span>IoT</span>
-        </div>
         <a class="hero-mobile-btn" href="mailto:nganbellk@gmail.com">Démarrer un entretien <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
@@ -2739,8 +2799,8 @@
 <section class="about-section">
   <div class="wrap">
     <div data-reveal data-delay="1" class="about-section-title">
-      <span class="about-title-desktop">Qui suis-je ?</span>
-      <span class="about-title-mobile">Mon approche</span>
+      <span class="about-title-desktop">Pourquoi travailler avec moi</span>
+      <span class="about-title-mobile">Pourquoi travailler avec moi</span>
     </div>
     <div class="about-card" data-reveal data-delay="2">
       <div class="about-photo-wrapper" data-reveal data-delay="3">
@@ -2771,11 +2831,11 @@
     <article class="mega-card accent-copper" id="mc-afi">
       <div class="mega-card-bg" style="background-image: url('Images/images_projets/hackathon.png')"></div>
       <!-- Image dédiée à la carte mobile (format vertical) — à remplacer plus tard -->
-      <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/hackathon.png')"></div>
+      <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/Images%20mobile/projet%20hackathon.png')"></div>
       <div class="mega-card-overlay light"></div>
       <div class="mega-card-content" data-reveal>
         <div class="mega-card-top">
-          <span class="mega-card-badge">Hackathon IA &amp; Publicit&eacute;</span>
+          <span class="mega-card-badge">Hackathon IA</span>
           <span class="mega-card-num">01 / 05</span>
         </div>
         <div class="mega-card-body">
@@ -2784,27 +2844,22 @@
           <p class="mega-card-desc">Participation en &eacute;quipe de 3 &agrave; un hackathon national de cr&eacute;ation publicitaire par intelligence artificielle : storytelling, storyboard, puis g&eacute;n&eacute;ration des visuels et de la vid&eacute;o avec plusieurs outils d&rsquo;IA pour produire un spot promotionnel complet.</p>
           <p class="mega-card-mobile-tagline">Participation &agrave; un hackathon national d&eacute;di&eacute; &agrave; la cr&eacute;ation publicitaire par IA.</p>
           <div class="mega-card-tags">
-            <span class="mega-card-tag" data-pill="p-afi-story" data-tip="Construction du fil narratif et du storyboard du spot publicitaire en équipe.">Storytelling &amp; storyboard</span>
-            <span class="mega-card-tag" data-pill="p-afi-img" data-tip="J’ai généré les visuels du spot avec plusieurs outils d’IA, en ajustant mes prompts à chaque essai.">G&eacute;n&eacute;ration d&rsquo;images IA</span>
-            <span class="mega-card-tag" data-pill="p-afi-video" data-tip="Génération et assemblage des séquences vidéo du spot avec des outils d’IA.">G&eacute;n&eacute;ration vid&eacute;o IA</span>
-            <span class="mega-card-tag" data-pill="p-afi-team" data-tip="Répartition des rôles et coordination avec les 2 autres membres de l’équipe.">Travail d&rsquo;&eacute;quipe (3 pers.)</span>
+            <span class="mega-card-tag" data-tip="Construction du fil narratif et coordination créative avec l’équipe.">Organisation</span>
+            <span class="mega-card-tag" data-tip="Répartition des rôles et avancement en équipe de 3 sous forte contrainte de temps.">Travail d&rsquo;&eacute;quipe</span>
+            <span class="mega-card-tag" data-tip="Itération méthodique face aux limites des outils d’IA (incohérences visuelles).">R&eacute;solution de probl&egrave;mes</span>
+            <span class="mega-card-tag" data-tip="Coordination du fil narratif et des livrables entre les membres de l’équipe.">Communication</span>
+            <span class="mega-card-tag" data-tip="Adaptation rapide à des outils inconnus, sans expérience préalable en production vidéo.">Adaptabilit&eacute;</span>
           </div>
           <button type="button" class="mega-card-mobile-cta" data-project="mc-afi">Voir le projet <span aria-hidden="true">&rarr;</span></button>
         </div>
-        <div class="mega-card-bottom">
-          <div class="mega-card-progress">
-            <span class="mega-card-progress-label">01 / 05</span>
-            <div class="mega-card-bars">
-              <div class="mega-card-bar active"></div>
-              <div class="mega-card-bar"></div>
-              <div class="mega-card-bar"></div>
-              <div class="mega-card-bar"></div>
-              <div class="mega-card-bar"></div>
-            </div>
+        <div class="mega-card-bottom" style="flex-direction: column; align-items: flex-start; gap: 14px;">
+          <div class="mega-card-result">
+            <div class="mega-card-result-label">R&eacute;sultats</div>
+            <p>Spot publicitaire livr&eacute; dans les temps, avec une attestation de r&eacute;ussite remise par le jury du hackathon.</p>
           </div>
           <div class="mega-card-tags" style="margin-top:2px;">
+            <span class="mega-card-tag result-pill" data-pill="p-afi-finalvideo" data-tip="Spot publicitaire final assemblé à partir des visuels et séquences générés par IA.">Vid&eacute;o publicitaire</span>
             <span class="mega-card-tag result-pill" data-pill="p-afi-attestation" data-tip="Attestation de réussite remise à l’issue du hackathon AI AD AWARD.">Attestation de r&eacute;ussite</span>
-            <span class="mega-card-tag result-pill" data-pill="p-afi-finalvideo" data-tip="Spot publicitaire final assemblé à partir des visuels et séquences générés par IA.">Vid&eacute;o r&eacute;alis&eacute;e</span>
           </div>
         </div>
       </div>
@@ -2814,7 +2869,7 @@
     <article class="mega-card accent-blue" id="mc-hsware">
       <div class="mega-card-bg" style="background-image: url('Images/images_projets/hsware.png')"></div>
       <!-- Image dédiée à la carte mobile (format vertical) — à remplacer plus tard -->
-      <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/hsware.png')"></div>
+      <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/Images%20mobile/stage%20hsware.png')"></div>
       <div class="mega-card-overlay light" style="background: linear-gradient(120deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.03) 100%);"></div>
       <div class="mega-card-content" data-reveal>
         <div class="mega-card-top" style="flex-direction: row;">
@@ -2827,27 +2882,22 @@
           <p class="mega-card-desc">Conception et pilotage d&rsquo;un syst&egrave;me de capteurs IoT agricoles pour optimiser l&rsquo;irrigation locale en temps r&eacute;el.</p>
           <p class="mega-card-mobile-tagline">Capteur d&rsquo;humidit&eacute; du sol LoRa pour piloter l&rsquo;irrigation en temps r&eacute;el.</p>
           <div class="mega-card-tags" style="justify-content: flex-start;">
-            <span class="mega-card-tag" data-pill="p-hs-method" data-tip="Cycles courts de prototypage, test terrain puis ajustement du capteur.">M&eacute;thodologie de travail</span>
-            <span class="mega-card-tag" data-pill="p-hs-cadrage" data-tip="Définition des objectifs, du périmètre et du calendrier du projet IoT.">Cadrage &amp; planification</span>
-            <span class="mega-card-tag" data-pill="p-hs-tech" data-tip="Sélection de technologies à faible consommation : LoRa, capteurs passifs, protocoles sobres.">Choix techniques responsables</span>
-            <span class="mega-card-tag" data-pill="p-hs-data" data-tip="Collecte et visualisation des données d’humidité en temps réel via tableau de bord.">Suivi de donn&eacute;es</span>
-            <span class="mega-card-tag" data-pill="p-hs-doc" data-tip="Rédaction de la documentation technique et des livrables en fin de projet.">Documentation projet</span>
+            <span class="mega-card-tag" data-tip="Cycles courts de prototypage, test terrain puis ajustement.">Rigueur</span>
+            <span class="mega-card-tag" data-tip="Définition des objectifs, du périmètre et du calendrier du projet.">Cadrage &amp; planification</span>
+            <span class="mega-card-tag" data-tip="Identification des contraintes réelles du terrain avant tout choix technique : accès, maintenance et autonomie énergétique.">Analyse des besoins</span>
+            <span class="mega-card-tag" data-tip="Résolution des arbitrages entre autonomie énergétique et fiabilité des mesures.">R&eacute;solution de probl&egrave;mes</span>
+            <span class="mega-card-tag" data-tip="Rédaction de la documentation technique et des livrables en fin de projet.">Documentation</span>
           </div>
           <button type="button" class="mega-card-mobile-cta" data-project="mc-hsware">Voir le projet <span aria-hidden="true">&rarr;</span></button>
         </div>
-        <div class="mega-card-bottom" style="flex-direction: row;">
-          <div class="mega-card-progress">
-            <span class="mega-card-progress-label">02 / 05</span>
-            <div class="mega-card-bars">
-              <div class="mega-card-bar"></div>
-              <div class="mega-card-bar active"></div>
-              <div class="mega-card-bar"></div>
-              <div class="mega-card-bar"></div>
-              <div class="mega-card-bar"></div>
-            </div>
+        <div class="mega-card-bottom" style="flex-direction: column; align-items: flex-start; gap: 14px;">
+          <div class="mega-card-result">
+            <div class="mega-card-result-label">R&eacute;sultats</div>
+            <p>Syst&egrave;me fonctionnel d&eacute;montr&eacute; sur le terrain, avec un diagramme de Gantt qui a structur&eacute; le projet du cadrage au d&eacute;ploiement.</p>
           </div>
           <div class="mega-card-tags" style="justify-content: flex-start; margin-top:2px;">
             <span class="mega-card-tag result-pill" data-pill="p-hs-video" data-tip="Vidéo de démonstration du système en fonctionnement.">Vid&eacute;o de d&eacute;monstration</span>
+            <span class="mega-card-tag result-pill" data-pill="p-hs-gantt" data-tip="Diagramme de Gantt utilisé pour piloter le calendrier du projet.">Diagramme de Gantt</span>
           </div>
         </div>
       </div>
@@ -2857,7 +2907,7 @@
     <article class="mega-card accent-green" id="mc-smartfarm">
       <div class="mega-card-bg" style="background-image: url('Images/images_projets/smartfarm.png')"></div>
       <!-- Image dédiée à la carte mobile (format vertical) — à remplacer plus tard -->
-      <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/smartfarm.png')"></div>
+      <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/Images%20mobile/stage%20smartfarm.png')"></div>
       <div class="mega-card-overlay light" style="background: linear-gradient(-120deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.03) 100%);"></div>
       <div class="mega-card-content" data-reveal>
         <div class="mega-card-top" style="flex-direction: row-reverse;">
@@ -2867,12 +2917,14 @@
         <div class="mega-card-body" style="align-self: flex-end; text-align: right; margin-left: auto; margin-right: 0;">
           <p class="mega-card-meta">Sept 2024 &ndash; Oct 2024 &bull; Smart Farm, Tunis</p>
           <h3 class="mega-card-title">Optimisation &eacute;nerg&eacute;tique<br>capteur S.sensor</h3>
-          <p class="mega-card-desc">Audit et optimisation &eacute;nerg&eacute;tique de la consommation en veille de capteurs connect&eacute;s bas&eacute;s sur LoRaWAN.</p>
-          <p class="mega-card-mobile-tagline">R&eacute;duction de 40% de la consommation en veille d&rsquo;un capteur connect&eacute;.</p>
+          <p class="mega-card-desc">Analyse de l&rsquo;architecture d&rsquo;un capteur connect&eacute; existant et comparaison de composants pour r&eacute;duire sa consommation &eacute;nerg&eacute;tique.</p>
+          <p class="mega-card-mobile-tagline">Comparer des composants &eacute;lectroniques pour r&eacute;duire la consommation d&rsquo;un capteur connect&eacute;.</p>
           <div class="mega-card-tags" style="justify-content: flex-end;">
-            <span class="mega-card-tag" data-pill="p-sf-audit" data-tip="Analyse des performances du capteur : consommation, latence et cycles de veille.">Audit de performance</span>
-            <span class="mega-card-tag" data-pill="p-sf-optim" data-tip="Réécriture du firmware pour réduire les cycles actifs et allonger la durée de vie.">Optimisation ressources</span>
-            <span class="mega-card-tag" data-pill="p-sf-energy" data-tip="Réduction de 40% de la consommation en veille : éco-conception matérielle et logicielle.">Efficacit&eacute; &eacute;nerg&eacute;tique</span>
+            <span class="mega-card-tag" data-tip="Étude du schéma électronique et de l'architecture matérielle existante , afin d'identifier les postes de consommation.">Analyse technique</span>
+            <span class="mega-card-tag" data-tip="Remise en question de choix de composants déjà en place avant de proposer des alternatives.">Esprit critique</span>
+            <span class="mega-card-tag" data-tip="Comparaison de plusieurs modules électroniques et batteries , pour juger de leur impact énergétique.">Comparaison de solutions</span>
+            <span class="mega-card-tag" data-tip="Argumentation des choix retenus, par exemple le maintien du module SIM800L, auprès de l'équipe technique.">Justification technique</span>
+            <span class="mega-card-tag" data-tip="Démarche d'optimisation énergétique appliquée à un objet connecté existant, dans une logique Green IT.">Green IT</span>
           </div>
           <button type="button" class="mega-card-mobile-cta" data-project="mc-smartfarm">Voir le projet <span aria-hidden="true">&rarr;</span></button>
         </div>
@@ -2895,7 +2947,7 @@
     <article class="mega-card accent-orange" id="mc-club">
       <div class="mega-card-bg" style="background-image: url('Images/images_projets/clubinterculturel.png')"></div>
       <!-- Image dédiée à la carte mobile (format vertical) — à remplacer plus tard -->
-      <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/clubinterculturel.png')"></div>
+      <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/Images%20mobile/interculturel.png')"></div>
       <div class="mega-card-overlay light" style="background: linear-gradient(120deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.03) 100%);"></div>
       <div class="mega-card-content" data-reveal>
         <div class="mega-card-top" style="flex-direction: row;">
@@ -2908,9 +2960,11 @@
           <p class="mega-card-desc">Gestion de la tr&eacute;sorerie du club, suivi des d&eacute;penses et des recettes, et organisation d&rsquo;&eacute;v&eacute;nements interculturels pour plus de 200 participants.</p>
           <p class="mega-card-mobile-tagline">Tr&eacute;sorerie et communication d&rsquo;une association &eacute;tudiante de 200+ membres.</p>
           <div class="mega-card-tags" style="justify-content: flex-start;">
-            <span class="mega-card-tag" data-pill="p-club-budget" data-tip="Suivi des dépenses, recettes et budget annuel du Club Interculturel, sur Google Sheets.">Gestion budg&eacute;taire &amp; suivi financier</span>
-            <span class="mega-card-tag" data-pill="p-club-event" data-tip="Coordination logistique d’événements pour plus de 200 participants.">Organisation d&rsquo;&eacute;v&eacute;nements</span>
-            <span class="mega-card-tag" data-pill="p-club-admin" data-tip="Rédaction de PV, archivage des documents officiels du club.">Gestion administrative</span>
+            <span class="mega-card-tag" data-tip="Suivi des dépenses, recettes et budget annuel du Club Interculturel.">Gestion de projet</span>
+            <span class="mega-card-tag" data-tip="Coordination logistique d’événements pour plus de 200 participants.">Organisation</span>
+            <span class="mega-card-tag" data-tip="Répartition des rôles avec le bureau et les autres membres du club.">Coordination</span>
+            <span class="mega-card-tag" data-tip="Communication du calendrier d’événements à l’ensemble de l’équipe.">Communication</span>
+            <span class="mega-card-tag" data-tip="Rédaction de comptes-rendus et documentation transmise à l’équipe suivante.">Reporting</span>
           </div>
           <button type="button" class="mega-card-mobile-cta" data-project="mc-club">Voir le projet <span aria-hidden="true">&rarr;</span></button>
         </div>
@@ -2933,7 +2987,7 @@
     <article class="mega-card accent-red" id="mc-bracelet">
       <div class="mega-card-bg" style="background-image: url('Images/images_projets/bracelet.png'); background-size: cover; background-repeat: no-repeat; background-position: center; background-color: #E4E4E4;"></div>
       <!-- Image dédiée à la carte mobile (format vertical) — à remplacer plus tard -->
-      <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/bracelet.png'); background-color: #E4E4E4;"></div>
+      <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/Images%20mobile/esprit%20bracelet.png'); background-color: #E4E4E4;"></div>
       <div class="mega-card-overlay light"></div>
       <div class="mega-card-content" data-reveal>
         <div class="mega-card-top">
@@ -2943,15 +2997,14 @@
         <div class="mega-card-body">
           <p class="mega-card-meta">Jan 2024 &ndash; Mai 2024 &bull; Sant&eacute; connect&eacute;e, ESPRIT Tunis</p>
           <h3 class="mega-card-title">Bracelet connect&eacute;<br>glyc&eacute;mique</h3>
-          <p class="mega-card-desc">Recherche et conception d&rsquo;un bracelet m&eacute;dical &eacute;co-con&ccedil;u ax&eacute; sur l&rsquo;accessibilit&eacute; &eacute;conomique pour les pays en d&eacute;veloppement (ODD 3 et ODD 9).</p>
-          <p class="mega-card-mobile-tagline">Bracelet connect&eacute; accessible pens&eacute; pour les pays en d&eacute;veloppement.</p>
+          <p class="mega-card-desc">Recherche et conception d&rsquo;un bracelet connect&eacute; pour estimer le taux de glyc&eacute;mie sans pr&eacute;l&egrave;vement sanguin, &agrave; partir de publications scientifiques sur la corr&eacute;lation entre signal ECG et glyc&eacute;mie.</p>
+          <p class="mega-card-mobile-tagline">Estimer le taux de glyc&eacute;mie sans pr&eacute;l&egrave;vement sanguin, &agrave; partir du signal ECG.</p>
           <div class="mega-card-tags">
-            <span class="mega-card-tag" data-pill="p-br-user" data-tip="Entretiens utilisateurs et benchmark pour identifier les besoins en matière de suivi glucémique.">Etude utilisateur</span>
-            <span class="mega-card-tag" data-pill="p-br-conception" data-tip="Conception d’un bracelet IoT autonome basé sur des matériaux durables et recyclés.">Conception IoT durable</span>
-            <span class="mega-card-tag" data-pill="p-br-team" data-tip="Répartition des rôles dans une équipe de 6 personnes, avancement par cycles courts.">Travail d&rsquo;&eacute;quipe (6 pers.)</span>
-            <span class="mega-card-tag" data-pill="p-br-doc" data-tip="Documentation du prototype et des choix de conception au fil du projet.">Documentation</span>
-            <span class="mega-card-tag" data-pill="p-br-method" data-tip="Avancement par itérations courtes : prototype, retour d’équipe, ajustement.">M&eacute;thodologie de travail</span>
-            <span class="mega-card-tag" data-pill="p-br-impact" data-tip="Contribution aux ODD 3 (Santé) et ODD 9 (Innovation durable) pour les pays en développement.">Impact ODD 3 &amp; ODD 9</span>
+            <span class="mega-card-tag" data-tip="Étude de publications scientifiques sur la corrélation entre signal ECG et glycémie.">Recherche &amp; analyse</span>
+            <span class="mega-card-tag" data-tip="Évaluation critique de la faisabilité scientifique de l'estimation non invasive.">Esprit critique</span>
+            <span class="mega-card-tag" data-tip="Démarche rigoureuse de validation des hypothèses scientifiques.">Rigueur scientifique</span>
+            <span class="mega-card-tag" data-tip="Répartition des rôles dans une équipe de 6 personnes, avancement par cycles courts.">Travail d&rsquo;&eacute;quipe</span>
+            <span class="mega-card-tag" data-tip="Reformulation de concepts scientifiques complexes pour un public non spécialiste.">Vulgarisation technique</span>
           </div>
           <button type="button" class="mega-card-mobile-cta" data-project="mc-bracelet">Voir le projet <span aria-hidden="true">&rarr;</span></button>
         </div>
@@ -3328,7 +3381,7 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <a href="mailto:nganbellk@gmail.com">nganbellk@gmail.com</a>
-        <a href="tel:+33659223612">+33 (0)6 59 22 36 12</a>
+        <a href="tel:+21653740076">+216 53 740 076</a>
       </div>
       <div class="footer-col">
         <h4>Réseaux</h4>
@@ -3391,12 +3444,22 @@
       <div class="project-sheet-section">
         <h4>Résultats</h4>
         <p id="ps-results"></p>
+        <div class="ps-proofs" id="ps-proofs"></div>
       </div>
       <div class="project-sheet-section">
         <h4>Ce que j&rsquo;en retiens</h4>
         <p id="ps-lessons"></p>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ══════ LIGHTBOX PREUVES (vidéo/image de résultat, mobile + desktop) ══════ -->
+<div class="proof-lightbox" id="proof-lightbox">
+  <button type="button" class="proof-lightbox-close" id="proof-lightbox-close" aria-label="Fermer">&times;</button>
+  <div class="proof-lightbox-inner">
+    <img id="proof-lightbox-img" src="" alt="">
+    <video id="proof-lightbox-video" src="" controls playsinline></video>
   </div>
 </div>
 
@@ -3487,6 +3550,13 @@
       heroVideo: 'Images/projet%20PFE.mp4',
       resultOnly: true
     },
+    'p-hs-gantt': {
+      title: 'Résultat',
+      desc: 'Le diagramme de Gantt a structuré le projet du cadrage jusqu\'au déploiement sur le terrain, avec un découpage clair des phases et des jalons.',
+      highlight: '📅 Planning utilisé pour piloter le projet de bout en bout.',
+      heroImage: 'Images/Diagramme%20de%20GANT.png',
+      resultOnly: true
+    },
     // Projet Optimisation énergétique (smartfarm)
     'p-sf-audit': {
       title: 'Audit de performance',
@@ -3520,35 +3590,30 @@
       highlight: '🗂️ Suivi administratif tenu à jour toute l\'année.'
     },
     // Projet Bracelet connecté glycémique
-    'p-br-user': {
-      title: 'Étude utilisateur',
-      desc: 'J\'ai mené des entretiens avec des personnes concernées pour comprendre leurs besoins réels et les irritants du suivi glycémique au quotidien, avant de se lancer dans la conception.',
-      highlight: '🎧 Besoins réels récoltés avant de concevoir quoi que ce soit.'
+    'p-br-research': {
+      title: 'Recherche & analyse',
+      desc: 'J\'ai étudié des publications scientifiques sur la corrélation entre signal ECG et glycémie, pour évaluer si une estimation non invasive était crédible avant de concevoir quoi que ce soit.',
+      highlight: '📚 Faisabilité étudiée à partir de la littérature scientifique.'
     },
-    'p-br-conception': {
-      title: 'Conception IoT durable',
-      desc: 'J\'ai conçu un bracelet autonome basé sur des matériaux durables et recyclés, pensé pour rester accessible économiquement dans les pays en développement.',
-      highlight: '♻️ Matériaux durables et coût pensé pour l\'accessibilité.'
+    'p-br-critical': {
+      title: 'Esprit critique',
+      desc: 'J\'ai confronté chaque piste technique aux résultats scientifiques identifiés, plutôt que de supposer qu\'une approche fonctionnait sans l\'avoir vérifiée.',
+      highlight: '🔍 Faisabilité vérifiée, pas supposée.'
+    },
+    'p-br-rigueur': {
+      title: 'Rigueur scientifique',
+      desc: 'J\'ai gardé une démarche rigoureuse de validation des hypothèses tout au long du projet, pour rester crédible sur les conclusions tirées.',
+      highlight: '🧪 Hypothèses validées avec rigueur.'
     },
     'p-br-team': {
-      title: 'Travail d\'équipe (6 personnes)',
-      desc: 'On a réparti clairement les rôles dans une équipe de 6, avec un avancement par cycles courts plutôt qu\'un plan figé — un peu comme une méthodologie agile étudiante.',
+      title: 'Travail d\'équipe',
+      desc: 'On a réparti clairement les rôles dans une équipe de 6, avec un avancement par cycles courts plutôt qu\'un plan figé.',
       highlight: '👥 6 personnes, rôles clairs, avancement par cycles courts.'
     },
-    'p-br-doc': {
-      title: 'Documentation',
-      desc: 'J\'ai documenté le prototype et les choix de conception au fur et à mesure, pour garder une trace claire du raisonnement derrière chaque décision technique.',
-      highlight: '📝 Choix de conception documentés au fil de l\'eau.'
-    },
-    'p-br-method': {
-      title: 'Méthodologie de travail',
-      desc: 'On a avancé par itérations courtes : prototype, retour d\'équipe, ajustement, plutôt qu\'une seule version finale tentée d\'un coup.',
-      highlight: '🔁 Prototypage itératif en équipe.'
-    },
-    'p-br-impact': {
-      title: 'Impact ODD 3 & ODD 9',
-      desc: 'J\'ai orienté la conception vers l\'accessibilité économique, pour viser des marchés à fort impact social dans le cadre des ODD 3 (Santé) et ODD 9 (Innovation durable).',
-      highlight: '🌍 Un projet pensé pour un impact social réel.'
+    'p-br-vulg': {
+      title: 'Vulgarisation technique',
+      desc: 'J\'ai reformulé des concepts scientifiques complexes (signal ECG, corrélations physiologiques) pour les rendre compréhensibles par un public non spécialiste.',
+      highlight: '🗣️ Concepts scientifiques rendus accessibles.'
     }
   };
 
@@ -3674,17 +3739,21 @@
   const PROJECT_STORIES = {
     'mc-afi': {
       accent: 'accent-copper',
-      badge: 'Hackathon IA & Publicité',
+      badge: 'Hackathon IA',
       title: 'Vidéo publicitaire générée par IA',
       meta: '11–12 avril 2026 · AI AD AWARD, Tunisie',
       image: 'Images/images_projets/hackathon.png',
       skills: ['Storytelling', 'Génération IA', 'Travail d’équipe'],
       context: 'Participation à un hackathon national de 48h (AI AD AWARD, Tunisie) : concevoir un spot publicitaire pour un client fictif, entièrement produit avec des outils d’intelligence artificielle, en équipe de 3.',
-      problem: 'Aucun de nous n’avait d’expérience de production vidéo classique. Il fallait produire, en très peu de temps, un contenu cohérent narrativement et visuellement exploitable, alors que les outils d’IA génèrent souvent des incohérences (mains, textes, proportions).',
-      reasoning: 'J’ai proposé de découper le travail en trois blocs parallèles — storytelling/storyboard, génération d’images, génération vidéo — pour ne pas attendre qu’une étape soit finie avant de démarrer la suivante, et de nous concentrer d’abord sur un script solide avant de générer quoi que ce soit.',
-      decisions: 'On a choisi de multiplier les itérations de prompts plutôt que de chercher l’outil parfait du premier coup, quitte à recommencer certains visuels plusieurs fois. Plus lent au départ, mais plus fiable pour tenir le délai final.',
+      problem: 'Aucun de nous n’avait d’expérience de production vidéo, encore moins avec des outils d’IA. Il fallait produire, en 48h, un contenu cohérent narrativement et visuellement exploitable, alors que les outils d’IA génèrent souvent des incohérences (mains, textes, proportions).',
+      reasoning: 'Partant de zéro en production vidéo, j’ai d’abord comparé plusieurs outils de génération IA (image et vidéo) pour choisir ceux qui donnaient les résultats les plus exploitables dans le temps imparti, puis proposé de découper le travail en trois blocs parallèles (storytelling et storyboard, génération d’images, génération vidéo), pour que l’équipe avance sans attendre qu’une étape soit finie.',
+      decisions: 'On a choisi de multiplier les itérations de prompts plutôt que de chercher l’outil parfait du premier coup, quitte à recommencer certains visuels plusieurs fois, un compromis assumé pour rester fiable sur le délai plutôt que d’optimiser la qualité de chaque essai. La répartition claire des rôles dans l’équipe a permis d’avancer les trois blocs en parallèle sans blocage.',
       results: 'Spot publicitaire complet livré dans les temps, avec une attestation de réussite remise par le jury du hackathon.',
-      lessons: 'J’ai appris à structurer un travail créatif sous forte contrainte de temps, et à itérer méthodiquement plutôt qu’à chercher une solution parfaite dès le départ.'
+      lessons: 'J’ai appris à structurer un travail créatif sous forte contrainte de temps, et à itérer méthodiquement plutôt qu’à chercher une solution parfaite dès le départ.',
+      proofs: [
+        { label: 'Vidéo publicitaire', type: 'video', src: 'Images/VIDEO%20VELOCITY.mp4' },
+        { label: 'Attestation de réussite', type: 'image', src: 'Images/Attestation%20de%20r%C3%A9ussite%20hackathon.png' }
+      ]
     },
     'mc-hsware': {
       accent: 'accent-blue',
@@ -3694,11 +3763,15 @@
       image: 'Images/images_projets/hsware.png',
       skills: ['Choix techniques responsables', 'Suivi de données', 'Cadrage projet'],
       context: 'Stage de fin d’études (6 mois) chez HSWARE Coadis : concevoir un système de capteurs d’humidité du sol pour optimiser l’irrigation agricole en temps réel.',
-      problem: 'Le système devait fonctionner en autonomie sur le terrain, avec peu de maintenance possible et une consommation électrique très contrainte — les capteurs, alimentés sur batterie, sont difficiles d’accès une fois installés.',
-      reasoning: 'J’ai commencé par cadrer précisément le périmètre et le calendrier avec mon maître de stage, avant de comparer plusieurs protocoles de communication pour identifier celui qui consommait le moins tout en couvrant la distance nécessaire.',
-      decisions: 'J’ai privilégié LoRa et des capteurs passifs plutôt que des solutions plus gourmandes en énergie — un choix qui limite la fréquence de maintenance mais impose un débit de données plus faible, un compromis assumé au profit de l’autonomie sur le terrain.',
+      problem: 'Le système devait fonctionner en autonomie avec une consommation énergétique très faible afin de limiter les interventions sur le terrain.',
+      reasoning: 'J’ai commencé par cadrer précisément le périmètre et le calendrier du projet avec mon maître de stage : découpage en phases (étude, prototypage, tests terrain, déploiement), jalons et livrables associés. Ce cadrage m’a servi de fil conducteur tout au long du stage, avant de comparer plusieurs protocoles de communication pour identifier celui qui consommait le moins tout en couvrant la distance nécessaire.',
+      decisions: 'J’ai privilégié LoRa et des capteurs passifs plutôt que des solutions plus gourmandes en énergie, un choix qui limite la fréquence de maintenance mais impose un débit de données plus faible, un compromis assumé au profit de l’autonomie sur le terrain.',
       results: 'Système fonctionnel, avec un tableau de bord de suivi des données d’humidité en temps réel, documenté et démontré en conditions réelles.',
-      lessons: 'Ce projet m’a fait comprendre concrètement ce que « sobriété technique » veut dire dans la pratique : chaque choix technique a un coût énergétique et de maintenance, et le bon compromis dépend du contexte d’usage.'
+      lessons: 'Ce projet m’a fait comprendre concrètement ce que « sobriété technique » veut dire dans la pratique : chaque choix technique a un coût énergétique et de maintenance, et le bon compromis dépend du contexte d’usage.',
+      proofs: [
+        { label: 'Vidéo de démonstration', type: 'video', src: 'Images/projet%20PFE.mp4' },
+        { label: 'Diagramme de Gantt', type: 'image', src: 'Images/Diagramme%20de%20GANT.png' }
+      ]
     },
     'mc-smartfarm': {
       accent: 'accent-green',
@@ -3706,13 +3779,13 @@
       title: 'Optimisation énergétique capteur S.sensor',
       meta: 'Sept 2024 – Oct 2024 · Smart Farm, Tunis',
       image: 'Images/images_projets/smartfarm.png',
-      skills: ['Audit de performance', 'Optimisation ressources', 'Efficacité énergétique'],
-      context: 'Stage court (2 mois) chez Smart Farm : les capteurs LoRaWAN déployés sur le terrain consommaient plus que prévu en veille, ce qui réduisait leur autonomie sur batterie.',
-      problem: 'Il fallait identifier où l’énergie était réellement consommée sans pouvoir changer le matériel déjà installé, et sans dégrader la fiabilité des mesures.',
-      reasoning: 'J’ai audité les cycles de veille et d’activité du capteur pour repérer les phases où il consommait sans réelle utilité, puis comparé plusieurs pistes d’optimisation logicielle avant de choisir celle qui n’affectait pas la fréquence de mesure.',
-      decisions: 'J’ai choisi de réécrire le firmware pour raccourcir les cycles actifs plutôt que de réduire la fréquence de transmission, pour ne pas perdre en qualité de suivi — un compromis qui demandait plus de développement mais préservait la fiabilité des données.',
-      results: 'Réduction de 40% de la consommation en veille, validée sur le terrain, sans changement de matériel ni perte de fiabilité des mesures.',
-      lessons: 'J’ai réalisé qu’une bonne partie de l’efficacité énergétique se joue au niveau logiciel, pas seulement matériel — et que l’optimisation la plus efficace n’est pas toujours la plus visible.'
+      skills: ['Analyse technique', 'Comparaison de composants', 'Green IT'],
+      context: 'Stage de deux mois chez Smart Farm : l’entreprise m’a fourni le schéma électronique, l’architecture matérielle et la liste des composants d’un capteur connecté déjà déployé sur le terrain, avec un objectif d’amélioration de son efficacité énergétique.',
+      problem: 'Le capteur consommait plus que prévu en veille, ce qui réduisait son autonomie sur batterie, sans qu’il soit possible de repenser entièrement le matériel déjà déployé.',
+      reasoning: 'J’ai commencé par analyser en détail l’architecture existante à partir du schéma électronique fourni, pour identifier les composants les plus énergivores. J’ai ensuite comparé plusieurs modules électroniques et batteries pouvant remplacer les composants identifiés, en évaluant pour chacun son impact réel sur la consommation.',
+      decisions: 'J’ai justifié le maintien du module SIM800L après l’avoir comparé à d’autres solutions de communication, en argumentant ce choix auprès de l’équipe technique à partir de mon analyse. J’ai aussi proposé des pistes de remplacement pour d’autres composants, en expliquant pourquoi certaines batteries étaient plus adaptées que d’autres au profil de consommation du capteur.',
+      results: 'Étude comparative livrée avec des recommandations argumentées sur les composants et les choix énergétiques, validées avec l’équipe technique de Smart Farm.',
+      lessons: 'J’ai appris à justifier un choix technique avec des arguments clairs face à une équipe qui n’a pas toujours le temps d’entrer dans le détail, et à comparer plusieurs solutions avant de trancher plutôt que de partir sur la première option venue.'
     },
     'mc-club': {
       accent: 'accent-orange',
@@ -3723,10 +3796,10 @@
       skills: ['Gestion budgétaire', 'Organisation d’événements', 'Communication'],
       context: 'En parallèle de mes études, j’ai pris en charge la trésorerie et la communication du Club Interculturel de l’ESPRIT pendant 6 mois.',
       problem: 'Le club organisait des événements pour plus de 200 participants avec un budget limité et peu d’outils de suivi structurés, ce qui rendait difficile d’anticiper les dépenses et de rendre des comptes clairement au bureau.',
-      reasoning: 'J’ai mis en place un suivi budgétaire régulier sur Google Sheets pour avoir une vision claire des dépenses et recettes, et organisé la communication autour d’un calendrier d’événements partagé avec toute l’équipe.',
-      decisions: 'J’ai priorisé la transparence et la traçabilité (comptes-rendus, archivage des documents) plutôt que la rapidité d’exécution, quitte à ralentir certaines décisions le temps de les documenter correctement.',
-      results: 'Organisation réussie de plusieurs événements pour plus de 200 participants, avec un suivi budgétaire fiable et une documentation complète transmise à l’équipe suivante.',
-      lessons: 'Ce rôle m’a appris à coordonner un groupe, à communiquer clairement des décisions financières, et à documenter mon travail pour qu’il reste utile après mon départ — une logique de gestion de projet que je veux retrouver dans un cadre professionnel.'
+      reasoning: 'J’ai structuré ce rôle comme un vrai pilotage de projet : gestion de projet et organisation d’abord (suivi budgétaire régulier sur Google Sheets, calendrier d’événements partagé), puis coordination de l’équipe et communication autour de chaque échéance.',
+      decisions: 'J’ai priorisé la transparence et le reporting (comptes-rendus, archivage des documents) plutôt que la rapidité d’exécution, quitte à ralentir certaines décisions le temps de les documenter et de les communiquer clairement à toute l’équipe.',
+      results: 'Organisation réussie de plusieurs événements pour plus de 200 participants, avec un suivi budgétaire fiable et un reporting complet transmis à l’équipe suivante.',
+      lessons: 'Ce rôle m’a fait développer concrètement des compétences de gestion de projet, d’organisation, de coordination d’équipe, de communication et de reporting, des compétences que je veux retrouver dans un cadre professionnel.'
     },
     'mc-bracelet': {
       accent: 'accent-red',
@@ -3734,13 +3807,13 @@
       title: 'Bracelet connecté glycémique',
       meta: 'Jan 2024 – Mai 2024 · Santé connectée, ESPRIT Tunis',
       image: 'Images/images_projets/bracelet.png',
-      skills: ['Étude utilisateur', 'Conception IoT durable', 'Travail d’équipe'],
-      context: 'Projet d’équipe (6 personnes) à l’ESPRIT : concevoir un bracelet connecté de suivi glycémique pensé pour être accessible dans des pays à ressources limitées.',
-      problem: 'Les solutions de suivi glycémique existantes sont souvent coûteuses et supposent un accès facile à la maintenance et aux consommables — deux conditions rarement réunies dans les contextes que nous visions.',
-      reasoning: 'Nous avons commencé par des entretiens utilisateurs et un benchmark pour comprendre les contraintes réelles d’usage, avant de nous lancer dans la conception technique, afin de ne pas concevoir une solution théorique déconnectée du terrain.',
-      decisions: 'J’ai poussé pour privilégier des matériaux durables et recyclés et une conception la plus simple possible à entretenir, quitte à sacrifier certaines fonctionnalités avancées, pour rester cohérent avec l’objectif d’accessibilité économique.',
-      results: 'Prototype fonctionnel documenté, aligné avec les ODD 3 (Santé) et 9 (Innovation durable), présenté en fin de projet avec le reste de l’équipe.',
-      lessons: 'J’ai compris que l’accessibilité n’est pas qu’une question de prix, mais aussi de simplicité d’usage et de maintenance — une contrainte de conception à part entière, pas un détail secondaire.'
+      skills: ['Recherche & analyse', 'Esprit critique', 'Travail d’équipe'],
+      context: 'Projet d’équipe (6 personnes) à l’ESPRIT : étudier la faisabilité d’un bracelet connecté capable d’estimer la glycémie sans prélèvement sanguin.',
+      problem: 'Comment estimer le taux de glucose sans prélèvement sanguin.',
+      reasoning: 'Nous avons commencé par une recherche approfondie de publications scientifiques étudiant la corrélation entre signal ECG et niveau de glycémie, pour évaluer si une estimation non invasive était scientifiquement crédible avant de nous lancer dans la conception technique.',
+      decisions: 'J’ai poussé pour confronter chaque piste technique aux résultats des études scientifiques identifiées plutôt que de partir directement sur un prototype, afin de rester rigoureux sur la faisabilité réelle de l’approche plutôt que de viser un effet démonstratif.',
+      results: 'Synthèse de la recherche scientifique et prototype documenté, présentés en fin de projet avec le reste de l’équipe, avec une évaluation argumentée de la faisabilité de l’estimation non invasive.',
+      lessons: 'J’ai appris à confronter une idée à la littérature scientifique existante avant de se lancer dans la conception, et à évaluer avec esprit critique la faisabilité réelle d’un concept plutôt que de supposer qu’il fonctionne.'
     }
   };
 
@@ -3767,6 +3840,21 @@
       chip.textContent = s;
       skillsEl.appendChild(chip);
     });
+    const proofsEl = document.getElementById('ps-proofs');
+    proofsEl.innerHTML = '';
+    if (data.proofs && data.proofs.length) {
+      data.proofs.forEach(proof => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'ps-proof-btn';
+        btn.textContent = (proof.type === 'video' ? '▶ ' : '🖼 ') + proof.label;
+        btn.addEventListener('click', () => openProofLightbox(proof));
+        proofsEl.appendChild(btn);
+      });
+      proofsEl.style.display = 'flex';
+    } else {
+      proofsEl.style.display = 'none';
+    }
     projectSheet.className = 'project-sheet ' + data.accent;
     requestAnimationFrame(() => projectSheet.classList.add('visible'));
     document.body.style.overflow = 'hidden';
@@ -3778,6 +3866,41 @@
     document.body.style.overflow = '';
     sheetOpen = false;
   }
+
+  const proofLightbox = document.getElementById('proof-lightbox');
+  const proofLightboxImg = document.getElementById('proof-lightbox-img');
+  const proofLightboxVideo = document.getElementById('proof-lightbox-video');
+
+  function openProofLightbox(proof) {
+    if (proof.type === 'video') {
+      proofLightboxVideo.src = proof.src;
+      proofLightboxVideo.style.display = 'block';
+      proofLightboxImg.style.display = 'none';
+      proofLightboxImg.src = '';
+    } else {
+      proofLightboxImg.src = proof.src;
+      proofLightboxImg.style.display = 'block';
+      proofLightboxVideo.pause();
+      proofLightboxVideo.style.display = 'none';
+      proofLightboxVideo.src = '';
+    }
+    proofLightbox.classList.add('visible');
+  }
+
+  function closeProofLightbox() {
+    proofLightbox.classList.remove('visible');
+    proofLightboxVideo.pause();
+    proofLightboxVideo.src = '';
+    proofLightboxImg.src = '';
+  }
+
+  document.getElementById('proof-lightbox-close').addEventListener('click', closeProofLightbox);
+  proofLightbox.addEventListener('click', (e) => {
+    if (e.target === proofLightbox) closeProofLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && proofLightbox.classList.contains('visible')) closeProofLightbox();
+  });
 
   document.querySelectorAll('.mega-card-mobile-cta').forEach(btn => {
     btn.addEventListener('click', (e) => {
