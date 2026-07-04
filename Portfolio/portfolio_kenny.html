@@ -27,6 +27,67 @@
     }
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
+    /* ─── SPLASH SCREEN — intro premium, logo K uniquement, ~3,6s ─── */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: splash-fade-out 0.6s ease 3s forwards;
+    }
+    #splash-logo {
+      position: relative;
+      width: clamp(56px, 14vw, 104px);
+      height: clamp(56px, 14vw, 104px);
+      animation: splash-breathe 0.8s ease-in-out 2.2s 1;
+    }
+    .splash-k-part {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .splash-k-bar {
+      clip-path: inset(19% 60% 100% 26%);
+      animation: splash-bar-draw 1.1s cubic-bezier(0.65,0,0.35,1) 0.15s forwards;
+    }
+    .splash-k-upper {
+      clip-path: inset(27% 22% 48% 42%);
+      opacity: 0;
+      transform: translateX(10px);
+      animation: splash-branch-in 0.7s cubic-bezier(0.16,1,0.3,1) 1s forwards;
+    }
+    .splash-k-lower {
+      clip-path: inset(52% 22% 18% 42%);
+      opacity: 0;
+      transform: translateX(10px);
+      animation: splash-branch-in 0.7s cubic-bezier(0.16,1,0.3,1) 1.35s forwards;
+    }
+    @keyframes splash-bar-draw {
+      to { clip-path: inset(19% 60% 18% 26%); }
+    }
+    @keyframes splash-branch-in {
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes splash-breathe {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+    @keyframes splash-fade-out {
+      from { opacity: 1; visibility: visible; }
+      to   { opacity: 0; visibility: hidden; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #splash-screen { animation: splash-fade-out 0.3s ease 0.1s forwards; }
+      #splash-logo, .splash-k-bar, .splash-k-upper, .splash-k-lower { animation: none !important; opacity: 1 !important; transform: none !important; clip-path: none !important; }
+    }
     body {
       margin: 0;
       background: linear-gradient(160deg, #E8EFF8 0%, #F4F7FA 40%, #EDF2F0 100%);
@@ -2718,6 +2779,15 @@
 </head>
 <body>
 
+<!-- ══════ SPLASH SCREEN (intro premium, ~1.8s, logo K uniquement) ══════ -->
+<div id="splash-screen">
+  <div id="splash-logo">
+    <img class="splash-k-part splash-k-bar" src="Images/logo%20K.png" alt="">
+    <img class="splash-k-part splash-k-upper" src="Images/logo%20K.png" alt="">
+    <img class="splash-k-part splash-k-lower" src="Images/logo%20K.png" alt="">
+  </div>
+</div>
+
 <!-- ══════ HERO ══════ -->
 <div class="hero-wrapper">
   <header class="hero" id="hero">
@@ -2781,7 +2851,7 @@
 
     <!-- ══════ HERO MOBILE (application premium, image plein format) ══════ -->
     <div class="hero-mobile">
-      <video class="hero-mobile-bg" autoplay muted loop playsinline poster="Images/images_projets/Images%20mobile/hero%20consultant.png">
+      <video class="hero-mobile-bg" autoplay muted loop playsinline disablePictureInPicture disableRemotePlayback preload="auto">
         <source src="Images/images_projets/Images%20mobile/hero%20BG.mp4" type="video/mp4">
       </video>
       <div class="hero-mobile-overlay"></div>
@@ -3479,6 +3549,52 @@
 </div>
 
 <script>
+  /* ════════════ SPLASH SCREEN — nettoyage après l'intro ════════════ */
+  (function () {
+    // La page doit toujours démarrer tout en haut, sur le Hero, quel que soit
+    // l'historique de scroll ou un éventuel ancre dans l'URL.
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+
+    const splash = document.getElementById('splash-screen');
+    if (!splash) return;
+    document.body.style.overflow = 'hidden';
+    const release = () => {
+      document.body.style.overflow = '';
+      window.scrollTo(0, 0);
+      splash.remove();
+    };
+    splash.addEventListener('animationend', (e) => {
+      if (e.target === splash) release();
+    });
+    // Filet de sécurité si l'événement ne se déclenche pas (ex. onglet en arrière-plan)
+    setTimeout(release, 4200);
+  })();
+
+  /* ════════════ HERO MOBILE — vidéo de fond en autoplay fiable ════════════ */
+  (function () {
+    const heroVideo = document.querySelector('.hero-mobile-bg');
+    if (!heroVideo) return;
+    heroVideo.muted = true;
+    heroVideo.playsInline = true;
+    const tryPlay = () => {
+      const p = heroVideo.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch(() => {
+          // Autoplay bloqué par le navigateur : on relance dès la première interaction.
+          const resume = () => { heroVideo.play(); };
+          document.addEventListener('touchstart', resume, { once: true, passive: true });
+          document.addEventListener('click', resume, { once: true });
+        });
+      }
+    };
+    if (heroVideo.readyState >= 2) {
+      tryPlay();
+    } else {
+      heroVideo.addEventListener('loadeddata', tryPlay, { once: true });
+    }
+  })();
+
   /* ════════════ DONNÉES DES COMPÉTENCES AU SURVOL (panneau plein écran) ════════════ */
   const BUBBLE_DATA = {
     // Projet AFI — Vidéo publicitaire générée par IA
