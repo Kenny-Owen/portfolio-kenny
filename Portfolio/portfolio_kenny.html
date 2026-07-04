@@ -1988,7 +1988,7 @@
       font-weight: 700;
       letter-spacing: 0;
       color: #FFFFFF;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
       max-width: 90%;
     }
     .bubble-image {
@@ -2002,12 +2002,12 @@
       display: block;
     }
     .bubble-hero-image {
-      max-width: 92%;
-      max-height: 58%;
+      max-width: 90%;
+      max-height: 32%;
       object-fit: contain;
       border-radius: 14px;
       box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-      margin: 0 0 14px;
+      margin: 0 0 10px;
       display: none;
     }
     .bubble-hero-image.visible-img {
@@ -2093,20 +2093,62 @@
     [data-reveal][data-delay="9"] { transition-delay: 0.45s; }
     [data-reveal][data-delay="10"] { transition-delay: 0.50s; }
 
-    /* ─── RESPONSIVE ─── */
+    /* ─── RESPONSIVE : mise à l'échelle uniforme (photocopie réduite du desktop) ───
+       Sous 860px, tout le contenu (#scale-inner) est figé à une largeur desktop de
+       référence (1440px) puis réduit avec transform:scale() calculé en JS selon la
+       largeur réelle de l'écran. Aucune règle de mise en page n'est réécrite ici :
+       le rendu reste pixel pour pixel identique au desktop, juste miniaturisé. */
+    .scale-outer { position: relative; width: 100%; }
     @media (max-width: 860px) {
-      .case-card, .about-card, .creative-grid, .comp-layout, .tools-arborescence { grid-template-columns: 1fr; }
-      .edu-flow { grid-template-columns: 1fr; gap: 15px; }
-      .edu-arrow { transform: rotate(90deg); margin: 10px 0; }
-      .rec-options { grid-template-columns: 1fr; }
-      .navlinks { display: none; }
-      .hero-main { flex-direction: column; padding: 40px 20px 30px; min-height: auto; }
-      .hero-orbit-wrap { width: 100%; height: 260px; }
-      .hero-pillars { grid-template-columns: 1fr; }
+      .scale-outer { overflow: hidden; }
+      .scale-inner {
+        width: 1440px;
+        max-width: none;
+        transform-origin: top left;
+      }
+      /* ── Outils : section exclue de la mise à l'échelle, garde son propre format mobile ── */
+      .tools-branches {
+        flex-direction: column;
+        gap: 32px;
+      }
+      .tools-branches::before { display: none; }
+      .tools-branch { width: 100%; }
+      .tool-branch-cards {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+      .tool-card-ios { flex: 0 1 96px; padding: 14px 8px 10px; }
+
+      /* ── Cartes projets : même section desktop, réduite proportionnellement (facteur unique = 100vw / 1168px,
+         1168px = largeur réelle d'une carte desktop dans .cases-stack). Aucune restructuration : sticky,
+         empilement, orientation horizontale et ratios restent identiques à desktop, juste mis à l'échelle
+         en continu via vw (équivalent d'un zoom, sans transform:scale() qui casse position:sticky). ── */
+      .mega-card { height: 44.52vw; border-radius: 2.05vw; margin-bottom: 2.05vw; }
+      .mega-card-content { padding: 3.43vw 4.11vw; }
+      .mega-card-badge { font-size: 0.96vw; padding: 0.51vw 1.2vw; }
+      .mega-card-num { font-size: 1.03vw; }
+      .mega-card-body { max-width: 44.52vw; }
+      .mega-card-meta { font-size: 0.99vw; padding: 0.43vw 1.2vw; margin-bottom: 1.2vw; }
+      .mega-card-title { font-size: 3.56vw; margin-bottom: 1.37vw; }
+      .mega-card-desc { font-size: 1.23vw; margin-bottom: 2.05vw; }
+      .mega-card-tags { gap: 0.68vw; }
+      .mega-card-tag { font-size: 1.07vw; padding: 0.68vw 1.37vw; }
+      .mega-card-progress { gap: 0.86vw; }
+      .mega-card-progress-label { font-size: 0.99vw; }
+      .mega-card-bars { gap: 0.34vw; }
+      .mega-card-bar { width: 2.4vw; height: 0.21vw; border-radius: 0.17vw; }
+      .mega-card-bar.active { width: 3.42vw; }
+      .mega-card-result { padding: 1.37vw 1.71vw; border-radius: 1.37vw; max-width: 22.26vw; }
+      .mega-card-result-label { font-size: 0.82vw; margin-bottom: 0.51vw; }
+      .mega-card-result p { font-size: 1.1vw; }
     }
   </style>
 </head>
 <body>
+
+<div class="scale-outer"><div class="scale-inner">
 
 <!-- ══════ HERO ══════ -->
 <div class="hero-wrapper">
@@ -2192,7 +2234,9 @@
   </div>
 </section>
 
-<!-- ══════ STACKING CASE STUDIES ══════ -->
+</div></div>
+
+<!-- ══════ STACKING CASE STUDIES (hors mise à l'échelle : garde le vrai position:sticky et l'effet d'empilement au scroll) ══════ -->
 <section id="projets" class="cases-section-wrap">
   <div class="cases-section-title" data-reveal data-delay="1">
     <h2>Mes projets</h2>
@@ -2386,7 +2430,7 @@
   </div>
 </section>
 
-<!-- ══════ OUTILS ARBORESCENCE ══════ -->
+<!-- ══════ OUTILS ARBORESCENCE (hors mise à l'échelle, garde son propre format mobile) ══════ -->
 <section id="outils" class="tools-section">
   <div class="tools-section-inner">
     <p class="tools-subtitle-badge" data-reveal data-delay="1">Mon stack</p>
@@ -2524,6 +2568,7 @@
   </div><!-- end tools-section-inner -->
 </section>
 
+<div class="scale-outer"><div class="scale-inner">
 
 <!-- ══════ PARCOURS ACADÉMIQUE ══════ -->
 <section id="formation" class="edu-section" data-reveal>
@@ -2882,18 +2927,54 @@
       const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
       const x = Math.cos(angle) * rx;
       const y = Math.sin(angle) * ry;
-      // On soustrait la moitié des dimensions de l'image (138/2=69, 126/2=63)
-      node.style.left = `calc(50% + ${x}px - 69px)`;
-      node.style.top  = `calc(50% + ${y}px - 63px)`;
+      // Moitié des dimensions réelles de l'image (responsive : la taille change en CSS selon l'écran)
+      const w = node.offsetWidth || 138;
+      const h = node.offsetHeight || 126;
+      node.style.left = `calc(50% + ${x}px - ${w / 2}px)`;
+      node.style.top  = `calc(50% + ${y}px - ${h / 2}px)`;
     });
   }
 
-  positionOrbit('ring-left',  130, 180);
-  positionOrbit('ring-right', 130, 180);
-  window.addEventListener('resize', () => {
+  // Toujours calculé comme sur desktop : la miniaturisation mobile se fait
+  // uniquement via le transform:scale() de #scale-inner, pas en recalculant l'orbite.
+  function updateOrbits() {
     positionOrbit('ring-left',  130, 180);
     positionOrbit('ring-right', 130, 180);
-  });
+  }
+  updateOrbits();
+  window.addEventListener('resize', updateOrbits);
+
+  /* ════════════ MISE À L'ÉCHELLE MOBILE (photocopie réduite du desktop) ════════════
+   * La section Outils est volontairement laissée EN DEHORS de .scale-outer/.scale-inner
+   * (elle garde son propre format mobile réorganisé, pas de la mise à l'échelle). */
+  (function () {
+    const pairs = Array.from(document.querySelectorAll('.scale-outer')).map(outer => ({
+      outer,
+      inner: outer.querySelector('.scale-inner')
+    })).filter(p => p.inner);
+    if (!pairs.length) return;
+    const DESIGN_WIDTH = 1440;
+    const BREAKPOINT = 860;
+
+    function applyScale() {
+      const vw = window.innerWidth;
+      pairs.forEach(({ outer, inner }) => {
+        if (vw <= BREAKPOINT) {
+          const scale = vw / DESIGN_WIDTH;
+          inner.style.transform = `scale(${scale})`;
+          outer.style.height = (inner.scrollHeight * scale) + 'px';
+        } else {
+          inner.style.transform = '';
+          outer.style.height = '';
+        }
+      });
+    }
+    applyScale();
+    window.addEventListener('resize', applyScale);
+    window.addEventListener('load', applyScale);
+    // Recalcule après le chargement des images (leur taille peut changer la hauteur totale)
+    window.addEventListener('load', () => setTimeout(applyScale, 300));
+  })();
 
   /* ════════════ PANNEAU PLEIN ÉCRAN AU SURVOL DES COMPÉTENCES ════════════ */
   const bubble = document.getElementById('hover-bubble');
@@ -2916,11 +2997,11 @@
     const eyebrowEl = document.getElementById('hb-eyebrow');
     const descEl = document.getElementById('hb-desc');
     descEl.textContent = data.desc;
-    if (data.resultOnly) {
-      eyebrowEl.style.display = 'none';
+    eyebrowEl.style.display = data.resultOnly ? 'none' : '';
+    const hasMedia = !!(data.heroImage || data.heroVideo);
+    if (hasMedia) {
       bubble.classList.add('result-layout');
     } else {
-      eyebrowEl.style.display = '';
       bubble.classList.remove('result-layout');
     }
 
@@ -3060,5 +3141,6 @@
 
 </script>
 
+</div></div>
 </body>
 </html>
