@@ -629,6 +629,9 @@
       line-height: 1.5;
       margin: 0;
     }
+    /* Bouton "Voir le projet" et fiche détaillée : n'existent que pour la version mobile premium, invisibles sur desktop */
+    .mega-card-mobile-cta { display: none; }
+    .project-sheet { display: none; }
 
     /* ─── TOOLS ARBORESCENCE — CORE HR STYLE ─── */
     /* ─── TOOLS — APPLE DARK PREMIUM ─── */
@@ -2121,28 +2124,183 @@
       }
       .tool-card-ios { flex: 0 1 96px; padding: 14px 8px 10px; }
 
-      /* ── Cartes projets : même section desktop, réduite proportionnellement (facteur unique = 100vw / 1168px,
-         1168px = largeur réelle d'une carte desktop dans .cases-stack). Aucune restructuration : sticky,
-         empilement, orientation horizontale et ratios restent identiques à desktop, juste mis à l'échelle
-         en continu via vw (équivalent d'un zoom, sans transform:scale() qui casse position:sticky). ── */
-      .mega-card { height: 44.52vw; border-radius: 2.05vw; margin-bottom: 2.05vw; }
-      .mega-card-content { padding: 3.43vw 4.11vw; }
-      .mega-card-badge { font-size: 0.96vw; padding: 0.51vw 1.2vw; }
-      .mega-card-num { font-size: 1.03vw; }
-      .mega-card-body { max-width: 44.52vw; }
-      .mega-card-meta { font-size: 0.99vw; padding: 0.43vw 1.2vw; margin-bottom: 1.2vw; }
-      .mega-card-title { font-size: 3.56vw; margin-bottom: 1.37vw; }
-      .mega-card-desc { font-size: 1.23vw; margin-bottom: 2.05vw; }
-      .mega-card-tags { gap: 0.68vw; }
-      .mega-card-tag { font-size: 1.07vw; padding: 0.68vw 1.37vw; }
-      .mega-card-progress { gap: 0.86vw; }
-      .mega-card-progress-label { font-size: 0.99vw; }
-      .mega-card-bars { gap: 0.34vw; }
-      .mega-card-bar { width: 2.4vw; height: 0.21vw; border-radius: 0.17vw; }
-      .mega-card-bar.active { width: 3.42vw; }
-      .mega-card-result { padding: 1.37vw 1.71vw; border-radius: 1.37vw; max-width: 22.26vw; }
-      .mega-card-result-label { font-size: 0.82vw; margin-bottom: 0.51vw; }
-      .mega-card-result p { font-size: 1.1vw; }
+      /* ── Cartes projets : véritable expérience mobile, pas une adaptation du desktop. La carte de
+         la liste n'affiche plus que l'essentiel — grande image, un badge, un titre fort, une amorce
+         d'une ligne, un CTA — pour donner envie de taper "Voir le projet". Le récit complet (contexte,
+         problématique, démarche, décisions, résultats, enseignements) vit dans une fiche dédiée en plein
+         écran ouverte au tap (cf. #project-sheet plus bas). Sticky, empilement, coins arrondis, glass-
+         morphism, couleurs et images sont identiques au desktop ; seul le CONTENU affiché change. ── */
+      .cases-stack { padding: 0 14px; }
+      .mega-card { height: 540px; border-radius: 28px; margin-bottom: 40px; }
+      .mega-card-content {
+        justify-content: flex-end;
+        padding: 30px 26px;
+      }
+      /* Dégradé vertical (bas → haut) au lieu du dégradé diagonal desktop : l'image respire sur
+         presque toute la hauteur de la carte, seul le bloc de texte en bas est assombri. */
+      .mega-card-overlay,
+      .mega-card-overlay.light,
+      .mega-card:nth-child(even) .mega-card-overlay,
+      .mega-card:nth-child(even) .mega-card-overlay.light {
+        background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.42) 26%, rgba(0,0,0,0) 55%) !important;
+      }
+      .mega-card-top {
+        flex-direction: row !important;
+        margin-bottom: 14px;
+      }
+      .mega-card-badge { font-size: 0.66rem; padding: 6px 14px; }
+      .mega-card-num { font-size: 0.7rem; }
+      .mega-card-body {
+        max-width: 100% !important;
+        align-self: stretch !important;
+        text-align: left !important;
+        margin: 0 !important;
+      }
+      /* Date/entreprise et mots-clés : détails secondaires, ils vivent désormais dans la fiche dédiée */
+      .mega-card-meta { display: none; }
+      .mega-card-title { font-size: 1.55rem; line-height: 1.2; margin-bottom: 10px; }
+      .mega-card-desc {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        color: rgba(255,255,255,0.75);
+        margin-bottom: 22px;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .mega-card-tags { display: none; }
+      /* Barre de progression + pastilles résultat : retirées, remplacées par le bouton "Voir le projet" */
+      .mega-card-bottom { display: none; }
+      .mega-card-mobile-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        align-self: flex-start;
+        padding: 12px 22px;
+        border-radius: 100px;
+        border: 1px solid rgba(255,255,255,0.4);
+        background: rgba(255,255,255,0.16);
+        backdrop-filter: blur(10px);
+        color: #FFFFFF;
+        font-size: 0.8rem;
+        font-weight: 600;
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition: background 0.2s, transform 0.2s;
+      }
+      .mega-card-mobile-cta:active { background: rgba(255,255,255,0.3); transform: translateY(1px); }
+
+      /* ── Fiche projet dédiée (plein écran), ouverte au tap sur "Voir le projet" ── */
+      .project-sheet {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        align-items: flex-end;
+        justify-content: center;
+        background: rgba(6, 10, 9, 0.6);
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+      }
+      .project-sheet.visible { opacity: 1; visibility: visible; }
+      .project-sheet-inner {
+        width: 100%;
+        max-height: 92vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        background: rgba(12, 17, 16, 0.98);
+        border-radius: 28px 28px 0 0;
+        box-shadow: 0 -20px 60px rgba(0,0,0,0.5);
+        transform: translateY(24px);
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .project-sheet.visible .project-sheet-inner { transform: translateY(0); }
+      .project-sheet-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        z-index: 2;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.3);
+        background: rgba(10,10,14,0.55);
+        backdrop-filter: blur(10px);
+        color: #FFFFFF;
+        font-size: 1.3rem;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .project-sheet-hero {
+        position: relative;
+        height: 220px;
+        border-radius: 28px 28px 0 0;
+        overflow: hidden;
+      }
+      .project-sheet-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .project-sheet-hero-overlay {
+        position: absolute; inset: 0;
+        background: linear-gradient(to top, rgba(12,17,16,0.98) 0%, rgba(12,17,16,0.35) 55%, rgba(12,17,16,0.05) 100%);
+      }
+      .project-sheet-hero-text {
+        position: absolute; left: 24px; right: 24px; bottom: 18px;
+      }
+      .project-sheet-badge {
+        display: inline-block;
+        font-size: 0.66rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        border-radius: 100px;
+        border: 1px solid rgba(255,255,255,0.35);
+        background: rgba(255,255,255,0.12);
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 10px;
+      }
+      .project-sheet-hero-text h3 {
+        font-size: 1.4rem;
+        line-height: 1.2;
+        color: #FFFFFF;
+        margin: 0 0 4px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      }
+      .project-sheet-meta { font-size: 0.72rem; color: rgba(255,255,255,0.55); margin: 0; }
+      .project-sheet-body { padding: 26px 24px 44px; }
+      .project-sheet-section { margin-bottom: 22px; }
+      .project-sheet-section h4 {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.4);
+        margin: 0 0 8px;
+      }
+      .project-sheet-section p {
+        font-size: 0.88rem;
+        line-height: 1.55;
+        color: rgba(255,255,255,0.85);
+        margin: 0;
+      }
+      .project-sheet-skills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+      .project-sheet-skills span {
+        font-size: 0.68rem;
+        padding: 6px 13px;
+        border-radius: 100px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: rgba(255,255,255,0.85);
+      }
+      /* Teinte glassmorphism selon l'accent du projet ouvert */
+      .project-sheet.accent-copper .project-sheet-inner { background: rgba(10,28,20,0.98); }
+      .project-sheet.accent-blue .project-sheet-inner { background: rgba(8,16,30,0.98); }
+      .project-sheet.accent-green .project-sheet-inner { background: rgba(8,22,16,0.98); }
+      .project-sheet.accent-orange .project-sheet-inner { background: rgba(9,15,26,0.98); }
+      .project-sheet.accent-red .project-sheet-inner { background: rgba(26,10,10,0.98); }
     }
   </style>
 </head>
@@ -2245,7 +2403,7 @@
   <div class="cases-stack">
 
     <!-- PROJET AFI (nouveau) -->
-    <article class="mega-card accent-copper">
+    <article class="mega-card accent-copper" id="mc-afi">
       <div class="mega-card-bg" style="background-image: url('Images/images_projets/hackathon.png')"></div>
       <div class="mega-card-overlay light"></div>
       <div class="mega-card-content" data-reveal>
@@ -2263,6 +2421,7 @@
             <span class="mega-card-tag" data-pill="p-afi-video" data-tip="Génération et assemblage des séquences vidéo du spot avec des outils d’IA.">G&eacute;n&eacute;ration vid&eacute;o IA</span>
             <span class="mega-card-tag" data-pill="p-afi-team" data-tip="Répartition des rôles et coordination avec les 2 autres membres de l’équipe.">Travail d&rsquo;&eacute;quipe (3 pers.)</span>
           </div>
+          <button type="button" class="mega-card-mobile-cta" data-project="mc-afi">Voir le projet <span aria-hidden="true">&rarr;</span></button>
         </div>
         <div class="mega-card-bottom">
           <div class="mega-card-progress">
@@ -2284,7 +2443,7 @@
     </article>
 
     <!-- PROJET 1 -->
-    <article class="mega-card accent-blue">
+    <article class="mega-card accent-blue" id="mc-hsware">
       <div class="mega-card-bg" style="background-image: url('Images/images_projets/hsware.png')"></div>
       <div class="mega-card-overlay light" style="background: linear-gradient(120deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.03) 100%);"></div>
       <div class="mega-card-content" data-reveal>
@@ -2303,6 +2462,7 @@
             <span class="mega-card-tag" data-pill="p-hs-data" data-tip="Collecte et visualisation des données d’humidité en temps réel via tableau de bord.">Suivi de donn&eacute;es</span>
             <span class="mega-card-tag" data-pill="p-hs-doc" data-tip="Rédaction de la documentation technique et des livrables en fin de projet.">Documentation projet</span>
           </div>
+          <button type="button" class="mega-card-mobile-cta" data-project="mc-hsware">Voir le projet <span aria-hidden="true">&rarr;</span></button>
         </div>
         <div class="mega-card-bottom" style="flex-direction: row;">
           <div class="mega-card-progress">
@@ -2323,7 +2483,7 @@
     </article>
 
     <!-- PROJET 2 -->
-    <article class="mega-card accent-green">
+    <article class="mega-card accent-green" id="mc-smartfarm">
       <div class="mega-card-bg" style="background-image: url('Images/images_projets/smartfarm.png')"></div>
       <div class="mega-card-overlay light" style="background: linear-gradient(-120deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.03) 100%);"></div>
       <div class="mega-card-content" data-reveal>
@@ -2340,6 +2500,7 @@
             <span class="mega-card-tag" data-pill="p-sf-optim" data-tip="Réécriture du firmware pour réduire les cycles actifs et allonger la durée de vie.">Optimisation ressources</span>
             <span class="mega-card-tag" data-pill="p-sf-energy" data-tip="Réduction de 40% de la consommation en veille : éco-conception matérielle et logicielle.">Efficacit&eacute; &eacute;nerg&eacute;tique</span>
           </div>
+          <button type="button" class="mega-card-mobile-cta" data-project="mc-smartfarm">Voir le projet <span aria-hidden="true">&rarr;</span></button>
         </div>
         <div class="mega-card-bottom" style="flex-direction: row-reverse;">
           <div class="mega-card-progress">
@@ -2357,7 +2518,7 @@
     </article>
 
     <!-- PROJET 3 -->
-    <article class="mega-card accent-orange">
+    <article class="mega-card accent-orange" id="mc-club">
       <div class="mega-card-bg" style="background-image: url('Images/images_projets/clubinterculturel.png')"></div>
       <div class="mega-card-overlay light" style="background: linear-gradient(120deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.03) 100%);"></div>
       <div class="mega-card-content" data-reveal>
@@ -2374,6 +2535,7 @@
             <span class="mega-card-tag" data-pill="p-club-event" data-tip="Coordination logistique d’événements pour plus de 200 participants.">Organisation d&rsquo;&eacute;v&eacute;nements</span>
             <span class="mega-card-tag" data-pill="p-club-admin" data-tip="Rédaction de PV, archivage des documents officiels du club.">Gestion administrative</span>
           </div>
+          <button type="button" class="mega-card-mobile-cta" data-project="mc-club">Voir le projet <span aria-hidden="true">&rarr;</span></button>
         </div>
         <div class="mega-card-bottom" style="flex-direction: row;">
           <div class="mega-card-progress">
@@ -2391,7 +2553,7 @@
     </article>
 
     <!-- PROJET 4 -->
-    <article class="mega-card accent-red">
+    <article class="mega-card accent-red" id="mc-bracelet">
       <div class="mega-card-bg" style="background-image: url('Images/images_projets/bracelet.png'); background-size: cover; background-repeat: no-repeat; background-position: center; background-color: #E4E4E4;"></div>
       <div class="mega-card-overlay light"></div>
       <div class="mega-card-content" data-reveal>
@@ -2411,6 +2573,7 @@
             <span class="mega-card-tag" data-pill="p-br-method" data-tip="Avancement par itérations courtes : prototype, retour d’équipe, ajustement.">M&eacute;thodologie de travail</span>
             <span class="mega-card-tag" data-pill="p-br-impact" data-tip="Contribution aux ODD 3 (Santé) et ODD 9 (Innovation durable) pour les pays en développement.">Impact ODD 3 &amp; ODD 9</span>
           </div>
+          <button type="button" class="mega-card-mobile-cta" data-project="mc-bracelet">Voir le projet <span aria-hidden="true">&rarr;</span></button>
         </div>
         <div class="mega-card-bottom">
           <div class="mega-card-progress">
@@ -2760,6 +2923,49 @@
   </div>
 </footer>
 
+<!-- ══════ FICHE PROJET DÉDIÉE (mobile uniquement, ouverte au tap sur "Voir le projet") ══════ -->
+<div class="project-sheet" id="project-sheet">
+  <div class="project-sheet-inner">
+    <button type="button" class="project-sheet-close" id="project-sheet-close" aria-label="Fermer">&times;</button>
+    <div class="project-sheet-hero">
+      <img id="ps-hero-img" src="" alt="">
+      <div class="project-sheet-hero-overlay"></div>
+      <div class="project-sheet-hero-text">
+        <span class="project-sheet-badge" id="ps-badge"></span>
+        <h3 id="ps-title"></h3>
+        <p class="project-sheet-meta" id="ps-meta"></p>
+      </div>
+    </div>
+    <div class="project-sheet-body">
+      <div class="project-sheet-skills" id="ps-skills"></div>
+      <div class="project-sheet-section">
+        <h4>Contexte</h4>
+        <p id="ps-context"></p>
+      </div>
+      <div class="project-sheet-section">
+        <h4>Problématique</h4>
+        <p id="ps-problem"></p>
+      </div>
+      <div class="project-sheet-section">
+        <h4>Ma démarche</h4>
+        <p id="ps-reasoning"></p>
+      </div>
+      <div class="project-sheet-section">
+        <h4>Décisions &amp; compromis</h4>
+        <p id="ps-decisions"></p>
+      </div>
+      <div class="project-sheet-section">
+        <h4>Résultats</h4>
+        <p id="ps-results"></p>
+      </div>
+      <div class="project-sheet-section">
+        <h4>Ce que j&rsquo;en retiens</h4>
+        <p id="ps-lessons"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ══════ HOVER BUBBLE CONTAINER (confiné dans la carte projet survolée) ══════ -->
 <div class="hover-bubble" id="hover-bubble">
   <div class="bubble-media">
@@ -3058,6 +3264,131 @@
     pill.addEventListener('mouseleave', () => {
       clearTimeout(showTimer);
     });
+  });
+
+  /* ══════════ FICHE PROJET DÉDIÉE (mobile) ══════════
+     Récit complet par projet (contexte, problématique, démarche, décisions, résultats,
+     enseignements), affiché en plein écran quand on tape "Voir le projet" sur une carte. */
+  const PROJECT_STORIES = {
+    'mc-afi': {
+      accent: 'accent-copper',
+      badge: 'Hackathon IA & Publicité',
+      title: 'Vidéo publicitaire générée par IA',
+      meta: '11–12 avril 2026 · AI AD AWARD, Tunisie',
+      image: 'Images/images_projets/hackathon.png',
+      skills: ['Storytelling', 'Génération IA', 'Travail d’équipe'],
+      context: 'Participation à un hackathon national de 48h (AI AD AWARD, Tunisie) : concevoir un spot publicitaire pour un client fictif, entièrement produit avec des outils d’intelligence artificielle, en équipe de 3.',
+      problem: 'Aucun de nous n’avait d’expérience de production vidéo classique. Il fallait produire, en très peu de temps, un contenu cohérent narrativement et visuellement exploitable, alors que les outils d’IA génèrent souvent des incohérences (mains, textes, proportions).',
+      reasoning: 'J’ai proposé de découper le travail en trois blocs parallèles — storytelling/storyboard, génération d’images, génération vidéo — pour ne pas attendre qu’une étape soit finie avant de démarrer la suivante, et de nous concentrer d’abord sur un script solide avant de générer quoi que ce soit.',
+      decisions: 'On a choisi de multiplier les itérations de prompts plutôt que de chercher l’outil parfait du premier coup, quitte à recommencer certains visuels plusieurs fois. Plus lent au départ, mais plus fiable pour tenir le délai final.',
+      results: 'Spot publicitaire complet livré dans les temps, avec une attestation de réussite remise par le jury du hackathon.',
+      lessons: 'J’ai appris à structurer un travail créatif sous forte contrainte de temps, et à itérer méthodiquement plutôt qu’à chercher une solution parfaite dès le départ.'
+    },
+    'mc-hsware': {
+      accent: 'accent-blue',
+      badge: 'Stage PFE',
+      title: 'Capteur d’humidité du sol — LoRa',
+      meta: 'Avr 2025 – Oct 2025 · HSWARE Coadis, Tunis',
+      image: 'Images/images_projets/hsware.png',
+      skills: ['Choix techniques responsables', 'Suivi de données', 'Cadrage projet'],
+      context: 'Stage de fin d’études (6 mois) chez HSWARE Coadis : concevoir un système de capteurs d’humidité du sol pour optimiser l’irrigation agricole en temps réel.',
+      problem: 'Le système devait fonctionner en autonomie sur le terrain, avec peu de maintenance possible et une consommation électrique très contrainte — les capteurs, alimentés sur batterie, sont difficiles d’accès une fois installés.',
+      reasoning: 'J’ai commencé par cadrer précisément le périmètre et le calendrier avec mon maître de stage, avant de comparer plusieurs protocoles de communication pour identifier celui qui consommait le moins tout en couvrant la distance nécessaire.',
+      decisions: 'J’ai privilégié LoRa et des capteurs passifs plutôt que des solutions plus gourmandes en énergie — un choix qui limite la fréquence de maintenance mais impose un débit de données plus faible, un compromis assumé au profit de l’autonomie sur le terrain.',
+      results: 'Système fonctionnel, avec un tableau de bord de suivi des données d’humidité en temps réel, documenté et démontré en conditions réelles.',
+      lessons: 'Ce projet m’a fait comprendre concrètement ce que « sobriété technique » veut dire dans la pratique : chaque choix technique a un coût énergétique et de maintenance, et le bon compromis dépend du contexte d’usage.'
+    },
+    'mc-smartfarm': {
+      accent: 'accent-green',
+      badge: 'Stage',
+      title: 'Optimisation énergétique capteur S.sensor',
+      meta: 'Sept 2024 – Oct 2024 · Smart Farm, Tunis',
+      image: 'Images/images_projets/smartfarm.png',
+      skills: ['Audit de performance', 'Optimisation ressources', 'Efficacité énergétique'],
+      context: 'Stage court (2 mois) chez Smart Farm : les capteurs LoRaWAN déployés sur le terrain consommaient plus que prévu en veille, ce qui réduisait leur autonomie sur batterie.',
+      problem: 'Il fallait identifier où l’énergie était réellement consommée sans pouvoir changer le matériel déjà installé, et sans dégrader la fiabilité des mesures.',
+      reasoning: 'J’ai audité les cycles de veille et d’activité du capteur pour repérer les phases où il consommait sans réelle utilité, puis comparé plusieurs pistes d’optimisation logicielle avant de choisir celle qui n’affectait pas la fréquence de mesure.',
+      decisions: 'J’ai choisi de réécrire le firmware pour raccourcir les cycles actifs plutôt que de réduire la fréquence de transmission, pour ne pas perdre en qualité de suivi — un compromis qui demandait plus de développement mais préservait la fiabilité des données.',
+      results: 'Réduction de 40% de la consommation en veille, validée sur le terrain, sans changement de matériel ni perte de fiabilité des mesures.',
+      lessons: 'J’ai réalisé qu’une bonne partie de l’efficacité énergétique se joue au niveau logiciel, pas seulement matériel — et que l’optimisation la plus efficace n’est pas toujours la plus visible.'
+    },
+    'mc-club': {
+      accent: 'accent-orange',
+      badge: 'Engagement associatif',
+      title: 'Chargé de la Trésorerie & de la Communication',
+      meta: 'Jan 2025 – Juin 2025 · Club Interculturel, ESPRIT Tunis',
+      image: 'Images/images_projets/clubinterculturel.png',
+      skills: ['Gestion budgétaire', 'Organisation d’événements', 'Communication'],
+      context: 'En parallèle de mes études, j’ai pris en charge la trésorerie et la communication du Club Interculturel de l’ESPRIT pendant 6 mois.',
+      problem: 'Le club organisait des événements pour plus de 200 participants avec un budget limité et peu d’outils de suivi structurés, ce qui rendait difficile d’anticiper les dépenses et de rendre des comptes clairement au bureau.',
+      reasoning: 'J’ai mis en place un suivi budgétaire régulier sur Google Sheets pour avoir une vision claire des dépenses et recettes, et organisé la communication autour d’un calendrier d’événements partagé avec toute l’équipe.',
+      decisions: 'J’ai priorisé la transparence et la traçabilité (comptes-rendus, archivage des documents) plutôt que la rapidité d’exécution, quitte à ralentir certaines décisions le temps de les documenter correctement.',
+      results: 'Organisation réussie de plusieurs événements pour plus de 200 participants, avec un suivi budgétaire fiable et une documentation complète transmise à l’équipe suivante.',
+      lessons: 'Ce rôle m’a appris à coordonner un groupe, à communiquer clairement des décisions financières, et à documenter mon travail pour qu’il reste utile après mon départ — une logique de gestion de projet que je veux retrouver dans un cadre professionnel.'
+    },
+    'mc-bracelet': {
+      accent: 'accent-red',
+      badge: 'Santé & Innovation',
+      title: 'Bracelet connecté glycémique',
+      meta: 'Jan 2024 – Mai 2024 · Santé connectée, ESPRIT Tunis',
+      image: 'Images/images_projets/bracelet.png',
+      skills: ['Étude utilisateur', 'Conception IoT durable', 'Travail d’équipe'],
+      context: 'Projet d’équipe (6 personnes) à l’ESPRIT : concevoir un bracelet connecté de suivi glycémique pensé pour être accessible dans des pays à ressources limitées.',
+      problem: 'Les solutions de suivi glycémique existantes sont souvent coûteuses et supposent un accès facile à la maintenance et aux consommables — deux conditions rarement réunies dans les contextes que nous visions.',
+      reasoning: 'Nous avons commencé par des entretiens utilisateurs et un benchmark pour comprendre les contraintes réelles d’usage, avant de nous lancer dans la conception technique, afin de ne pas concevoir une solution théorique déconnectée du terrain.',
+      decisions: 'J’ai poussé pour privilégier des matériaux durables et recyclés et une conception la plus simple possible à entretenir, quitte à sacrifier certaines fonctionnalités avancées, pour rester cohérent avec l’objectif d’accessibilité économique.',
+      results: 'Prototype fonctionnel documenté, aligné avec les ODD 3 (Santé) et 9 (Innovation durable), présenté en fin de projet avec le reste de l’équipe.',
+      lessons: 'J’ai compris que l’accessibilité n’est pas qu’une question de prix, mais aussi de simplicité d’usage et de maintenance — une contrainte de conception à part entière, pas un détail secondaire.'
+    }
+  };
+
+  const projectSheet = document.getElementById('project-sheet');
+  let sheetOpen = false;
+
+  function openProjectSheet(id) {
+    const data = PROJECT_STORIES[id];
+    if (!data) return;
+    document.getElementById('ps-hero-img').src = data.image;
+    document.getElementById('ps-badge').textContent = data.badge;
+    document.getElementById('ps-title').textContent = data.title;
+    document.getElementById('ps-meta').textContent = data.meta;
+    document.getElementById('ps-context').textContent = data.context;
+    document.getElementById('ps-problem').textContent = data.problem;
+    document.getElementById('ps-reasoning').textContent = data.reasoning;
+    document.getElementById('ps-decisions').textContent = data.decisions;
+    document.getElementById('ps-results').textContent = data.results;
+    document.getElementById('ps-lessons').textContent = data.lessons;
+    const skillsEl = document.getElementById('ps-skills');
+    skillsEl.innerHTML = '';
+    (data.skills || []).forEach(s => {
+      const chip = document.createElement('span');
+      chip.textContent = s;
+      skillsEl.appendChild(chip);
+    });
+    projectSheet.className = 'project-sheet ' + data.accent;
+    requestAnimationFrame(() => projectSheet.classList.add('visible'));
+    document.body.style.overflow = 'hidden';
+    sheetOpen = true;
+  }
+
+  function closeProjectSheet() {
+    projectSheet.classList.remove('visible');
+    document.body.style.overflow = '';
+    sheetOpen = false;
+  }
+
+  document.querySelectorAll('.mega-card-mobile-cta').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openProjectSheet(btn.dataset.project);
+    });
+  });
+  document.getElementById('project-sheet-close').addEventListener('click', closeProjectSheet);
+  projectSheet.addEventListener('click', (e) => {
+    if (e.target === projectSheet) closeProjectSheet();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sheetOpen) closeProjectSheet();
   });
 
   // La souris qui s'éloigne du panneau (une fois ouvert) le referme, avec un léger délai
