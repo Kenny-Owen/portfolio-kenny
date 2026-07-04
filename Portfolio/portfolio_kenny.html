@@ -3457,7 +3457,7 @@
       </div>
       <div class="footer-col">
         <h4>Réseaux</h4>
-        <a href="https://linkedin.com/in/kenny-bell" target="_blank">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/kenny-ngan-bell-95953b312/" target="_blank">LinkedIn</a>
         <a href="https://github.com/Kenny-Owen" target="_blank">GitHub</a>
       </div>
     </div>
@@ -3465,7 +3465,7 @@
   <div class="footer-bottom">
     <div class="footer-wrap">
       <span>© 2026 Kenny Ngan Bell. Tous droits réservés. Conçu selon les standards Green IT.</span>
-      <span>Paris, France</span>
+      <span>Tunis, Tunisie</span>
     </div>
   </div>
 </footer>
@@ -3551,6 +3551,38 @@
 </div>
 
 <script>
+  /* ════════════ HERO MOBILE — vidéo de fond en autoplay fiable ════════════ */
+  (function () {
+    const heroVideo = document.querySelector('.hero-mobile-bg');
+    if (!heroVideo) return;
+    heroVideo.muted = true;
+    heroVideo.defaultMuted = true;
+    heroVideo.playsInline = true;
+    let interactionFallbackArmed = false;
+    const armInteractionFallback = () => {
+      if (interactionFallbackArmed) return;
+      interactionFallbackArmed = true;
+      const resume = () => { heroVideo.play(); };
+      document.addEventListener('touchstart', resume, { once: true, passive: true });
+      document.addEventListener('click', resume, { once: true });
+    };
+    const tryPlay = () => {
+      const p = heroVideo.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch(armInteractionFallback);
+      }
+    };
+    if (heroVideo.readyState >= 2) {
+      tryPlay();
+    } else {
+      heroVideo.addEventListener('loadeddata', tryPlay, { once: true });
+    }
+    // On retente une fois le splash disparu : certains navigateurs mobiles
+    // refusent l'autoplay tant que la vidéo est couverte par un autre écran,
+    // même si celui-ci est purement visuel (z-index) et non "display:none".
+    window.addEventListener('splash:done', tryPlay, { once: true });
+  })();
+
   /* ════════════ SPLASH SCREEN — nettoyage après l'intro ════════════ */
   (function () {
     // La page doit toujours démarrer tout en haut, sur le Hero, quel que soit
@@ -3565,36 +3597,13 @@
       document.body.style.overflow = '';
       window.scrollTo(0, 0);
       splash.remove();
+      window.dispatchEvent(new Event('splash:done'));
     };
     splash.addEventListener('animationend', (e) => {
       if (e.target === splash) release();
     });
     // Filet de sécurité si l'événement ne se déclenche pas (ex. onglet en arrière-plan)
     setTimeout(release, 4200);
-  })();
-
-  /* ════════════ HERO MOBILE — vidéo de fond en autoplay fiable ════════════ */
-  (function () {
-    const heroVideo = document.querySelector('.hero-mobile-bg');
-    if (!heroVideo) return;
-    heroVideo.muted = true;
-    heroVideo.playsInline = true;
-    const tryPlay = () => {
-      const p = heroVideo.play();
-      if (p && typeof p.catch === 'function') {
-        p.catch(() => {
-          // Autoplay bloqué par le navigateur : on relance dès la première interaction.
-          const resume = () => { heroVideo.play(); };
-          document.addEventListener('touchstart', resume, { once: true, passive: true });
-          document.addEventListener('click', resume, { once: true });
-        });
-      }
-    };
-    if (heroVideo.readyState >= 2) {
-      tryPlay();
-    } else {
-      heroVideo.addEventListener('loadeddata', tryPlay, { once: true });
-    }
   })();
 
   /* ════════════ DONNÉES DES COMPÉTENCES AU SURVOL (panneau plein écran) ════════════ */
