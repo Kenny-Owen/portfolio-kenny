@@ -1209,11 +1209,6 @@
       margin: 0 0 12px;
       line-height: 1.15;
     }
-    @media (min-width: 860px) {
-      .creative-section-header h2 {
-        white-space: nowrap;
-      }
-    }
     .creative-section-header h2 span {
       color: #8E54E9;
       font-style: italic;
@@ -1240,11 +1235,11 @@
       box-shadow: 0 30px 80px rgba(0,0,0,0.18);
       border: 1px solid rgba(0,0,0,0.08);
     }
-    /* Arrière-plan = vraie image timeline Premiere Pro */
+    /* Arrière-plan = image mettant en avant la créativité (desktop) */
     .creative-card-bg {
       position: absolute;
       inset: 0;
-      background-image: url('Images/images_projets/Fond%20Premiere%20Pro.png');
+      background-image: url('Images/cr%C3%A9ativit%C3%A9%20desktop.png');
       background-size: cover;
       background-position: center top;
       z-index: 1;
@@ -1268,7 +1263,7 @@
       width: 100%;
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
-      align-items: center;
+      align-items: start;
       gap: 40px;
       min-height: 520px;
     }
@@ -1276,7 +1271,7 @@
       display: flex;
       flex-direction: column;
       gap: 24px;
-      max-width: 600px;
+      max-width: 480px;
     }
     .creative-badge {
       display: inline-flex;
@@ -1286,8 +1281,9 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      color: #FFFFFF;
-      background: rgba(255, 255, 255, 0.15);
+      color: #F0E9FF;
+      background: rgba(139, 92, 246, 0.28);
+      border: 1px solid rgba(167, 139, 250, 0.55);
       backdrop-filter: blur(8px);
       padding: 6px 16px;
       border-radius: 100px;
@@ -1319,7 +1315,7 @@
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
-      margin-top: 10px;
+      margin-top: 28px;
     }
     .creative-pill {
       display: inline-flex;
@@ -2767,16 +2763,18 @@
       }
       .edu-connector svg { width: 22px; height: 22px; fill: rgba(14,22,20,0.25); }
 
-      /* ── FREELANCE MONTAGE VIDÉO : image dominante, hiérarchie revue ── */
+      /* ── CRÉATIVITÉ : image dominante, hiérarchie revue ── */
       .creative-section { padding: 64px 16px; }
       .creative-section-header { margin-bottom: 32px; }
       .creative-section-header h2 { font-size: 1.9rem; }
       .creative-section-header p { font-size: 0.95rem; }
       .creative-card { min-height: 560px; border-radius: 26px; align-items: flex-end; }
-      /* L'image respire : plus de recadrage serré, on voit la composition complète */
+      /* Image mobile dédiée (format portrait) : la composition tient dans la moitié haute,
+         on la cale en haut pour laisser l'espace sombre du bas au texte. */
       .creative-card-bg {
-        background-size: contain;
-        background-position: center 40%;
+        background-image: url('Images/cr%C3%A9ativit%C3%A9%20mobile.png');
+        background-size: cover;
+        background-position: center top;
         background-color: #0A0A14;
         background-repeat: no-repeat;
         filter: brightness(0.8) saturate(1.1);
@@ -3524,35 +3522,29 @@
 
 
 
-<!-- ══════ MONTAGE VIDÉO ══════ -->
+<!-- ══════ CRÉATIVITÉ ══════ -->
 <section class="creative-section" data-reveal>
 
   <!-- Grand titre de section -->
   <div class="creative-section-header">
     <div class="creative-section-badge">Ce que le CV ne montre pas</div>
-    <h2>Freelance en <span>montage vidéo</span></h2>
-    <p>Une activité freelance, en parallèle de mon parcours principal.</p>
+    <h2>Une <span>créativité</span> qui dépasse le cadre technique</h2>
+    <p>Une façon de penser qui m&rsquo;accompagne dans tous mes projets.</p>
   </div>
 
   <div class="creative-card">
-    <!-- Vraie image Premiere Pro -->
+    <!-- Image mettant en avant la créativité -->
     <div class="creative-card-bg"></div>
     <div class="creative-card-overlay"></div>
     
-    <div class="creative-card-content" style="display:block;">
+    <div class="creative-card-content" style="display:flex; flex-direction:column; justify-content:flex-end;">
       <div class="creative-text-col">
-        <div class="creative-badge">Freelance — Montage</div>
-        <h2>Montage vidéo<br><span>&amp; création visuelle</span></h2>
-        <p>Montage vidéo &amp; création visuelle en freelance.</p>
+        <div class="creative-badge">Un de mes atouts fav</div>
+        <h2>Donner vie <span>aux idées</span></h2>
+        <p>J&rsquo;aime partir d&rsquo;une id&eacute;e et la faire &eacute;voluer jusqu&rsquo;&agrave; trouver la meilleure fa&ccedil;on de lui donner vie. Imaginer, exp&eacute;rimenter et am&eacute;liorer font naturellement partie de ma mani&egrave;re de travailler.</p>
         <div class="creative-pills">
-          <div class="creative-pill">
-            <img src="Images/Logo/Logo%20Premiere%20Pro.png" alt="Premiere Pro logo">
-            Premiere Pro
-          </div>
-          <div class="creative-pill">
-            <img src="Images/Logo/Logo%20After%20Effect.png" alt="After Effects logo">
-            After Effects
-          </div>
+          <div class="creative-pill">Créativité</div>
+          <div class="creative-pill">Innovation</div>
         </div>
       </div>
     </div>
