@@ -118,6 +118,9 @@
     .navlinks { display: flex; gap: 24px; font-size: 0.8rem; list-style: none; margin: 0; padding: 0; font-weight: 500; }
     .navlinks a { opacity: 0.6; transition: opacity .2s; }
     .navlinks a:hover, .navlinks a.active { opacity: 1; color: var(--signal); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .nav-mobile-toggle { display: none; }
+    .nav-mobile-menu { display: none; }
 
         /* ═══════════════════════════════════════════════════════
        HERO — Gauche/Droite orbit (Core HR style)
@@ -222,11 +225,17 @@
       -webkit-text-fill-color: transparent;
       font-weight: 600;
     }
+    .hero h1 span.amp-text {
+      display: block;
+      font-size: 1.6rem;
+      line-height: 1;
+      margin: 0.05em 0;
+    }
     .hero h1 span.small-text {
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
       font-size: 1.2rem;
-      font-weight: 500;
-      color: rgba(14,22,20,0.5);
+      font-weight: 700;
+      color: rgba(14,22,20,0.85);
       text-transform: uppercase;
       letter-spacing: 0.1em;
       display: block;
@@ -403,6 +412,7 @@
     .mega-card:nth-child(3) { top: 128px; }
     .mega-card:nth-child(4) { top: 152px; }
     .mega-card:nth-child(5) { top: 176px; }
+    .mega-card:nth-child(6) { top: 200px; }
 
     /* Overlay plus clair pour les cartes avec un visuel déjà lumineux (ex. bannière AFI) */
     .mega-card-overlay.light {
@@ -516,6 +526,10 @@
     .mega-card.accent-red .mega-card-tag { border-color: rgba(225,60,50,0.5); background: rgba(200,50,45,0.22); color: #FFEBEA; }
     .mega-card.accent-red .mega-card-tag:hover { background: rgba(225,60,50,0.38); }
     .mega-card.accent-red .mega-card-bar.active { background: #F0776D; }
+    .mega-card.accent-purple .mega-card-badge,
+    .mega-card.accent-purple .mega-card-tag { border-color: rgba(139,92,246,0.55); background: rgba(124,58,237,0.24); color: #F0E9FF; }
+    .mega-card.accent-purple .mega-card-tag:hover { background: rgba(139,92,246,0.4); }
+    .mega-card.accent-purple .mega-card-bar.active { background: #A78BFA; }
     /* Pastilles résultat : fond plat doré, pas d'effet verre */
     .mega-card-tag.result-pill {
       background: #E8B84B;
@@ -2100,12 +2114,13 @@
     .bubble-eyebrow {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+      font-size: clamp(0.95rem, 1.5vw, 1.25rem);
       font-weight: 700;
       letter-spacing: 0;
-      color: #FFFFFF;
+      color: #E8C46B;
       margin-bottom: 10px;
       max-width: 90%;
+      white-space: nowrap;
     }
     .bubble-image {
       max-width: 120px;
@@ -2156,10 +2171,42 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
       font-style: normal;
       font-size: 0.92rem;
-      font-weight: 400;
+      font-weight: 600;
       line-height: 1.5;
-      color: rgba(255,255,255,0.65);
+      color: rgba(255,255,255,0.95);
       max-width: 88%;
+    }
+    .bubble-demo-eyebrow {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(0.95rem, 1.5vw, 1.25rem);
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: none;
+      color: #E8C46B;
+      margin-top: 18px;
+      margin-bottom: 10px;
+      max-width: 90%;
+      white-space: nowrap;
+    }
+    .bubble-demo-eyebrow:empty { display: none; margin: 0; }
+    .bubble-demo-desc {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-style: normal;
+      font-size: 0.92rem;
+      font-weight: 600;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.95);
+      max-width: 88%;
+    }
+    .bubble-demo-desc:empty { display: none; }
+    /* Panneau agrandi quand le contenu comporte la partie "démonstration" (plus long) */
+    .hover-bubble.has-demo {
+      width: 82%;
+      height: 82%;
+    }
+    .hover-bubble {
+      overflow-y: auto;
     }
     .bubble-hint {
       position: absolute;
@@ -2175,8 +2222,10 @@
     }
     @media (max-width: 760px) {
       .hover-bubble { padding: 20px 18px; border-radius: 16px; }
-      .bubble-eyebrow { font-size: 1.15rem; }
+      .bubble-eyebrow { font-size: 1rem; white-space: normal; }
+      .bubble-demo-eyebrow { font-size: 1rem; white-space: normal; }
       .bubble-desc { font-size: 0.85rem; }
+      .bubble-demo-desc { font-size: 0.85rem; }
     }
     /* Teinte glassmorphism du panneau selon l'accent de la carte active */
     .mega-card.accent-copper .hover-bubble { background: rgba(10,28,20,0.9); border-color: rgba(46,139,87,0.3); }
@@ -2184,6 +2233,7 @@
     .mega-card.accent-green .hover-bubble { background: rgba(8,22,16,0.9); border-color: rgba(74,222,128,0.3); }
     .mega-card.accent-orange .hover-bubble { background: rgba(9,15,26,0.9); border-color: rgba(44,76,124,0.35); }
     .mega-card.accent-red .hover-bubble { background: rgba(26,10,10,0.9); border-color: rgba(225,60,50,0.3); }
+    .mega-card.accent-purple .hover-bubble { background: rgba(20,10,30,0.9); border-color: rgba(139,92,246,0.3); }
 
     /* ─── SCROLL REVEAL — smooth staggered ─── */
     [data-reveal] {
@@ -2261,6 +2311,12 @@
       .mega-card:nth-child(even) .mega-card-overlay.light {
         background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.42) 26%, rgba(0,0,0,0) 55%) !important;
       }
+      /* Image du montage vidéo (timeline Premiere Pro) très lumineuse/colorée : overlay renforcé
+         pour garder le texte et les boutons parfaitement lisibles. */
+      #mc-freelance .mega-card-overlay,
+      #mc-freelance .mega-card-overlay.light {
+        background: linear-gradient(to top, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.66) 30%, rgba(0,0,0,0.22) 55%, rgba(0,0,0,0.05) 75%) !important;
+      }
       .mega-card-top {
         flex-direction: row !important;
         margin-bottom: 14px;
@@ -2321,6 +2377,16 @@
         transition: background 0.2s, transform 0.2s;
       }
       .mega-card-mobile-cta:active { background: rgba(255,255,255,0.3); transform: translateY(1px); }
+      .project-sheet-section .mega-card-mobile-cta { display: inline-flex; margin-top: 14px; }
+      .mega-card-mobile-cta-row { display: flex; align-items: center; gap: 8px; align-self: flex-start; flex-wrap: nowrap; max-width: 100%; }
+      .mega-card-mobile-cta-row .mega-card-mobile-cta {
+        align-self: auto;
+        flex: 0 1 auto;
+        min-width: 0;
+        padding: 12px 16px;
+        font-size: 0.74rem;
+        white-space: nowrap;
+      }
 
       /* ── Fiche projet dédiée (plein écran), ouverte au tap sur "Voir le projet" ── */
       .project-sheet {
@@ -2453,27 +2519,140 @@
       .project-sheet.accent-green .project-sheet-inner { background: rgba(8,22,16,0.98); }
       .project-sheet.accent-orange .project-sheet-inner { background: rgba(9,15,26,0.98); }
       .project-sheet.accent-red .project-sheet-inner { background: rgba(26,10,10,0.98); }
+      .project-sheet.accent-purple .project-sheet-inner { background: rgba(20,10,30,0.98); }
       /* Le badge de la fiche reprend la même couleur d'accent que le badge de la carte mobile */
       .project-sheet.accent-copper .project-sheet-badge { background: rgba(232,196,74,0.38); border-color: rgba(232,196,74,0.8); color: #FFF6DE; }
       .project-sheet.accent-blue .project-sheet-badge { background: rgba(237,230,214,0.38); border-color: rgba(237,230,214,0.8); color: #FBF6EA; }
       .project-sheet.accent-green .project-sheet-badge { background: rgba(168,221,238,0.35); border-color: rgba(168,221,238,0.7); color: #EFFBFF; }
       .project-sheet.accent-orange .project-sheet-badge { background: rgba(141,164,186,0.45); border-color: rgba(141,164,186,0.8); color: #EEF3F7; }
       .project-sheet.accent-red .project-sheet-badge { background: rgba(255,111,89,0.35); border-color: rgba(255,111,89,0.7); color: #FFEEEA; }
+      .project-sheet.accent-purple .project-sheet-badge { background: rgba(167,139,250,0.35); border-color: rgba(167,139,250,0.75); color: #F3EEFF; }
 
-      /* ── NAV : compacte, transparente au-dessus du hero photo ── */
+      /* ── Fiche "Ce que j'apporte" (plein écran), ouverte au tap sur le bouton du même nom.
+         Reprend exactement la même structure/animation/fermeture que #project-sheet ; seul le
+         contenu du corps change (compétences déjà préparées dans BUBBLE_DATA, aucun nouveau texte). ── */
+      .skills-project-sheet {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        align-items: flex-end;
+        justify-content: center;
+        background: rgba(6, 10, 9, 0.6);
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+      }
+      .skills-project-sheet.visible { opacity: 1; visibility: visible; }
+      .skills-project-sheet.visible .project-sheet-inner { transform: translateY(0); }
+      .skills-project-sheet.accent-copper .project-sheet-inner { background: rgba(10,28,20,0.98); }
+      .skills-project-sheet.accent-blue .project-sheet-inner { background: rgba(8,16,30,0.98); }
+      .skills-project-sheet.accent-green .project-sheet-inner { background: rgba(8,22,16,0.98); }
+      .skills-project-sheet.accent-orange .project-sheet-inner { background: rgba(9,15,26,0.98); }
+      .skills-project-sheet.accent-red .project-sheet-inner { background: rgba(26,10,10,0.98); }
+      .skills-project-sheet.accent-purple .project-sheet-inner { background: rgba(20,10,30,0.98); }
+      .skills-project-sheet.accent-copper .project-sheet-badge { background: rgba(232,196,74,0.38); border-color: rgba(232,196,74,0.8); color: #FFF6DE; }
+      .skills-project-sheet.accent-blue .project-sheet-badge { background: rgba(237,230,214,0.38); border-color: rgba(237,230,214,0.8); color: #FBF6EA; }
+      .skills-project-sheet.accent-green .project-sheet-badge { background: rgba(168,221,238,0.35); border-color: rgba(168,221,238,0.7); color: #EFFBFF; }
+      .skills-project-sheet.accent-orange .project-sheet-badge { background: rgba(141,164,186,0.45); border-color: rgba(141,164,186,0.8); color: #EEF3F7; }
+      .skills-project-sheet.accent-red .project-sheet-badge { background: rgba(255,111,89,0.35); border-color: rgba(255,111,89,0.7); color: #FFEEEA; }
+      .skills-project-sheet.accent-purple .project-sheet-badge { background: rgba(167,139,250,0.35); border-color: rgba(167,139,250,0.75); color: #F3EEFF; }
+      .sps-item { margin-bottom: 26px; padding-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .sps-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+      /* Titre de compétence en pastille, même langage visuel que les tags de la carte */
+      .sps-item-title {
+        display: inline-block;
+        font-size: 0.78rem;
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: 100px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.24);
+        color: rgba(255,255,255,0.92);
+        margin: 0 0 14px;
+      }
+      .skills-project-sheet.accent-copper .sps-item-title { border-color: rgba(30,110,70,0.55); background: rgba(20,90,58,0.32); color: #DFFFE9; }
+      .skills-project-sheet.accent-blue .sps-item-title { border-color: rgba(90,160,255,0.55); background: rgba(60,130,240,0.22); color: #E7F0FF; }
+      .skills-project-sheet.accent-green .sps-item-title { border-color: rgba(74,222,128,0.5); background: rgba(60,180,110,0.22); color: #E7FFF1; }
+      .skills-project-sheet.accent-orange .sps-item-title { border-color: rgba(30,58,95,0.6); background: rgba(24,48,80,0.34); color: #DCE8FF; }
+      .skills-project-sheet.accent-red .sps-item-title { border-color: rgba(225,60,50,0.5); background: rgba(200,50,45,0.22); color: #FFEBEA; }
+      .skills-project-sheet.accent-purple .sps-item-title { border-color: rgba(139,92,246,0.55); background: rgba(124,58,237,0.24); color: #F0E9FF; }
+
+      /* ── NAV : compacte, glass, lisible au-dessus de la vidéo hero sombre ── */
       .hero-wrapper { padding: 14px 12px; }
       header.hero { border-radius: 26px; }
       .hero-auras { display: none; }
-      nav .wrap { padding: 12px 18px 0; }
+      nav { position: absolute; top: 0; left: 0; right: 0; z-index: 20; }
+      nav .wrap { padding: 22px 26px 0; }
+      .logo { display: none; }
       .navlinks { display: none; }
+      .nav-actions { width: 100%; justify-content: space-between; }
+      .nav-mobile-toggle { order: -1; }
       .nav-cv {
         display: inline-flex;
         font-size: 0.72rem;
         font-weight: 600;
-        padding: 8px 16px;
+        padding: 9px 16px;
         border-radius: 100px;
-        background: rgba(14,22,20,0.06);
+        background: rgba(255,255,255,0.16);
+        border: 1px solid rgba(255,255,255,0.4);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color: #FFFFFF;
       }
+      .nav-mobile-toggle {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.4);
+        background: rgba(255,255,255,0.16);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .nav-mobile-toggle span {
+        display: block;
+        width: 15px;
+        height: 2px;
+        background: #FFFFFF;
+        border-radius: 2px;
+        transition: transform 0.25s ease, opacity 0.2s ease;
+      }
+      .nav-mobile-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .nav-mobile-toggle.open span:nth-child(2) { opacity: 0; }
+      .nav-mobile-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      .nav-mobile-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        margin: 0 18px;
+        border-radius: 18px;
+        background: rgba(10,14,13,0.7);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        transition: max-height 0.3s ease, opacity 0.25s ease, margin-top 0.3s ease;
+      }
+      .nav-mobile-menu.open { max-height: 280px; opacity: 1; margin-top: 10px; }
+      .nav-mobile-menu a {
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: rgba(255,255,255,0.9);
+        padding: 14px 18px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .nav-mobile-menu a:last-child { border-bottom: none; }
 
       /* ── HERO MOBILE : image plein format, gros titre, CTA en verre, tags ── */
       .hero-main { display: none; }
@@ -2481,8 +2660,8 @@
         display: block;
         position: relative;
         height: 620px;
-        margin-top: 8px;
-        border-radius: 22px;
+        margin-top: 0;
+        border-radius: 26px;
         overflow: hidden;
       }
       .hero-mobile-bg {
@@ -2512,8 +2691,8 @@
       }
       .hero-mobile-title {
         font-family: 'Playfair Display', serif;
-        font-size: 2.3rem;
-        line-height: 1.08;
+        font-size: 1.9rem;
+        line-height: 1.15;
         font-weight: 500;
         color: #FFFFFF;
         margin: 0 0 14px;
@@ -2810,7 +2989,18 @@
           <li><a href="#formation">Formation</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
-        <a class="nav-cv" href="#contact">Contact</a>
+        <div class="nav-actions">
+          <a class="nav-cv" href="#contact">Contact</a>
+          <button type="button" class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+      <div class="nav-mobile-menu" id="nav-mobile-menu">
+        <a href="#projets">Projets</a>
+        <a href="#outils">Outils</a>
+        <a href="#formation">Formation</a>
+        <a href="#contact">Contact</a>
       </div>
     </nav>
 
@@ -2830,9 +3020,9 @@
       <!-- TEXTE CENTRAL -->
       <div class="hero-center">
         <h1>
-          <span class="small-text">Alternant pour le poste de</span>
-          Consultant en<br>
-          <span class="gradient-text">Numérique Responsable</span>
+          <span class="small-text">Alternant</span>
+          Consultant et Manager
+          <span class="gradient-text">Green IT</span>
         </h1>
         <p class="hero-subtitle">J&rsquo;accompagne les organisations dans leur démarche de transformation vers un numérique plus responsable.</p>
         <a class="hero-btn" href="mailto:nganbellk@gmail.com">Démarrer un entretien</a>
@@ -2858,8 +3048,8 @@
       </video>
       <div class="hero-mobile-overlay"></div>
       <div class="hero-mobile-content">
-        <span class="hero-mobile-eyebrow">Alternant pour le poste de</span>
-        <h1 class="hero-mobile-title">Consultant en <span>Numérique Responsable</span></h1>
+        <span class="hero-mobile-eyebrow">Alternant</span>
+        <h1 class="hero-mobile-title">Consultant et Manager <span>Green IT</span></h1>
         <p class="hero-mobile-subtitle">J&rsquo;accompagne les organisations dans leur démarche de transformation vers un numérique plus responsable.</p>
         <a class="hero-mobile-btn" href="mailto:nganbellk@gmail.com">Démarrer un entretien <span aria-hidden="true">&rarr;</span></a>
       </div>
@@ -2880,7 +3070,7 @@
       </div>
       <div class="about-content">
         <blockquote data-reveal data-delay="4">
-          « J’ai développé des compétences en <span>gestion de projet, coordination et communication</span> . Intéressé par les enjeux du numérique responsable, de l’<span>éco-conception</span> et de la <span>transformation durable des systèmes d’information</span>, je souhaite contribuer à des missions de conseil et accompagner les organisations dans leur transition vers un numérique plus responsable. »
+          « J’aimerais aider les entreprises à avancer vers <span>un numérique plus responsable</span> . Que ce soit en réfléchissant à une stratégie, en accompagnant un projet ou en faisant évoluer les pratiques, j’aimerais comprendre leurs enjeux, construire avec elles <span>des solutions concrètes</span> et contribuer à des projets qui ont <span>un impact positif</span>, aussi bien pour l’entreprise que pour les personnes qui y travaillent et, plus largement, pour la société. »
         </blockquote>
             <div class="about-author" data-reveal data-delay="6">
           Kenny Ngan Bell
@@ -2899,32 +3089,79 @@
   </div>
   <div class="cases-stack">
 
-    <!-- PROJET AFI (nouveau) -->
+    <!-- PROJET FREELANCE (déplacé en 1ère position) -->
+    <article class="mega-card accent-purple" id="mc-freelance">
+      <div class="mega-card-bg" style="background-image: url('Images/images_projets/Fond%20Premiere%20Pro.png'); background-size: cover; background-position: center;"></div>
+      <!-- Image dédiée à la carte mobile (format vertical) — à ajouter lors de l'adaptation mobile -->
+      <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/Fond%20Premiere%20Pro.png'); background-size: cover; background-position: center;"></div>
+      <div class="mega-card-overlay light" style="background: linear-gradient(-120deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.03) 100%);"></div>
+      <div class="mega-card-content" data-reveal>
+        <div class="mega-card-top" style="flex-direction: row-reverse;">
+          <span class="mega-card-badge">Freelance</span>
+          <span class="mega-card-num">01 / 06</span>
+        </div>
+        <div class="mega-card-body" style="align-self: flex-end; text-align: right; margin-left: auto; margin-right: 0;">
+          <p class="mega-card-meta">En parall&egrave;le du parcours acad&eacute;mique &bull; Clients externes</p>
+          <h3 class="mega-card-title">Montage vid&eacute;o</h3>
+          <p class="mega-card-desc">Je suis freelance en montage vid&eacute;o, je r&eacute;alise des vid&eacute;os professionnelles pour des clients vari&eacute;s.</p>
+          <p class="mega-card-mobile-tagline">Piloter une petite &eacute;quipe de monteurs, de la r&eacute;partition du travail &agrave; la livraison finale.</p>
+          <div class="mega-card-tags" style="justify-content: flex-end;">
+            <span class="mega-card-tag" data-pill="p-fl-management" data-tip="Répartition du travail entre les monteurs selon leurs points forts.">Management d&rsquo;&eacute;quipe</span>
+            <span class="mega-card-tag" data-pill="p-fl-pilotage" data-tip="Suivi de l'avancement et réorganisation du travail en cas de retard ou de priorité.">Pilotage op&eacute;rationnel</span>
+            <span class="mega-card-tag" data-pill="p-fl-reporting" data-tip="Suivi de ce que réalise chacun, pour garder une vision claire de l'avancement.">Reporting op&eacute;rationnel</span>
+            <span class="mega-card-tag" data-pill="p-fl-ressources" data-tip="Attribution de chaque montage à la personne la plus à l'aise avec le style demandé.">Gestion des ressources</span>
+            <span class="mega-card-tag" data-pill="p-fl-qualite" data-tip="Relecture systématique de chaque vidéo avant envoi au client.">Contr&ocirc;le qualit&eacute;</span>
+          </div>
+          <div class="mega-card-mobile-cta-row">
+            <button type="button" class="mega-card-mobile-cta" data-project="mc-freelance">Voir le projet <span aria-hidden="true">&rarr;</span></button>
+            <button type="button" class="mega-card-mobile-cta" data-skills-project="mc-freelance">Ma d&eacute;marche <span aria-hidden="true">&rarr;</span></button>
+          </div>
+        </div>
+        <div class="mega-card-bottom" style="flex-direction: row-reverse;">
+          <div class="mega-card-progress">
+            <span class="mega-card-progress-label">01 / 06</span>
+            <div class="mega-card-bars">
+              <div class="mega-card-bar active"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+              <div class="mega-card-bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJET AFI -->
     <article class="mega-card accent-copper" id="mc-afi">
       <div class="mega-card-bg" style="background-image: url('Images/images_projets/hackathon.png')"></div>
       <!-- Image dédiée à la carte mobile (format vertical) — à remplacer plus tard -->
       <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/Images%20mobile/projet%20hackathon.png')"></div>
       <div class="mega-card-overlay light"></div>
       <div class="mega-card-content" data-reveal>
-        <div class="mega-card-top">
+        <div class="mega-card-top" style="flex-direction: row;">
           <span class="mega-card-badge">Hackathon IA</span>
-          <span class="mega-card-num">01 / 05</span>
+          <span class="mega-card-num">02 / 06</span>
         </div>
-        <div class="mega-card-body">
+        <div class="mega-card-body" style="align-self: flex-start; text-align: left; margin-left: 0; margin-right: auto;">
           <p class="mega-card-meta">11&ndash;12 avril 2026 &bull; AI AD AWARD, Tunisie</p>
           <h3 class="mega-card-title">Vid&eacute;o publicitaire<br>g&eacute;n&eacute;r&eacute;e par IA</h3>
           <p class="mega-card-desc">Participation en &eacute;quipe de 3 &agrave; un hackathon national de cr&eacute;ation publicitaire par intelligence artificielle : storytelling, storyboard, puis g&eacute;n&eacute;ration des visuels et de la vid&eacute;o avec plusieurs outils d&rsquo;IA pour produire un spot promotionnel complet.</p>
           <p class="mega-card-mobile-tagline">Participation &agrave; un hackathon national d&eacute;di&eacute; &agrave; la cr&eacute;ation publicitaire par IA.</p>
-          <div class="mega-card-tags">
-            <span class="mega-card-tag" data-pill="p-afi-orga" data-tip="Construction du fil narratif et coordination créative avec l’équipe.">Organisation</span>
-            <span class="mega-card-tag" data-pill="p-afi-team" data-tip="Répartition des rôles et avancement en équipe de 3 sous forte contrainte de temps.">Travail d&rsquo;&eacute;quipe</span>
-            <span class="mega-card-tag" data-pill="p-afi-probsolving" data-tip="Itération méthodique face aux limites des outils d’IA (incohérences visuelles).">R&eacute;solution de probl&egrave;mes</span>
-            <span class="mega-card-tag" data-pill="p-afi-comm" data-tip="Coordination du fil narratif et des livrables entre les membres de l’équipe.">Communication</span>
-            <span class="mega-card-tag" data-pill="p-afi-adapt" data-tip="Adaptation rapide à des outils inconnus, sans expérience préalable en production vidéo.">Adaptabilit&eacute;</span>
+          <div class="mega-card-tags" style="justify-content: flex-start;">
+            <span class="mega-card-tag" data-pill="p-afi-decision" data-tip="Comparaison de plusieurs IA avant de retenir la plus adaptée à chaque étape du projet.">Aide &agrave; la d&eacute;cision</span>
+            <span class="mega-card-tag" data-pill="p-afi-organisation" data-tip="Répartition des rôles entre storytelling, images et vidéo pour avancer en parallèle.">Organisation du travail</span>
+            <span class="mega-card-tag" data-pill="p-afi-coordination" data-tip="Points réguliers sur l'avancement de chacun pour ajuster avant l'étape suivante.">Coordination d&rsquo;&eacute;quipe</span>
+            <span class="mega-card-tag" data-pill="p-afi-priorites" data-tip="Arbitrages pour respecter les 48h du hackathon sans sacrifier la qualité.">Gestion des priorit&eacute;s</span>
+            <span class="mega-card-tag" data-pill="p-afi-adaptation" data-tip="Changement rapide d'outil ou d'approche quand une IA ne donnait pas le résultat attendu.">Adaptation au changement</span>
           </div>
-          <button type="button" class="mega-card-mobile-cta" data-project="mc-afi">Voir le projet <span aria-hidden="true">&rarr;</span></button>
+          <div class="mega-card-mobile-cta-row">
+            <button type="button" class="mega-card-mobile-cta" data-project="mc-afi">Voir le projet <span aria-hidden="true">&rarr;</span></button>
+            <button type="button" class="mega-card-mobile-cta" data-skills-project="mc-afi">Ma d&eacute;marche <span aria-hidden="true">&rarr;</span></button>
+          </div>
         </div>
-        <div class="mega-card-bottom" style="align-items: flex-start; justify-content: flex-end;">
+        <div class="mega-card-bottom" style="flex-direction: row; align-items: flex-start; justify-content: flex-end;">
           <div class="mega-card-tags" style="justify-content: flex-end;">
             <span class="mega-card-tag result-pill" data-pill="p-afi-finalvideo" data-tip="Spot publicitaire final assemblé à partir des visuels et séquences générés par IA.">Vid&eacute;o publicitaire</span>
             <span class="mega-card-tag result-pill" data-pill="p-afi-attestation" data-tip="Attestation de réussite remise à l’issue du hackathon AI AD AWARD.">Attestation de r&eacute;ussite</span>
@@ -2942,7 +3179,7 @@
       <div class="mega-card-content" data-reveal>
         <div class="mega-card-top" style="flex-direction: row;">
           <span class="mega-card-badge">Stage PFE</span>
-          <span class="mega-card-num">02 / 05</span>
+          <span class="mega-card-num">03 / 06</span>
         </div>
         <div class="mega-card-body" style="align-self: flex-start; text-align: left; margin-left: 0; margin-right: auto;">
           <p class="mega-card-meta">Avr 2025 &ndash; Oct 2025 &bull; HSWARE Coadis, Tunis</p>
@@ -2950,13 +3187,16 @@
           <p class="mega-card-desc">Conception et pilotage d&rsquo;un syst&egrave;me de capteurs IoT agricoles pour optimiser l&rsquo;irrigation locale en temps r&eacute;el.</p>
           <p class="mega-card-mobile-tagline">Capteur d&rsquo;humidit&eacute; du sol LoRa pour piloter l&rsquo;irrigation en temps r&eacute;el.</p>
           <div class="mega-card-tags" style="justify-content: flex-start;">
-            <span class="mega-card-tag" data-pill="p-hs-rigueur" data-tip="Cycles courts de prototypage, test terrain puis ajustement.">Rigueur</span>
-            <span class="mega-card-tag" data-pill="p-hs-cadrage" data-tip="Définition des objectifs, du périmètre et du calendrier du projet.">Cadrage &amp; planification</span>
-            <span class="mega-card-tag" data-pill="p-hs-besoins" data-tip="Identification des contraintes réelles du terrain avant tout choix technique : accès, maintenance et autonomie énergétique.">Analyse des besoins</span>
-            <span class="mega-card-tag" data-pill="p-hs-probsolving" data-tip="Résolution des arbitrages entre autonomie énergétique et fiabilité des mesures.">R&eacute;solution de probl&egrave;mes</span>
-            <span class="mega-card-tag" data-pill="p-hs-doc" data-tip="Rédaction de la documentation technique et des livrables en fin de projet.">Documentation</span>
+            <span class="mega-card-tag" data-pill="p-hs-cadrage" data-tip="Planning de travail construit avec le maître de stage dès le début du projet.">Cadrage de projet</span>
+            <span class="mega-card-tag" data-pill="p-hs-analyse" data-tip="Étude des contraintes terrain : autonomie, énergie, portée réseau, maintenance.">Analyse des besoins</span>
+            <span class="mega-card-tag" data-pill="p-hs-arbitrage" data-tip="Comparaison de plusieurs technologies avant de retenir LoRa.">Arbitrage technique</span>
+            <span class="mega-card-tag" data-pill="p-hs-pilotage" data-tip="Vérification des objectifs atteints à chaque étape avant de passer à la suivante.">Pilotage de projet</span>
+            <span class="mega-card-tag" data-pill="p-hs-sobriete" data-tip="Réduction de la consommation d'énergie et de la maintenance sans dégrader les performances.">Sobri&eacute;t&eacute; num&eacute;rique</span>
+                       </div>
+          <div class="mega-card-mobile-cta-row">
+            <button type="button" class="mega-card-mobile-cta" data-project="mc-hsware">Voir le projet <span aria-hidden="true">&rarr;</span></button>
+            <button type="button" class="mega-card-mobile-cta" data-skills-project="mc-hsware">Ma d&eacute;marche <span aria-hidden="true">&rarr;</span></button>
           </div>
-          <button type="button" class="mega-card-mobile-cta" data-project="mc-hsware">Voir le projet <span aria-hidden="true">&rarr;</span></button>
         </div>
         <div class="mega-card-bottom" style="align-items: flex-start;">
           <div class="mega-card-tags" style="justify-content: flex-start;">
@@ -2975,7 +3215,7 @@
       <div class="mega-card-content" data-reveal>
         <div class="mega-card-top" style="flex-direction: row-reverse;">
           <span class="mega-card-badge">Stage</span>
-          <span class="mega-card-num">03 / 05</span>
+          <span class="mega-card-num">04 / 06</span>
         </div>
         <div class="mega-card-body" style="align-self: flex-end; text-align: right; margin-left: auto; margin-right: 0;">
           <p class="mega-card-meta">Sept 2024 &ndash; Oct 2024 &bull; Smart Farm, Tunis</p>
@@ -2983,18 +3223,22 @@
           <p class="mega-card-desc">Analyse de l&rsquo;architecture d&rsquo;un capteur connect&eacute; existant et comparaison de composants pour r&eacute;duire sa consommation &eacute;nerg&eacute;tique.</p>
           <p class="mega-card-mobile-tagline">Comparer des composants &eacute;lectroniques pour r&eacute;duire la consommation d&rsquo;un capteur connect&eacute;.</p>
           <div class="mega-card-tags" style="justify-content: flex-end;">
-            <span class="mega-card-tag" data-pill="p-sf-analyse" data-tip="Étude du schéma électronique et de l'architecture matérielle existante , afin d'identifier les postes de consommation.">Analyse technique</span>
-            <span class="mega-card-tag" data-pill="p-sf-critique" data-tip="Remise en question de choix de composants déjà en place avant de proposer des alternatives.">Esprit critique</span>
-            <span class="mega-card-tag" data-pill="p-sf-comparaison" data-tip="Comparaison de plusieurs modules électroniques et batteries , pour juger de leur impact énergétique.">Comparaison de solutions</span>
-            <span class="mega-card-tag" data-pill="p-sf-justification" data-tip="Argumentation des choix retenus, par exemple le maintien du module SIM800L, auprès de l'équipe technique.">Justification technique</span>
-            <span class="mega-card-tag" data-pill="p-sf-greenit" data-tip="Démarche d'optimisation énergétique appliquée à un objet connecté existant, dans une logique Green IT.">Green IT</span>
+            <span class="mega-card-tag" data-pill="p-sf-diagnostic" data-tip="Étude de l'architecture du capteur pour identifier les éléments les plus énergivores.">Diagnostic technique</span>
+             <span class="mega-card-tag" data-pill="p-sf-impact" data-tip="Évaluation de l'impact de chaque composant sur l'autonomie, la maintenance et la durée de vie.">Analyse d&rsquo;impact</span>
+            <span class="mega-card-tag" data-pill="p-sf-recommandation" data-tip="Propositions d'amélioration présentées à l'entreprise avec avantages et limites de chaque piste.">&Eacute;laboration de recommandations</span>
+             <span class="mega-card-tag" data-pill="p-sf-justification" data-tip="Comparaison systématique de chaque solution avec la situation existante avant présentation.">Justification des choix</span>
+            <span class="mega-card-tag" data-pill="p-sf-amelioration" data-tip="Améliorations ciblées d'un système existant plutôt qu'une refonte complète.">Am&eacute;lioration continue</span>
           </div>
-          <button type="button" class="mega-card-mobile-cta" data-project="mc-smartfarm">Voir le projet <span aria-hidden="true">&rarr;</span></button>
+          <div class="mega-card-mobile-cta-row">
+            <button type="button" class="mega-card-mobile-cta" data-project="mc-smartfarm">Voir le projet <span aria-hidden="true">&rarr;</span></button>
+            <button type="button" class="mega-card-mobile-cta" data-skills-project="mc-smartfarm">Ma d&eacute;marche <span aria-hidden="true">&rarr;</span></button>
+          </div>
         </div>
         <div class="mega-card-bottom" style="flex-direction: row-reverse;">
           <div class="mega-card-progress">
-            <span class="mega-card-progress-label">03 / 05</span>
+            <span class="mega-card-progress-label">04 / 06</span>
             <div class="mega-card-bars">
+              <div class="mega-card-bar"></div>
               <div class="mega-card-bar"></div>
               <div class="mega-card-bar"></div>
               <div class="mega-card-bar active"></div>
@@ -3015,7 +3259,7 @@
       <div class="mega-card-content" data-reveal>
         <div class="mega-card-top" style="flex-direction: row;">
           <span class="mega-card-badge">Engagement associatif</span>
-          <span class="mega-card-num">04 / 05</span>
+          <span class="mega-card-num">05 / 06</span>
         </div>
         <div class="mega-card-body" style="align-self: flex-start; text-align: left; margin-left: 0; margin-right: auto;">
           <p class="mega-card-meta">Jan 2025 &ndash; Juin 2025 &bull; Club Interculturel, ESPRIT Tunis</p>
@@ -3023,18 +3267,22 @@
           <p class="mega-card-desc">Gestion de la tr&eacute;sorerie du club, suivi des d&eacute;penses et des recettes, et organisation d&rsquo;&eacute;v&eacute;nements interculturels pour plus de 200 participants.</p>
           <p class="mega-card-mobile-tagline">Tr&eacute;sorerie et communication d&rsquo;une association &eacute;tudiante de 200+ membres.</p>
           <div class="mega-card-tags" style="justify-content: flex-start;">
-            <span class="mega-card-tag" data-pill="p-club-gestion" data-tip="Suivi des dépenses, recettes et budget annuel du Club Interculturel.">Gestion de projet</span>
-            <span class="mega-card-tag" data-pill="p-club-orga" data-tip="Coordination logistique d’événements pour plus de 200 participants.">Organisation</span>
-            <span class="mega-card-tag" data-pill="p-club-coord" data-tip="Répartition des rôles avec le bureau et les autres membres du club.">Coordination</span>
-            <span class="mega-card-tag" data-pill="p-club-comm" data-tip="Communication du calendrier d’événements à l’ensemble de l’équipe.">Communication</span>
-            <span class="mega-card-tag" data-pill="p-club-reporting" data-tip="Rédaction de comptes-rendus et documentation transmise à l’équipe suivante.">Reporting</span>
+            <span class="mega-card-tag" data-pill="p-club-parties" data-tip="Coordination avec fournisseurs, prestataires et intervenants avant chaque événement.">Gestion des parties prenantes</span>
+            <span class="mega-card-tag" data-pill="p-club-reporting" data-tip="Mise à jour régulière du budget et comptes-rendus transmis au bureau.">Reporting</span>
+            <span class="mega-card-tag" data-pill="p-club-orga" data-tip="Préparation des échéances, suivi des inscriptions et vérification de chaque étape avant l'événement.">Organisation de projet</span>
+            <span class="mega-card-tag" data-pill="p-club-comm" data-tip="Cartes d'invitation, communication événementielle et confirmation de présence des participants.">Communication</span>
+            <span class="mega-card-tag" data-pill="p-club-budget" data-tip="Suivi des dépenses au fur et à mesure des événements pour le bureau.">Gestion budg&eacute;taire</span>
           </div>
-          <button type="button" class="mega-card-mobile-cta" data-project="mc-club">Voir le projet <span aria-hidden="true">&rarr;</span></button>
+          <div class="mega-card-mobile-cta-row">
+            <button type="button" class="mega-card-mobile-cta" data-project="mc-club">Voir le projet <span aria-hidden="true">&rarr;</span></button>
+            <button type="button" class="mega-card-mobile-cta" data-skills-project="mc-club">Ma d&eacute;marche <span aria-hidden="true">&rarr;</span></button>
+          </div>
         </div>
         <div class="mega-card-bottom" style="flex-direction: row;">
           <div class="mega-card-progress">
-            <span class="mega-card-progress-label">04 / 05</span>
+            <span class="mega-card-progress-label">05 / 06</span>
             <div class="mega-card-bars">
+              <div class="mega-card-bar"></div>
               <div class="mega-card-bar"></div>
               <div class="mega-card-bar"></div>
               <div class="mega-card-bar"></div>
@@ -3053,28 +3301,32 @@
       <div class="mega-card-mobile-bg" style="background-image: url('Images/images_projets/Images%20mobile/esprit%20bracelet.png'); background-color: #E4E4E4;"></div>
       <div class="mega-card-overlay light"></div>
       <div class="mega-card-content" data-reveal>
-        <div class="mega-card-top">
+        <div class="mega-card-top" style="flex-direction: row;">
           <span class="mega-card-badge">Sant&eacute; &amp; Innovation</span>
-          <span class="mega-card-num">05 / 05</span>
+          <span class="mega-card-num">06 / 06</span>
         </div>
-        <div class="mega-card-body">
+        <div class="mega-card-body" style="align-self: flex-start; text-align: left; margin-left: 0; margin-right: auto;">
           <p class="mega-card-meta">Jan 2024 &ndash; Mai 2024 &bull; Sant&eacute; connect&eacute;e, ESPRIT Tunis</p>
           <h3 class="mega-card-title">Bracelet connect&eacute;<br>glyc&eacute;mique</h3>
           <p class="mega-card-desc">Recherche et conception d&rsquo;un bracelet connect&eacute; pour estimer le taux de glyc&eacute;mie sans pr&eacute;l&egrave;vement sanguin, &agrave; partir de publications scientifiques sur la corr&eacute;lation entre signal ECG et glyc&eacute;mie.</p>
           <p class="mega-card-mobile-tagline">Estimer le taux de glyc&eacute;mie sans pr&eacute;l&egrave;vement sanguin, &agrave; partir du signal ECG.</p>
-          <div class="mega-card-tags">
-            <span class="mega-card-tag" data-pill="p-br-research" data-tip="Étude de publications scientifiques sur la corrélation entre signal ECG et glycémie.">Recherche &amp; analyse</span>
-            <span class="mega-card-tag" data-pill="p-br-critical" data-tip="Évaluation critique de la faisabilité scientifique de l'estimation non invasive.">Esprit critique</span>
-            <span class="mega-card-tag" data-pill="p-br-rigueur" data-tip="Démarche rigoureuse de validation des hypothèses scientifiques.">Rigueur scientifique</span>
-            <span class="mega-card-tag" data-pill="p-br-team" data-tip="Répartition des rôles dans une équipe de 6 personnes, avancement par cycles courts.">Travail d&rsquo;&eacute;quipe</span>
-            <span class="mega-card-tag" data-pill="p-br-vulg" data-tip="Reformulation de concepts scientifiques complexes pour un public non spécialiste.">Vulgarisation technique</span>
+          <div class="mega-card-tags" style="justify-content: flex-start;">
+            <span class="mega-card-tag" data-pill="p-br-faisabilite" data-tip="Vérification, avant tout prototype, que l'approche était scientifiquement crédible.">Analyse de faisabilit&eacute;</span>
+            <span class="mega-card-tag" data-pill="p-br-veille" data-tip="Étude de publications scientifiques sur la corrélation entre signal ECG et glycémie.">Veille scientifique</span>
+            <span class="mega-card-tag" data-pill="p-br-critique" data-tip="Remise en question systématique des idées face aux études disponibles avant de trancher.">Esprit critique</span>
+            <span class="mega-card-tag" data-pill="p-br-collaboratif" data-tip="Répartition des recherches puis mise en commun des résultats pour décider ensemble.">Travail collaboratif</span>
+            <span class="mega-card-tag" data-pill="p-br-restitution" data-tip="Présentation finale des conclusions, résultats prometteurs comme limites identifiées.">Restitution des r&eacute;sultats</span>
           </div>
-          <button type="button" class="mega-card-mobile-cta" data-project="mc-bracelet">Voir le projet <span aria-hidden="true">&rarr;</span></button>
+          <div class="mega-card-mobile-cta-row">
+            <button type="button" class="mega-card-mobile-cta" data-project="mc-bracelet">Voir le projet <span aria-hidden="true">&rarr;</span></button>
+            <button type="button" class="mega-card-mobile-cta" data-skills-project="mc-bracelet">Ma d&eacute;marche <span aria-hidden="true">&rarr;</span></button>
+          </div>
         </div>
-        <div class="mega-card-bottom">
+        <div class="mega-card-bottom" style="flex-direction: row;">
           <div class="mega-card-progress">
-            <span class="mega-card-progress-label">05 / 05</span>
+            <span class="mega-card-progress-label">06 / 06</span>
             <div class="mega-card-bars">
+              <div class="mega-card-bar"></div>
               <div class="mega-card-bar"></div>
               <div class="mega-card-bar"></div>
               <div class="mega-card-bar"></div>
@@ -3497,23 +3749,32 @@
         <p id="ps-problem"></p>
       </div>
       <div class="project-sheet-section">
-        <h4>Ma démarche</h4>
+        <h4>Comment j&rsquo;ai abord&eacute; le probl&egrave;me</h4>
         <p id="ps-reasoning"></p>
-      </div>
-      <div class="project-sheet-section">
-        <h4>Décisions &amp; compromis</h4>
-        <p id="ps-decisions"></p>
+        <button type="button" class="mega-card-mobile-cta" id="ps-reasoning-cta">Ma d&eacute;marche <span aria-hidden="true">&rarr;</span></button>
       </div>
       <div class="project-sheet-section">
         <h4>Résultats</h4>
         <p id="ps-results"></p>
         <div class="ps-proofs" id="ps-proofs"></div>
       </div>
-      <div class="project-sheet-section">
-        <h4>Ce que j&rsquo;en retiens</h4>
-        <p id="ps-lessons"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ FICHE "MA DÉMARCHE" (mobile uniquement, ouverte au tap sur "Ma démarche") ══════ -->
+<div class="skills-project-sheet" id="skills-project-sheet">
+  <div class="project-sheet-inner">
+    <button type="button" class="project-sheet-close" id="skills-project-sheet-close" aria-label="Fermer">&times;</button>
+    <div class="project-sheet-hero">
+      <img id="sps-hero-img" src="" alt="">
+      <div class="project-sheet-hero-overlay"></div>
+      <div class="project-sheet-hero-text">
+        <span class="project-sheet-badge" id="sps-badge"></span>
+        <h3>Ma d&eacute;marche</h3>
       </div>
     </div>
+    <div class="project-sheet-body" id="sps-body"></div>
   </div>
 </div>
 
@@ -3535,13 +3796,44 @@
   </div>
   <div class="bubble-text">
     <div class="bubble-title" id="hb-title"></div>
-    <div class="bubble-eyebrow" id="hb-eyebrow">Comment j&rsquo;ai concr&egrave;tement fait</div>
+    <div class="bubble-eyebrow" id="hb-eyebrow">Ce qui est attendu d&rsquo;un Consultant et Manager Green IT</div>
     <div class="bubble-desc" id="hb-desc"></div>
+    <div class="bubble-demo-eyebrow" id="hb-demo-eyebrow"></div>
+    <div class="bubble-demo-desc" id="hb-demo-desc"></div>
   </div>
   <div class="bubble-hint">D&eacute;placez la souris pour fermer</div>
 </div>
 
 <script>
+  /* ════════════ NAV MOBILE — bouton menu (hamburger) ════════════ */
+  (function () {
+    const toggle = document.getElementById('nav-mobile-toggle');
+    const menu = document.getElementById('nav-mobile-menu');
+    if (!toggle || !menu) return;
+    function closeNavMenu() {
+      menu.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = menu.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    menu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeNavMenu);
+    });
+    document.addEventListener('click', (e) => {
+      if (menu.classList.contains('open') && !menu.contains(e.target) && e.target !== toggle) {
+        closeNavMenu();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.classList.contains('open')) closeNavMenu();
+    });
+  })();
+
   /* ════════════ HERO MOBILE — vidéo de fond en autoplay fiable ════════════ */
   (function () {
     const heroVideo = document.querySelector('.hero-mobile-bg');
@@ -3599,46 +3891,31 @@
 
   /* ════════════ DONNÉES DES COMPÉTENCES AU SURVOL (panneau plein écran) ════════════ */
   const BUBBLE_DATA = {
-    // Projet AFI — Vidéo publicitaire générée par IA
-    'p-afi-story': {
-      title: 'Storytelling & storyboard',
-      desc: 'On a posé le concept publicitaire en équipe, puis j\'ai écrit un script court et je l\'ai découpé plan par plan dans un storyboard, qui nous a servi de feuille de route pendant les 24h du hackathon.',
-      highlight: '🎬 Script + storyboard bouclés avant même de toucher aux outils d\'IA.'
+    // Compétences génériques Management Green IT & Numérique Responsable — réutilisées d'un projet à l'autre
+    'p-afi-decision': {
+      title: 'Aide à la décision',
+      desc: 'Évaluer plusieurs solutions avant de retenir celle qui répond le mieux aux objectifs du projet.',
+      demo: 'Avant de commencer, on a comparé plusieurs IA. Certaines étaient meilleures pour écrire le scénario, d\'autres pour créer les images ou générer les vidéos. On a choisi les outils les plus adaptés à chaque étape plutôt que de tout faire avec une seule IA.'
     },
-    'p-afi-img': {
-      title: 'Génération d\'images IA',
-      desc: 'J\'ai généré les visuels du spot avec plusieurs outils d\'IA en parallèle. J\'ai retravaillé mes prompts à chaque essai pour corriger les incohérences typiques (mains, textes, proportions), jusqu\'à obtenir des images exploitables.',
-      highlight: '🖼️ Plusieurs dizaines d\'itérations pour arriver à des visuels exploitables.'
+    'p-afi-organisation': {
+      title: 'Organisation du travail',
+      desc: 'Structurer le projet afin que chacun sache quoi faire et puisse avancer efficacement.',
+      demo: 'Une fois les outils choisis, on s\'est réparti les rôles. L\'un travaillait sur le storytelling, un autre sur les images et un autre sur les vidéos. Cette organisation nous a permis d\'avancer tous en même temps.'
     },
-    'p-afi-video': {
-      title: 'Génération vidéo IA',
-      desc: 'J\'ai assemblé les séquences vidéo générées, en ajustant le rythme et les transitions pour que le spot reste cohérent malgré des visuels issus d\'outils différents.',
-      highlight: '🎥 Spot final livré dans les temps du hackathon.'
+    'p-afi-coordination': {
+      title: 'Coordination d\'équipe',
+      desc: 'Coordonner les actions de plusieurs personnes afin de maintenir une progression fluide du projet.',
+      demo: 'On faisait régulièrement le point sur ce que chacun produisait. Ça nous permettait de voir rapidement ce qu\'il fallait corriger avant de passer à l\'étape suivante.'
     },
-    'p-afi-team': {
-      title: 'Travail d\'équipe (3 personnes)',
-      desc: 'On a réparti les rôles selon les forces de chacun, avec des points courts et réguliers pour tenir le planning serré des 24h, sans perdre la bonne entente malgré la fatigue.',
-      highlight: '🤝 Une équipe soudée malgré la pression des 24h.'
+    'p-afi-priorites': {
+      title: 'Gestion des priorités',
+      desc: 'Prendre les bonnes décisions pour respecter les délais tout en gardant le niveau de qualité attendu.',
+      demo: 'Avec seulement 48 heures, on a rapidement compris qu\'il fallait avancer sans chercher la perfection dès le premier essai. On améliorait les résultats au fur et à mesure jusqu\'à obtenir une version convaincante.'
     },
-    'p-afi-orga': {
-      title: 'Organisation',
-      desc: 'J\'ai structuré le fil narratif du spot et coordonné les apports créatifs de chacun, pour garder une direction claire malgré le rythme serré du hackathon.',
-      highlight: '🗂️ Un fil narratif clair posé avant de produire quoi que ce soit.'
-    },
-    'p-afi-probsolving': {
-      title: 'Résolution de problèmes',
-      desc: 'Face aux incohérences visuelles typiques des outils d\'IA (mains, textes, proportions), j\'ai itéré méthodiquement sur les prompts plutôt que d\'abandonner un outil au premier essai raté.',
-      highlight: '🧩 Incohérences IA corrigées par itérations successives.'
-    },
-    'p-afi-comm': {
-      title: 'Communication',
-      desc: 'J\'ai coordonné le fil narratif et les livrables entre les membres de l\'équipe, pour que chacun sache exactement ce qui restait à produire à tout moment des 24h.',
-      highlight: '💬 Équipe alignée en continu malgré la pression du temps.'
-    },
-    'p-afi-adapt': {
-      title: 'Adaptabilité',
-      desc: 'Sans expérience préalable en production vidéo, je me suis adapté rapidement à plusieurs outils d\'IA inconnus pour livrer un spot exploitable en 24h.',
-      highlight: '⚡ Prise en main rapide d\'outils jamais utilisés avant.'
+    'p-afi-adaptation': {
+      title: 'Adaptation au changement',
+      desc: 'S\'adapter rapidement lorsqu\'une solution ne répond plus au besoin ou que le contexte évolue.',
+      demo: 'Quand une IA ne donnait pas le résultat attendu, on changeait d\'approche ou d\'outil sans perdre de temps. L\'objectif était de continuer à avancer jusqu\'à la livraison finale.'
     },
     'p-afi-attestation': {
       title: 'Résultat',
@@ -3655,46 +3932,31 @@
       resultOnly: true
     },
     // Projet Capteur d'humidité (hsware)
-    'p-hs-method': {
-      title: 'Méthodologie de travail',
-      desc: 'J\'ai travaillé en cycles courts : je prototypais, je testais sur le terrain, puis j\'ajustais le capteur avant de repartir sur un cycle suivant, plutôt que de tout figer dès le départ.',
-      highlight: '🔁 Prototypage itératif sur toute la durée du projet.'
-    },
     'p-hs-cadrage': {
-      title: 'Cadrage & planification',
-      desc: 'J\'ai défini les objectifs et le périmètre du projet, puis j\'ai suivi le planning via un diagramme de Gantt pour garder une vision claire des jalons jusqu\'au déploiement.',
-      highlight: '🗓️ Jalons suivis via diagramme de Gantt.',
+      title: 'Cadrage de projet',
+      desc: 'Définir un cadre de travail clair, fixer les objectifs et structurer les différentes étapes d\'un projet avant son lancement.',
+      demo: 'Dès le début du stage, j\'ai construit avec mon maître de stage un planning de travail avec les différentes phases, les jalons et les livrables. Ça m\'a permis de garder une ligne directrice pendant tout le projet.',
       heroImage: 'Images/Diagramme%20de%20GANT.png'
     },
-    'p-hs-tech': {
-      title: 'Choix techniques responsables',
-      desc: 'J\'ai comparé plusieurs technologies avant de retenir LoRa et des capteurs passifs, pour limiter la consommation énergétique et permettre une autonomie longue sur le terrain.',
-      highlight: '🔋 Solution basse consommation retenue après comparatif.'
-    },
-    'p-hs-data': {
-      title: 'Suivi de données',
-      desc: 'J\'ai mis en place un reporting quotidien des données d\'humidité captées sur chaque point du terrain, consolidées dans un tableau de bord pour suivre la fiabilité des mesures et ajuster le pilotage au fil de l\'eau.',
-      highlight: '📊 Données consolidées et vérifiées en continu.'
-    },
-    'p-hs-doc': {
-      title: 'Documentation projet',
-      desc: 'J\'ai rédigé la documentation technique et les livrables au fil du projet, pour que l\'installation et l\'étalonnage soient reproductibles par quelqu\'un d\'autre.',
-      highlight: '📄 Projet transmissible, pas juste un prototype isolé.'
-    },
-    'p-hs-rigueur': {
-      title: 'Rigueur',
-      desc: 'J\'ai avancé par cycles courts : prototype, test sur le terrain, puis ajustement, plutôt que de tout figer dès le départ.',
-      highlight: '🔁 Prototypage validé sur le terrain à chaque cycle.'
-    },
-    'p-hs-besoins': {
+    'p-hs-analyse': {
       title: 'Analyse des besoins',
-      desc: 'J\'ai identifié les contraintes réelles du terrain avant tout choix technique : accès limité aux capteurs, maintenance rare et autonomie énergétique contrainte.',
-      highlight: '🔍 Contraintes terrain identifiées avant de concevoir quoi que ce soit.'
+      desc: 'Comprendre les besoins et les contraintes afin de proposer une solution adaptée au contexte d\'utilisation.',
+      demo: 'Avant de choisir une solution, j\'ai cherché à comprendre les contraintes du terrain : autonomie, consommation d\'énergie, portée du réseau et fréquence de maintenance. C\'est cette analyse qui a guidé tout le reste du projet.'
     },
-    'p-hs-probsolving': {
-      title: 'Résolution de problèmes',
-      desc: 'J\'ai arbitré entre autonomie énergétique et fiabilité des mesures, deux exigences qui tiraient dans des directions opposées.',
-      highlight: '⚖️ Compromis technique assumé entre autonomie et fiabilité.'
+    'p-hs-arbitrage': {
+      title: 'Arbitrage technique',
+      desc: 'Comparer plusieurs solutions et justifier les choix retenus en tenant compte des enjeux techniques, économiques et environnementaux.',
+      demo: 'J\'ai comparé plusieurs technologies de communication avant de retenir LoRa. Ce n\'était pas la plus rapide, mais c\'était celle qui répondait le mieux aux besoins du projet en matière d\'autonomie et de portée.'
+    },
+    'p-hs-pilotage': {
+      title: 'Pilotage de projet',
+      desc: 'Suivre l\'avancement d\'un projet, anticiper les difficultés et assurer la livraison des résultats attendus.',
+      demo: 'À chaque étape, je vérifiais que les objectifs étaient atteints avant de passer à la suivante. Cette façon de travailler m\'a permis d\'arriver à un prototype fonctionnel sans perdre de vue le planning fixé au départ.'
+    },
+    'p-hs-sobriete': {
+      title: 'Sobriété numérique',
+      desc: 'Concevoir des solutions performantes tout en limitant leur consommation de ressources et leur impact sur le long terme.',
+      demo: 'Chaque décision technique était prise avec le même objectif : réduire la consommation d\'énergie et limiter les interventions de maintenance, sans dégrader les performances attendues.'
     },
     'p-hs-video': {
       title: 'Résultat',
@@ -3711,82 +3973,108 @@
       resultOnly: true
     },
     // Projet Optimisation énergétique (smartfarm)
-    'p-sf-analyse': {
-      title: 'Analyse technique',
-      desc: 'J\'ai étudié le schéma électronique et l\'architecture matérielle existante fournis par l\'entreprise, pour identifier les postes de consommation les plus importants.',
-      highlight: '🔎 Architecture existante analysée avant toute proposition.'
+    'p-sf-diagnostic': {
+      title: 'Diagnostic technique',
+      desc: 'Analyser un système existant afin d\'identifier ses limites et les opportunités d\'amélioration.',
+      demo: 'Avant de proposer des changements, j\'ai pris le temps de comprendre comment le capteur fonctionnait. J\'ai étudié son architecture et identifié les éléments qui avaient le plus d\'impact sur sa consommation d\'énergie.'
     },
-    'p-sf-critique': {
-      title: 'Esprit critique',
-      desc: 'J\'ai remis en question des choix de composants déjà en place plutôt que de les considérer comme acquis, avant de proposer des alternatives argumentées.',
-      highlight: '🧠 Choix existants questionnés, pas simplement acceptés.'
+    'p-sf-impact': {
+      title: 'Analyse d\'impact',
+      desc: 'Évaluer les conséquences techniques et opérationnelles des choix envisagés avant de prendre une décision.',
+      demo: 'Je ne regardais pas seulement les performances d\'un composant. Je cherchais aussi à comprendre ce qu\'il pouvait apporter en termes d\'autonomie, de maintenance et de durée de vie du capteur.'
     },
-    'p-sf-comparaison': {
-      title: 'Comparaison de solutions',
-      desc: 'J\'ai comparé plusieurs modules électroniques et batteries pour juger de leur impact énergétique respectif, avant de recommander une piste plutôt qu\'une autre.',
-      highlight: '⚖️ Plusieurs modules comparés sur des critères énergétiques.'
+    'p-sf-recommandation': {
+      title: 'Élaboration de recommandations',
+      desc: 'Formuler des recommandations argumentées permettant d\'améliorer un système ou un processus.',
+      demo: 'Après mes analyses, j\'ai proposé plusieurs pistes d\'amélioration à l\'entreprise en expliquant les avantages et les limites de chaque solution.'
     },
     'p-sf-justification': {
-      title: 'Justification technique',
-      desc: 'J\'ai argumenté mes choix auprès de l\'équipe technique, par exemple le maintien du module SIM800L après comparaison, plutôt que d\'imposer une recommandation sans preuve à l\'appui.',
-      highlight: '🗣️ Choix techniques justifiés et validés avec l\'équipe.'
+      title: 'Justification des choix',
+      desc: 'Appuyer les décisions sur des éléments objectifs plutôt que sur des hypothèses.',
+      demo: 'Je ne retenais une solution que lorsqu\'elle apportait un réel bénéfice. Chaque proposition était comparée avec la situation existante avant d\'être présentée.'
     },
-    'p-sf-greenit': {
-      title: 'Green IT',
-      desc: 'J\'ai mené cette démarche d\'optimisation énergétique sur un objet connecté déjà existant, dans une logique de sobriété numérique plutôt que de redéveloppement complet.',
-      highlight: '🌱 Optimisation énergétique d\'un système déjà déployé.'
+    'p-sf-amelioration': {
+      title: 'Amélioration continue',
+      desc: 'Rechercher en permanence des pistes d\'amélioration afin d\'augmenter la performance et la durabilité d\'un système.',
+      demo: 'Ce projet m\'a appris qu\'on n\'a pas toujours besoin de repartir de zéro. Parfois, quelques améliorations bien ciblées permettent déjà d\'obtenir un résultat beaucoup plus performant.'
     },
     // Projet Club Interculturel
-    'p-club-gestion': {
-      title: 'Gestion de projet',
-      desc: 'J\'ai suivi le budget, les dépenses et les recettes du Club Interculturel tout au long de l\'année, avec une vision claire des entrées et sorties avant chaque événement.',
-      highlight: '📑 Budget annuel suivi en continu.'
-    },
-    'p-club-orga': {
-      title: 'Organisation',
-      desc: 'J\'ai coordonné la logistique d\'événements pour plus de 200 participants, sans improviser le jour J.',
-      highlight: '🎉 Plus de 200 participants accueillis par événement.'
-    },
-    'p-club-coord': {
-      title: 'Coordination',
-      desc: 'J\'ai réparti les rôles avec le bureau et les autres membres du club, pour que chacun sache ce qui lui revenait avant chaque échéance.',
-      highlight: '🤝 Rôles répartis clairement avec le bureau.'
-    },
-    'p-club-comm': {
-      title: 'Communication',
-      desc: 'J\'ai communiqué le calendrier d\'événements à l\'ensemble de l\'équipe, pour que tout le monde reste aligné sur les échéances à venir.',
-      highlight: '📅 Calendrier partagé et suivi par toute l\'équipe.'
+    'p-club-parties': {
+      title: 'Gestion des parties prenantes',
+      desc: 'Coordonner les échanges avec les différents acteurs d\'un projet afin d\'assurer son bon déroulement.',
+      demo: 'Je contactais les fournisseurs, les personnes en charge du matériel et les différents intervenants pour confirmer leur présence et m\'assurer que tout était prêt avant chaque événement.'
     },
     'p-club-reporting': {
       title: 'Reporting',
-      desc: 'J\'ai rédigé des comptes-rendus et documenté les décisions prises, pour que ce travail reste utile à l\'équipe suivante après mon départ.',
-      highlight: '🗂️ Documentation transmise à l\'équipe suivante.'
+      desc: 'Assurer un suivi régulier des activités afin de partager une vision claire de l\'avancement du projet.',
+      demo: 'Je mettais régulièrement le budget à jour et je faisais des comptes-rendus au bureau pour que chacun sache où on en était avant les événements.'
+    },
+    'p-club-orga': {
+      title: 'Organisation de projet',
+      desc: 'Planifier les différentes étapes d\'un projet afin de garantir une organisation efficace.',
+      demo: 'Je préparais les différentes échéances à l\'avance, je suivais les inscriptions et je vérifiais que chaque étape était prête avant le jour de l\'événement.'
+    },
+    'p-club-comm': {
+      title: 'Communication',
+      desc: 'Adapter la communication aux différents publics afin de favoriser leur engagement.',
+      demo: 'Je réalisais les cartes d\'invitation, je communiquais sur les événements et je contactais les participants pour confirmer leur présence.'
+    },
+    'p-club-budget': {
+      title: 'Gestion budgétaire',
+      desc: 'Assurer un suivi rigoureux des ressources financières afin de garantir une gestion transparente.',
+      demo: 'Je suivais les dépenses au fur et à mesure des événements et je gardais toutes les informations à jour pour que le bureau puisse prendre ses décisions en toute confiance.'
     },
     // Projet Bracelet connecté glycémique
-    'p-br-research': {
-      title: 'Recherche & analyse',
-      desc: 'J\'ai étudié des publications scientifiques sur la corrélation entre signal ECG et glycémie, pour évaluer si une estimation non invasive était crédible avant de concevoir quoi que ce soit.',
-      highlight: '📚 Faisabilité étudiée à partir de la littérature scientifique.'
+    'p-br-faisabilite': {
+      title: 'Analyse de faisabilité',
+      desc: 'Évaluer la faisabilité d\'un projet avant d\'engager des ressources dans son développement.',
+      demo: 'Avant de penser au prototype, on a voulu vérifier si notre idée pouvait réellement fonctionner. On a commencé par comprendre ce qui existait déjà et ce qui était scientifiquement crédible.'
     },
-    'p-br-critical': {
+    'p-br-veille': {
+      title: 'Veille scientifique',
+      desc: 'Rechercher et exploiter des informations fiables afin d\'éclairer les décisions.',
+      demo: 'J\'ai étudié plusieurs publications scientifiques sur le lien entre les signaux ECG et la glycémie. Ça nous a permis de construire notre réflexion sur des bases solides.'
+    },
+    'p-br-critique': {
       title: 'Esprit critique',
-      desc: 'J\'ai confronté chaque piste technique aux résultats scientifiques identifiés, plutôt que de supposer qu\'une approche fonctionnait sans l\'avoir vérifiée.',
-      highlight: '🔍 Faisabilité vérifiée, pas supposée.'
+      desc: 'Questionner les hypothèses et confronter les idées aux données disponibles avant de prendre une décision.',
+      demo: 'À chaque nouvelle idée, on cherchait à savoir si elle était réellement appuyée par des études. On préférait remettre nos choix en question plutôt que d\'avancer sans preuve.'
     },
-    'p-br-rigueur': {
-      title: 'Rigueur scientifique',
-      desc: 'J\'ai gardé une démarche rigoureuse de validation des hypothèses tout au long du projet, pour rester crédible sur les conclusions tirées.',
-      highlight: '🧪 Hypothèses validées avec rigueur.'
+    'p-br-collaboratif': {
+      title: 'Travail collaboratif',
+      desc: 'Partager les connaissances et construire une réflexion collective afin d\'améliorer la qualité des décisions.',
+      demo: 'On se répartissait les recherches, puis on mettait nos résultats en commun pour décider ensemble de la suite du projet.'
     },
-    'p-br-team': {
-      title: 'Travail d\'équipe',
-      desc: 'On a réparti clairement les rôles dans une équipe de 6, avec un avancement par cycles courts plutôt qu\'un plan figé.',
-      highlight: '👥 6 personnes, rôles clairs, avancement par cycles courts.'
+    'p-br-restitution': {
+      title: 'Restitution des résultats',
+      desc: 'Présenter les conclusions de manière claire afin d\'aider à la prise de décision.',
+      demo: 'À la fin du projet, on a présenté nos conclusions en expliquant aussi bien ce qui semblait prometteur que les limites que nous avions identifiées.'
     },
-    'p-br-vulg': {
-      title: 'Vulgarisation technique',
-      desc: 'J\'ai reformulé des concepts scientifiques complexes (signal ECG, corrélations physiologiques) pour les rendre compréhensibles par un public non spécialiste.',
-      highlight: '🗣️ Concepts scientifiques rendus accessibles.'
+    // Projet Freelance — Montage vidéo
+    'p-fl-management': {
+      title: 'Management d\'équipe',
+      desc: 'Mobiliser une équipe autour d\'un objectif commun, répartir les responsabilités et accompagner chacun jusqu\'à la réalisation du projet.',
+      demo: 'Quand plusieurs vidéos arrivaient en même temps, je répartissais le travail entre les monteurs selon leurs disponibilités et leurs points forts. On faisait régulièrement le point pour s\'assurer que chacun avançait bien.'
+    },
+    'p-fl-pilotage': {
+      title: 'Pilotage opérationnel',
+      desc: 'Piloter l\'avancement d\'un projet en organisant les priorités et en veillant au respect des délais.',
+      demo: 'Je suivais chaque projet jusqu\'à sa livraison. Quand une vidéo devenait prioritaire ou qu\'un retard apparaissait, je réorganisais le travail avec l\'équipe pour respecter les échéances.'
+    },
+    'p-fl-reporting': {
+      title: 'Reporting opérationnel',
+      desc: 'Mettre en place un suivi clair des activités afin de garder une vision de l\'avancement du projet et d\'assurer une gestion transparente.',
+      demo: 'Je gardais une trace de ce que chacun réalisait. Ça me permettait de suivre l\'avancement, de savoir où en était chaque vidéo et de rémunérer chacun de façon équitable en fonction du travail réalisé.'
+    },
+    'p-fl-ressources': {
+      title: 'Gestion des ressources',
+      desc: 'Utiliser les ressources disponibles de manière efficace afin d\'atteindre les objectifs fixés.',
+      demo: 'Je ne donnais pas les vidéos au hasard. J\'essayais de confier chaque montage à la personne la plus à l\'aise avec le style demandé, ce qui faisait gagner du temps à toute l\'équipe.'
+    },
+    'p-fl-qualite': {
+      title: 'Contrôle qualité',
+      desc: 'S\'assurer que les livrables répondent aux attentes avant leur validation.',
+      demo: 'Avant d\'envoyer une vidéo au client, je prenais toujours quelques minutes pour la regarder une dernière fois. Si quelque chose n\'allait pas, on le corrigeait avant la livraison.'
     }
   };
 
@@ -3844,6 +4132,19 @@
     const descEl = document.getElementById('hb-desc');
     descEl.textContent = data.desc;
     eyebrowEl.style.display = data.resultOnly ? 'none' : '';
+
+    const demoEyebrowEl = document.getElementById('hb-demo-eyebrow');
+    const demoDescEl = document.getElementById('hb-demo-desc');
+    if (data.demo) {
+      demoEyebrowEl.textContent = 'Comment je l\'ai démontré dans ce projet';
+      demoDescEl.textContent = data.demo;
+      bubble.classList.add('has-demo');
+    } else {
+      demoEyebrowEl.textContent = '';
+      demoDescEl.textContent = '';
+      bubble.classList.remove('has-demo');
+    }
+
     const hasMedia = !!(data.heroImage || data.heroVideo);
     if (hasMedia) {
       bubble.classList.add('result-layout');
@@ -3987,15 +4288,31 @@
       decisions: 'J’ai poussé pour confronter chaque piste technique aux résultats des études scientifiques identifiées plutôt que de partir directement sur un prototype, afin de rester rigoureux sur la faisabilité réelle de l’approche plutôt que de viser un effet démonstratif.',
       results: 'Synthèse de la recherche scientifique et prototype documenté, présentés en fin de projet avec le reste de l’équipe, avec une évaluation argumentée de la faisabilité de l’estimation non invasive.',
       lessons: 'J’ai appris à confronter une idée à la littérature scientifique existante avant de se lancer dans la conception, et à évaluer avec esprit critique la faisabilité réelle d’un concept plutôt que de supposer qu’il fonctionne.'
+    },
+    'mc-freelance': {
+      accent: 'accent-purple',
+      badge: 'Freelance',
+      title: 'Montage vidéo',
+      meta: 'En parallèle du parcours académique · Clients externes',
+      image: 'Images/images_projets/Fond%20Premiere%20Pro.png',
+      skills: ['Management d’équipe', 'Pilotage opérationnel', 'Reporting opérationnel', 'Gestion des ressources', 'Contrôle qualité'],
+      context: 'En parallèle de mon parcours académique, j’exerce en freelance dans le montage vidéo. Avec la demande, je ne me suis pas contenté de monter moi-même : j’ai constitué une petite équipe de monteurs pour absorber plusieurs projets clients en parallèle.',
+      problem: 'Piloter plusieurs livrables vidéo en parallèle, pour des clients différents, sans que la qualité ou les délais n’en pâtissent, alors que je ne réalise plus chaque montage moi-même.',
+      reasoning: 'J’ai réparti le travail entre les monteurs selon leurs points forts, mis en place un suivi régulier de l’avancement de chaque montage, et gardé un point de passage systématique avant chaque livraison pour valider la cohérence avec les attentes du client.',
+      decisions: 'J’ai choisi de rester le point de validation final plutôt que de déléguer entièrement la relation client, un compromis qui ralentit légèrement chaque livraison mais sécurise la qualité perçue par le client.',
+      results: 'Plusieurs projets clients livrés dans les délais grâce à une équipe coordonnée, avec un niveau de qualité constant d’un monteur à l’autre.',
+      lessons: 'J’ai appris que manager une petite équipe, même informelle, demande la même rigueur qu’un vrai pilotage de projet : répartition claire, suivi régulier et validation avant de livrer.'
     }
   };
 
   const projectSheet = document.getElementById('project-sheet');
   let sheetOpen = false;
+  let currentProjectId = null;
 
   function openProjectSheet(id) {
     const data = PROJECT_STORIES[id];
     if (!data) return;
+    currentProjectId = id;
     document.getElementById('ps-hero-img').src = data.image;
     document.getElementById('ps-badge').textContent = data.badge;
     document.getElementById('ps-title').textContent = data.title;
@@ -4003,9 +4320,7 @@
     document.getElementById('ps-context').textContent = data.context;
     document.getElementById('ps-problem').textContent = data.problem;
     document.getElementById('ps-reasoning').textContent = data.reasoning;
-    document.getElementById('ps-decisions').textContent = data.decisions;
     document.getElementById('ps-results').textContent = data.results;
-    document.getElementById('ps-lessons').textContent = data.lessons;
     const skillsEl = document.getElementById('ps-skills');
     skillsEl.innerHTML = '';
     (data.skills || []).forEach(s => {
@@ -4075,7 +4390,7 @@
     if (e.key === 'Escape' && proofLightbox.classList.contains('visible')) closeProofLightbox();
   });
 
-  document.querySelectorAll('.mega-card-mobile-cta').forEach(btn => {
+  document.querySelectorAll('.mega-card-mobile-cta[data-project]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       openProjectSheet(btn.dataset.project);
@@ -4087,6 +4402,83 @@
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && sheetOpen) closeProjectSheet();
+  });
+  document.getElementById('ps-reasoning-cta').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const id = currentProjectId;
+    closeProjectSheet();
+    if (id) openSkillsProjectSheet(id);
+  });
+
+  /* ══════ FICHE "CE QUE J'APPORTE" (mobile) : réutilise BUBBLE_DATA (title/desc/demo)
+     déjà préparé pour chaque pastille de compétence, lues directement depuis les
+     data-pill existants de la carte — aucune nouvelle structure de contenu créée. ══════ */
+  const skillsProjectSheet = document.getElementById('skills-project-sheet');
+  let skillsProjectSheetOpen = false;
+
+  function openSkillsProjectSheet(id) {
+    const story = PROJECT_STORIES[id];
+    const card = document.getElementById(id);
+    if (!story || !card) return;
+    document.getElementById('sps-hero-img').src = story.image;
+    document.getElementById('sps-badge').textContent = story.badge;
+    const tagsEl = card.querySelector('.mega-card-body .mega-card-tags');
+    const pillEls = tagsEl ? Array.from(tagsEl.querySelectorAll('.mega-card-tag[data-pill]')) : [];
+    const body = document.getElementById('sps-body');
+    body.innerHTML = '';
+    pillEls.forEach(pillEl => {
+      const data = BUBBLE_DATA[pillEl.dataset.pill];
+      if (!data || data.resultOnly) return;
+      const item = document.createElement('div');
+      item.className = 'sps-item';
+      const h3 = document.createElement('h3');
+      h3.className = 'sps-item-title';
+      h3.textContent = data.title;
+      item.appendChild(h3);
+      const attSection = document.createElement('div');
+      attSection.className = 'project-sheet-section';
+      const attH4 = document.createElement('h4');
+      attH4.textContent = 'Ce qui est attendu d’un Consultant et Manager Green IT';
+      const attP = document.createElement('p');
+      attP.textContent = data.desc;
+      attSection.appendChild(attH4);
+      attSection.appendChild(attP);
+      item.appendChild(attSection);
+      if (data.demo) {
+        const demoSection = document.createElement('div');
+        demoSection.className = 'project-sheet-section';
+        const demoH4 = document.createElement('h4');
+        demoH4.textContent = 'Comment je l’ai démontré dans ce projet';
+        const demoP = document.createElement('p');
+        demoP.textContent = data.demo;
+        demoSection.appendChild(demoH4);
+        demoSection.appendChild(demoP);
+        item.appendChild(demoSection);
+      }
+      body.appendChild(item);
+    });
+    skillsProjectSheet.className = 'skills-project-sheet ' + story.accent;
+    requestAnimationFrame(() => skillsProjectSheet.classList.add('visible'));
+    document.body.style.overflow = 'hidden';
+    skillsProjectSheetOpen = true;
+  }
+  function closeSkillsProjectSheet() {
+    skillsProjectSheet.classList.remove('visible');
+    document.body.style.overflow = '';
+    skillsProjectSheetOpen = false;
+  }
+  document.querySelectorAll('.mega-card-mobile-cta[data-skills-project]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openSkillsProjectSheet(btn.dataset.skillsProject);
+    });
+  });
+  document.getElementById('skills-project-sheet-close').addEventListener('click', closeSkillsProjectSheet);
+  skillsProjectSheet.addEventListener('click', (e) => {
+    if (e.target === skillsProjectSheet) closeSkillsProjectSheet();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && skillsProjectSheetOpen) closeSkillsProjectSheet();
   });
 
   /* ══════════ FICHE COMPÉTENCES COMPLÈTE (mobile) ══════════ */
