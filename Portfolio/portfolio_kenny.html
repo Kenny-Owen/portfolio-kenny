@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kenny Ngan Bell — Consultant et Manager Green IT</title>
+  <title>Kenny Ngan Bell — Futur Manager Green IT</title>
   <link rel="icon" type="image/png" href="Images/logo%20K.png?v=2">
   <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
   <meta name="description" content="Découvrez mon portfolio : comment j’accompagne les organisations dans leur transformation vers un numérique plus responsable.">
@@ -26,7 +26,10 @@
       --radius-sm: 18px;
     }
     *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: auto; }
+    /* Espace réservé au-dessus des sections ciblées par la navbar, maintenant fixe,
+       pour que leur contenu ne soit jamais masqué en arrivant dessus. */
+    #projets, #outils, #formation, #contact { scroll-margin-top: 90px; }
 
     /* ─── SPLASH SCREEN — intro premium, logo K uniquement, ~3,6s ─── */
     #splash-screen {
@@ -107,9 +110,21 @@
 
     /* ─── NAV ─── */
     nav {
-      position: relative;
-      z-index: 100;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
       padding: 10px 0 0 0;
+      background: transparent;
+      transition: background 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+    }
+    nav.nav-scrolled {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 4px 24px rgba(14,22,20,0.08);
+      padding-top: 0;
     }
     nav .wrap { max-width: 100%; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; padding-top: 14px; padding-bottom: 14px; }
     .logo { font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; }
@@ -233,13 +248,13 @@
     }
     .hero h1 span.small-text {
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1.9rem;
       font-weight: 700;
       color: rgba(14,22,20,0.85);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       display: block;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .hero-subtitle {
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
@@ -293,7 +308,6 @@
     
     /* On assure que le contenu reste au dessus des auras */
     .hero-main { z-index: 2; position: relative; }
-    nav { z-index: 100; position: relative; }
 
     /* ─── ABOUT/* ─── ABOUT / JE M'APPELLE (TESTIMONIAL TROY STYLE) ─── */
     .about-section {
@@ -1986,6 +2000,8 @@
       justify-content: space-between;
       width: 100%;
     }
+    /* Numéro et localisation : pas nécessaire de les afficher (desktop et mobile), on garde juste l'email */
+    .footer-desktop-hide { display: none; }
 
     /* ─── LIGHTBOX PREUVES (vidéo/image de résultat) — overlay global, toutes tailles d'écran ─── */
     .proof-lightbox {
@@ -2576,12 +2592,19 @@
       .skills-project-sheet.accent-red .sps-item-title { border-color: rgba(225,60,50,0.5); background: rgba(200,50,45,0.22); color: #FFEBEA; }
       .skills-project-sheet.accent-purple .sps-item-title { border-color: rgba(139,92,246,0.55); background: rgba(124,58,237,0.24); color: #F0E9FF; }
 
-      /* ── NAV : compacte, glass, lisible au-dessus de la vidéo hero sombre ── */
+      /* ── NAV : compacte, glass, reste fixe au scroll (fond sombre une fois scrollée) ── */
       .hero-wrapper { padding: 14px 12px; }
       header.hero { border-radius: 26px; }
       .hero-auras { display: none; }
-      nav { position: absolute; top: 0; left: 0; right: 0; z-index: 20; }
+      nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
+      nav.nav-scrolled {
+        background: rgba(10,14,13,0.82);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      }
       nav .wrap { padding: 22px 26px 0; }
+      nav.nav-scrolled .wrap { padding-top: 14px; padding-bottom: 14px; }
       .logo { display: none; }
       .navlinks { display: none; }
       .nav-actions { width: 100%; justify-content: space-between; }
@@ -3018,8 +3041,8 @@
       <!-- TEXTE CENTRAL -->
       <div class="hero-center">
         <h1>
-          <span class="small-text">Alternant</span>
-          Consultant et Manager
+          <span class="small-text">Futur</span>
+          Manager
           <span class="gradient-text">Green IT</span>
         </h1>
         <p class="hero-subtitle">J&rsquo;accompagne les organisations dans leur démarche de transformation vers un numérique plus responsable.</p>
@@ -3046,8 +3069,8 @@
       </video>
       <div class="hero-mobile-overlay"></div>
       <div class="hero-mobile-content">
-        <span class="hero-mobile-eyebrow">Alternant</span>
-        <h1 class="hero-mobile-title">Consultant et Manager <span>Green IT</span></h1>
+        <span class="hero-mobile-eyebrow">Futur</span>
+        <h1 class="hero-mobile-title">Manager <span>Green IT</span></h1>
         <p class="hero-mobile-subtitle">J&rsquo;accompagne les organisations dans leur démarche de transformation vers un numérique plus responsable.</p>
         <a class="hero-mobile-btn" href="mailto:nganbellk@gmail.com">Démarrer un entretien <span aria-hidden="true">&rarr;</span></a>
       </div>
@@ -3068,7 +3091,7 @@
       </div>
       <div class="about-content">
         <blockquote data-reveal data-delay="4">
-          « J’aimerais aider les entreprises à avancer vers <span>un numérique plus responsable</span> . Que ce soit en réfléchissant à une stratégie, en accompagnant un projet ou en faisant évoluer les pratiques, j’aimerais comprendre leurs enjeux, construire avec elles <span>des solutions concrètes</span> et contribuer à des projets qui ont <span>un impact positif</span>, aussi bien pour l’entreprise que pour les personnes qui y travaillent et, plus largement, pour la société. »
+          « Le numérique responsable constitue <span>un levier positif</span> pour les entreprises . C’est ce qui guide mon désir d’accompagnement, que ce soit en stratégie, en gestion de projet ou en évolution des pratiques. Je souhaite comprendre les enjeux de chaque entreprise pour construire avec elle <span>des solutions concrètes</span>, <span>utiles à l’organisation, à ses équipes, et à la société</span>. »
         </blockquote>
             <div class="about-author" data-reveal data-delay="6">
           Kenny Ngan Bell
@@ -3688,7 +3711,7 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <a href="mailto:nganbellk@gmail.com">nganbellk@gmail.com</a>
-        <a href="tel:+21653740076">+216 53 740 076</a>
+        <a href="tel:+21653740076" class="footer-desktop-hide">+216 53 740 076</a>
       </div>
       <div class="footer-col">
         <h4>Réseaux</h4>
@@ -3700,7 +3723,7 @@
   <div class="footer-bottom">
     <div class="footer-wrap">
       <span>© 2026 Kenny Ngan Bell. Tous droits réservés. Conçu selon les standards Green IT.</span>
-      <span>Tunis, Tunisie</span>
+      <span class="footer-desktop-hide">Tunis, Tunisie</span>
     </div>
   </div>
 </footer>
@@ -3788,7 +3811,7 @@
   </div>
   <div class="bubble-text">
     <div class="bubble-title" id="hb-title"></div>
-    <div class="bubble-eyebrow" id="hb-eyebrow">Ce qui est attendu d&rsquo;un Consultant et Manager Green IT</div>
+    <div class="bubble-eyebrow" id="hb-eyebrow">Ce qui est attendu d&rsquo;un Manager Green IT</div>
     <div class="bubble-desc" id="hb-desc"></div>
     <div class="bubble-demo-eyebrow" id="hb-demo-eyebrow"></div>
     <div class="bubble-demo-desc" id="hb-demo-desc"></div>
@@ -3797,6 +3820,17 @@
 </div>
 
 <script>
+  /* ════════════ NAV FIXE — fond qui apparaît au scroll ════════════ */
+  (function () {
+    const navEl = document.querySelector('nav');
+    if (!navEl) return;
+    function updateNavBg() {
+      navEl.classList.toggle('nav-scrolled', window.scrollY > 40);
+    }
+    updateNavBg();
+    window.addEventListener('scroll', updateNavBg, { passive: true });
+  })();
+
   /* ════════════ NAV MOBILE — bouton menu (hamburger) ════════════ */
   (function () {
     const toggle = document.getElementById('nav-mobile-toggle');
@@ -3870,7 +3904,6 @@
     document.body.style.overflow = 'hidden';
     const release = () => {
       document.body.style.overflow = '';
-      window.scrollTo(0, 0);
       splash.remove();
       window.dispatchEvent(new Event('splash:done'));
     };
@@ -4430,7 +4463,7 @@
       const attSection = document.createElement('div');
       attSection.className = 'project-sheet-section';
       const attH4 = document.createElement('h4');
-      attH4.textContent = 'Ce qui est attendu d’un Consultant et Manager Green IT';
+      attH4.textContent = 'Ce qui est attendu d’un Manager Green IT';
       const attP = document.createElement('p');
       attP.textContent = data.desc;
       attSection.appendChild(attH4);
