@@ -303,20 +303,32 @@
       color: #FFF;
       box-shadow: 0 12px 28px rgba(0, 122, 255, 0.3);
     }
-    /* Mention discrète sous le bouton de réservation : rassure sans ressembler à un second bouton */
-    .hero-calendly-hint {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      margin-top: 18px;
+    /* Signature Calendly glassmorphism : petite mention discrète, pas un second bouton.
+       mix-blend-mode:multiply sur le logo : le fichier fourni a un fond blanc opaque — ce blend
+       fait disparaître ce blanc dans la capsule (elle-même translucide claire) sans avoir besoin
+       de retoucher l'image, en le fondant naturellement au lieu d'un bloc blanc superposé.
+       Lisible aussi bien sur fond clair que sur la vidéo sombre du hero mobile. */
+    .calendly-signature-wrap { display: flex; justify-content: center; margin-top: 10px; }
+    .calendly-signature {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 6px 10px;
+      background: rgba(255,255,255,0.45);
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
-    .hero-calendly-hint img { height: 22px; width: auto; display: block; }
-    .hero-calendly-hint span {
+    .calendly-signature span {
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
-      font-size: 0.8rem;
+      font-size: 12px;
+      line-height: 1;
       font-weight: 500;
-      color: rgba(14,22,20,0.42);
+      color: rgba(14,22,20,0.6);
+      white-space: nowrap;
+    }
+    .calendly-signature img { display: block; width: auto; height: 18px; object-fit: contain; background: transparent; mix-blend-mode: multiply; }
+    @media (max-width: 860px) {
+      .calendly-signature img { height: 16px; }
     }
 
     /* Auras pour donner de la vie au fond blanc */
@@ -2777,29 +2789,6 @@
         border-radius: 100px;
       }
       .hero-mobile-btn:active { background: rgba(255,255,255,0.28); }
-      /* Mention discrète sous le bouton mobile : pastille blanche pour rester lisible sur la vidéo de fond.
-         Le conteneur externe centre (largeur pleine), la pastille interne se dimensionne à son contenu. */
-      .hero-mobile-calendly-hint {
-        display: flex;
-        justify-content: center;
-        margin-top: 14px;
-      }
-      .hero-mobile-calendly-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        background: rgba(255,255,255,0.92);
-        padding: 7px 16px;
-        border-radius: 100px;
-        backdrop-filter: blur(6px);
-      }
-      .hero-mobile-calendly-pill img { height: 16px; width: auto; display: block; }
-      .hero-mobile-calendly-pill span {
-        font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: rgba(14,22,20,0.55);
-      }
 
       /* ── QUI SUIS-JE : carte respirante, photo en haut, texte en dessous ── */
       .about-section { padding: 64px 0; }
@@ -3101,10 +3090,12 @@
           <span class="gradient-text">Transformation Numérique</span>
         </h1>
         <p class="hero-subtitle">J&rsquo;accompagne les organisations dans leur démarche de transformation vers un numérique plus responsable.</p>
-        <a class="hero-btn" href="https://calendly.com/kennynbell" target="_blank" rel="noopener" data-goatcounter-click="cta-hero-desktop">Démarrer un entretien</a>
-        <div class="hero-calendly-hint">
-          <img src="Images/logo%20Calendly.png" alt="Calendly">
-          <span>Réservation via Calendly</span>
+        <a class="hero-btn" href="https://calendly.com/kennynbell" target="_blank" rel="noopener noreferrer" data-goatcounter-click="cta-hero-desktop">Démarrer un entretien</a>
+        <div class="calendly-signature-wrap">
+          <span class="calendly-signature">
+            <span>Réservation via</span>
+            <img src="logo%20Calendly.png" alt="Calendly">
+          </span>
         </div>
       </div>
 
@@ -3131,11 +3122,11 @@
         <span class="hero-mobile-eyebrow">Futur</span>
         <h1 class="hero-mobile-title">Consultant <span>Transformation Numérique</span></h1>
         <p class="hero-mobile-subtitle">J&rsquo;accompagne les organisations dans leur démarche de transformation vers un numérique plus responsable.</p>
-        <a class="hero-mobile-btn" href="https://calendly.com/kennynbell" target="_blank" rel="noopener" data-goatcounter-click="cta-hero-mobile">Démarrer un entretien <span aria-hidden="true">&rarr;</span></a>
-        <div class="hero-mobile-calendly-hint">
-          <span class="hero-mobile-calendly-pill">
-            <img src="Images/logo%20Calendly.png" alt="Calendly">
-            <span>Réservation via Calendly</span>
+        <a class="hero-mobile-btn" href="https://calendly.com/kennynbell" target="_blank" rel="noopener noreferrer" data-goatcounter-click="cta-hero-mobile">Démarrer un entretien <span aria-hidden="true">&rarr;</span></a>
+        <div class="calendly-signature-wrap">
+          <span class="calendly-signature">
+            <span>Réservation via</span>
+            <img src="logo%20Calendly.png" alt="Calendly">
           </span>
         </div>
       </div>
@@ -3761,7 +3752,13 @@
       </div>
     </div>
 
-    <a class="btn-submit" href="mailto:nganbellk@gmail.com" data-goatcounter-click="cta-contact-submit">Me proposer un entretien</a>
+    <a class="btn-submit" href="https://calendly.com/kennynbell" target="_blank" rel="noopener noreferrer" data-goatcounter-click="cta-contact-submit">Me proposer un entretien</a>
+    <div class="calendly-signature-wrap">
+      <span class="calendly-signature">
+        <span>Réservation via</span>
+        <img src="logo%20Calendly.png" alt="Calendly">
+      </span>
+    </div>
   </div>
 </section>
 
